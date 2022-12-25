@@ -1,0 +1,23 @@
+apply plugin: 'java-platform'
+apply plugin: 'maven-publish'
+javaPlatform {
+    allowDependencies()
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication){
+            from components.javaPlatform
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            allowInsecureProtocol true
+            url = mavenSnapshots
+            credentials {
+                username = mavenUsername
+                password = mavenPassword
+            }
+        }
+    }
+}

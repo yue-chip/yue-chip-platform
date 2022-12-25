@@ -1,0 +1,38 @@
+ext {
+    springBootVersion = '3.0.0'
+    aliyunSpringBootVersion = '1.0.0'
+    springCloudAlibabaVersion = '2022.0.0.0-RC1'
+    springCloudVersion = '2022.0.0'
+    nacosVersion = '2.1.2'
+    seataVersion = '1.6.0'
+    lombokVersion = '1.18.24'
+    dubboVersion = '3.1.4'
+    druidVersion = '1.2.15'
+    springfoxVersion = '3.0.0'
+    rocketmqVersion = '2.2.2'
+    knife4jVersion = '3.0.3'
+}
+
+dependencies {
+    api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    api platform("com.alibaba.cloud:aliyun-spring-boot-dependencies:${aliyunSpringBootVersion}")
+    api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}")
+
+    constraints {
+        api "io.seata:seata-spring-boot-starter:${seataVersion}"
+        api "org.apache.dubbo:dubbo-spring-boot-starter:${dubboVersion}"
+        api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+        api "io.springfox:springfox-boot-starter:${springfoxVersion}"
+        api "org.apache.rocketmq:rocketmq-spring-boot-starter:${rocketmqVersion}"
+        api "com.github.xiaoymin:knife4j-spring-boot-starter:${knife4jVersion}"
+
+        api "com.alibaba.nacos:nacos-api:${nacosVersion}"
+        api "com.alibaba.nacos:nacos-client:${nacosVersion}"
+        api "com.alibaba.nacos:nacos-common:${nacosVersion}"
+
+        api "org.projectlombok:lombok:${lombokVersion}"
+    }
+
+    api 'org.projectlombok:lombok'
+}

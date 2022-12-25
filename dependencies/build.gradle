@@ -1,0 +1,25 @@
+plugins {
+    id 'java-platform'
+}
+apply from: this.rootProject.file('dependencies.gradle')
+javaPlatform {
+    allowDependencies()
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication){
+            from components.javaPlatform
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            allowInsecureProtocol true
+            url = "http://192.168.8.213:32129/repository/maven-snapshots/"
+            credentials {
+                username = 'admin'
+                password = 'smartlinks@123$%^'
+            }
+        }
+    }
+}

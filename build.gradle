@@ -1,0 +1,16 @@
+apply from: this.rootProject.file('javaPlatform.gradle')
+
+allprojects {
+    group = projectGroup
+    version = projectVersion
+    apply plugin: 'maven-publish'
+    repositories {
+        mavenLocal()
+        maven { allowInsecureProtocol true; url mavenRepository }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+        mavenCentral()
+    }
+}
+
+subprojects {
+}
