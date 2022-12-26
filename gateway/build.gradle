@@ -1,5 +1,27 @@
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'application'
+}
+apply plugin: 'org.springframework.boot'
 apply from: this.rootProject.file('javaLibrary.gradle')
+bootJar {
+    enabled true
+}
 archivesBaseName = 'yue-chip-gateway'
 dependencies{
     api(project(':core'))
+    api 'org.springframework.boot:spring-boot-starter-actuator'
+    api 'org.springframework:spring-web'
+    api 'org.springframework.cloud:spring-cloud-starter-gateway'
+    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    api 'org.aspectj:aspectjrt'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-netflix-ribbon"
+    }
+    api 'io.springfox:springfox-boot-starter'
+    api 'com.github.xiaoymin:knife4j-spring-boot-starter'
 }
+
+
+

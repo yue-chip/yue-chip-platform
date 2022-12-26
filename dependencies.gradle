@@ -1,16 +1,32 @@
 ext {
-    springBootVersion = '3.0.0'
     aliyunSpringBootVersion = '1.0.0'
     springCloudAlibabaVersion = '2022.0.0.0-RC1'
     springCloudVersion = '2022.0.0'
     nacosVersion = '2.1.2'
     seataVersion = '1.6.0'
-    lombokVersion = '1.18.24'
     dubboVersion = '3.1.4'
     druidVersion = '1.2.15'
     springfoxVersion = '3.0.0'
     rocketmqVersion = '2.2.2'
     knife4jVersion = '3.0.3'
+    lombokMapstructBinding = '0.2.0'
+    hutoolVserion = '5.8.10'
+    commonsBeanutils = '1.9.4'
+    sentinelVersion = '1.8.6'
+    modelmapperVersion = '3.1.1'
+    mapstructVersion = '1.5.3.Final'
+    commonsDbutilsVersion = '1.7'
+    easyCaptchaVersion = '1.6.2'
+    fastjsonVersion = '2.0.21'
+    reflectionsVersion = '0.10.2'
+    minioVersion = '8.4.6'
+    guavaVersion = '31.1-jre'
+    okhttpVersion = '4.10.0'
+    commonsIoVersion = '2.11.0'
+    jsqlparserVersion = '4.5'
+    oauth2AuthorizationServerVersion = '1.0.0'
+    jakartaeeVersion = '10.0.0'
+    mysqlConnectorJVersion = '8.0.31'
 }
 
 dependencies {
@@ -30,9 +46,48 @@ dependencies {
         api "com.alibaba.nacos:nacos-api:${nacosVersion}"
         api "com.alibaba.nacos:nacos-client:${nacosVersion}"
         api "com.alibaba.nacos:nacos-common:${nacosVersion}"
-
         api "org.projectlombok:lombok:${lombokVersion}"
+        api "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBinding}"
+        api "cn.hutool:hutool-all:${hutoolVserion}"
+        api "commons-beanutils:commons-beanutils:${commonsBeanutils}"
+        api "org.apache.dubbo:dubbo-registry-nacos:${dubboVersion}"
+        api "com.alibaba.csp:sentinel-core:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-parameter-flow-control:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-datasource-extension:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-datasource-apollo:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-datasource-zookeeper:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-datasource-nacos:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-datasource-redis:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-datasource-consul:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-web-servlet:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-zuul-adapter:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-transport-simple-http:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-annotation-aspectj:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-dubbo-adapter:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-apache-dubbo-adapter:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-reactor-adapter:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-cluster-server-default:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-cluster-client-default:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-spring-webflux-adapter:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-api-gateway-adapter-common:${sentinelVersion}"
+        api "com.alibaba.csp:sentinel-spring-webmvc-adapter:${sentinelVersion}"
+        api "org.modelmapper:modelmapper:${modelmapperVersion}"
+        api "org.mapstruct:mapstruct:${mapstructVersion}"
+        api "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+        api "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+        api "commons-dbutils:commons-dbutils:${commonsDbutilsVersion}"
+        api "com.github.whvcse:easy-captcha:${easyCaptchaVersion}"
+        api "com.alibaba.fastjson2:fastjson2:${fastjsonVersion}"
+        api "com.alibaba:fastjson:${fastjsonVersion}"
+        api "org.reflections:reflections:${reflectionsVersion}"
+        api "io.minio:minio:${minioVersion}"
+        api "com.google.guava:guava:${guavaVersion}"
+        api "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+        api "commons-io:commons-io:${commonsIoVersion}"
+        api "com.github.jsqlparser:jsqlparser:${jsqlparserVersion}"
+        api "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
+        api "jakarta.platform:jakarta.jakartaee-api:${jakartaeeVersion}"
+        api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
     }
 
-    api 'org.projectlombok:lombok'
 }

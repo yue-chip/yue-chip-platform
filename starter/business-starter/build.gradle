@@ -2,4 +2,19 @@ apply from: this.rootProject.file('javaLibrary.gradle')
 archivesBaseName = 'yue-chip-business-starter'
 dependencies {
     api(project(':core'))
+    api 'org.springframework.boot:spring-boot-starter-cache'
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-data-redis'
+    api 'org.apache.commons:commons-pool2'
+    api 'jakarta.platform:jakarta.jakartaee-api'
+    api 'org.hibernate.validator:hibernate-validator'
+    api ('io.seata:seata-spring-boot-starter') {
+        exclude group: "com.alibaba", module: "druid"
+    }
+    api "com.mysql:mysql-connector-j"
+    api "com.alibaba:druid-spring-boot-starter"
+    api "org.mapstruct:mapstruct"
+    api "org.mapstruct:mapstruct-processor"
+    api "org.mapstruct:mapstruct-jdk8"
+    api "org.modelmapper:modelmapper"
 }

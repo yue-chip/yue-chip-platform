@@ -2,4 +2,25 @@ apply from: this.rootProject.file('javaLibrary.gradle')
 archivesBaseName = 'yue-chip-core'
 dependencies {
     api platform(project(':dependencies'))
+    compileOnly 'org.reflections:reflections'
+    compileOnly 'com.github.jsqlparser:jsqlparser'
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    compileOnly 'org.apache.dubbo:dubbo-spring-boot-starter'
+    compileOnly 'org.modelmapper:modelmapper'
+    compileOnly 'org.springframework.security:spring-security-oauth2-authorization-server'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compileOnly 'jakarta.platform:jakarta.jakartaee-api'
+    compileOnly 'commons-beanutils:commons-beanutils'
+    compileOnly 'com.alibaba.csp:sentinel-apache-dubbo-adapter'
+    compileOnly 'com.alibaba.csp:sentinel-web-servlet'
+    compileOnly 'io.springfox:springfox-boot-starter'
+    compileOnly 'io.minio:minio'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compileOnly 'org.apache.commons:commons-lang3'
+
+    api 'org.projectlombok:lombok'
+    api 'org.projectlombok:lombok-mapstruct-binding'
+    api 'cn.hutool:hutool-all'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
