@@ -1,5 +1,6 @@
 apply from: this.rootProject.file('javaLibrary.gradle')
 archivesBaseName = 'yue-chip-core'
+apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api platform(project(':dependencies'))
     compileOnly 'org.reflections:reflections'
@@ -18,7 +19,6 @@ dependencies {
     compileOnly 'io.minio:minio'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compileOnly 'org.apache.commons:commons-lang3'
-
     api 'org.projectlombok:lombok'
     api 'org.projectlombok:lombok-mapstruct-binding'
     api 'cn.hutool:hutool-all'

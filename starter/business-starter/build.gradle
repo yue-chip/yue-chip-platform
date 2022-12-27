@@ -1,5 +1,6 @@
 apply from: this.rootProject.file('javaLibrary.gradle')
 archivesBaseName = 'yue-chip-business-starter'
+apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
     api 'org.springframework.boot:spring-boot-starter-cache'

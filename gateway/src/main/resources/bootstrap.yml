@@ -1,0 +1,27 @@
+server:
+  port: 9090
+spring:
+  nacos:
+#    host: 172.16.30.100:8848
+#    namespace: 10d8c97e-d556-413f-bbf8-72d1e5b538b0
+    group: SMART_LINKS_GROUP
+#    host: 172.16.30.130:8848
+#    namespace: 7d03f927-32d1-4fa3-810d-9a5311ec5bf1
+    host: 192.168.8.163:8848
+    namespace: 4e72a2e7-1f9e-4be3-aa20-1064ebcfdc79
+  application:
+    name: @project.artifactId@
+  cloud:
+    nacos:
+      config:
+        server-addr: ${spring.nacos.host}
+        file-extension: yaml
+        namespace: ${spring.nacos.namespace}
+        group: ${spring.nacos.group}
+        extension-configs:
+          - data-id: lion-common.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+            group: GLOBAL_GROUP
+          - data-id: lion-sentinel-common.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+            group: GLOBAL_GROUP

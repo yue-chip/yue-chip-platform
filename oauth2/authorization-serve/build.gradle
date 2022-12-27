@@ -1,0 +1,17 @@
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'application'
+}
+archivesBaseName = 'yue-chip-oauth2-authorization-serve'
+apply plugin: 'org.springframework.boot'
+apply from: this.rootProject.file('javaLibrary.gradle')
+apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
+bootJar {
+    enabled true
+}
+dependencies {
+    api(project(':core'))
+    api(project(':starter:business-starter'))
+    api(project(':starter:serve-starter'))
+    api 'org.springframework.security:spring-security-oauth2-authorization-server'
+}

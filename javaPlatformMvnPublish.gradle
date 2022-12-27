@@ -1,0 +1,20 @@
+apply from: this.rootProject.file('javaPlatform.gradle')
+publishing {
+    publications {
+        mavenJava(MavenPublication){
+            artifactId = project.archivesBaseName
+            from components.javaPlatform
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            allowInsecureProtocol true
+            url = mavenSnapshots
+            credentials {
+                username = mavenUsername
+                password = mavenPassword
+            }
+        }
+    }
+}

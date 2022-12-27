@@ -1,5 +1,0 @@
-apply from: this.rootProject.file('javaLibrary.gradle')
-archivesBaseName = 'yue-chip-expose-impl-starter'
-dependencies {
-    api(project(':core'))
-}

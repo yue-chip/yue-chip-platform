@@ -4,7 +4,7 @@ ext {
     springCloudVersion = '2022.0.0'
     nacosVersion = '2.1.2'
     seataVersion = '1.6.0'
-    dubboVersion = '3.1.4'
+    dubboVersion = '3.2.0-beta.3'
     druidVersion = '1.2.15'
     springfoxVersion = '3.0.0'
     rocketmqVersion = '2.2.2'
@@ -36,7 +36,7 @@ dependencies {
     api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}")
 
     constraints {
-        api "io.seata:seata-spring-boot-starter:${seataVersion}"
+        api ("io.seata:seata-spring-boot-starter:${seataVersion}")
         api "org.apache.dubbo:dubbo-spring-boot-starter:${dubboVersion}"
         api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
         api "io.springfox:springfox-boot-starter:${springfoxVersion}"

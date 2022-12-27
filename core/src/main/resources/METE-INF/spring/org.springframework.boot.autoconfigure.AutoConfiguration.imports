@@ -1,0 +1,14 @@
+com.yue.chip.config.CorsConfiguration
+com.yue.chip.config.EntityAuditorConfiguration
+com.yue.chip.config.FilterConfiguration
+com.yue.chip.config.JsonLongToString
+com.yue.chip.config.PasswordConfiguration
+com.yue.chip.config.RestTemplateConfiguration
+com.yue.chip.config.UrlBlockHandlerConfiguration
+com.yue.chip.config.EnumToSelcetConfiguration
+com.yue.chip.config.MinioConfiguration
+com.yue.chip.config.ZookeeperConfiguration
+com.yue.chip.config.ValidationConfig
+com.yue.chip.config.ModelMapperConfiguration
+com.yue.chip.config.JPAQueryFactoryConfiguration
+com.yue.chip.config.MongoConfiguration  

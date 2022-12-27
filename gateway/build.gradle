@@ -2,12 +2,13 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'application'
 }
+archivesBaseName = 'yue-chip-gateway'
 apply plugin: 'org.springframework.boot'
 apply from: this.rootProject.file('javaLibrary.gradle')
+apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 bootJar {
     enabled true
 }
-archivesBaseName = 'yue-chip-gateway'
 dependencies{
     api(project(':core'))
     api 'org.springframework.boot:spring-boot-starter-actuator'

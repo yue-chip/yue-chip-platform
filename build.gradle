@@ -1,4 +1,4 @@
-apply from: this.rootProject.file('javaPlatform.gradle')
+apply from: this.rootProject.file('javaPlatformMvnPublish.gradle')
 
 allprojects {
     group = projectGroup

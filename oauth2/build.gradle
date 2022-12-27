@@ -1,5 +1,0 @@
-apply from: this.rootProject.file('javaLibrary.gradle')
-archivesBaseName = 'yue-chip-oauth2'
-dependencies {
-    api(project(':core'))
-}

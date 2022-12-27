@@ -11,7 +11,7 @@ import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-@SpringBootApplication ()
+@SpringBootApplication (scanBasePackages = {"com.yue.chip.**"})
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {GatewayReactiveLoadBalancerClientAutoConfiguration.class, EntityAuditorConfiguration.class,  LoadBalancerClientConfiguration.class}))
 @EnableDiscoveryClient
 @LoadBalancerClients(defaultConfiguration = {LionLoadBalancerClientConfiguration.class})

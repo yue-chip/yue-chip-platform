@@ -7,30 +7,3 @@ jar {
     archiveClassifier= ''
     enabled = true
 }
-
-publishing {
-    publications {
-        mavenJava(MavenPublication){
-            from components.java
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
-                }
-            }
-        }
-    }
-    repositories {
-        mavenLocal()
-        maven {
-            allowInsecureProtocol true
-            url = mavenSnapshots
-            credentials {
-                username = mavenUsername
-                password = mavenPassword
-            }
-        }
-    }
-}
