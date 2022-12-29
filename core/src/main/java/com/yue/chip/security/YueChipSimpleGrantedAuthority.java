@@ -12,7 +12,7 @@ import java.util.UUID;
  * @create: 2020-01-24 19:41
  */
 @Data
-public class LionSimpleGrantedAuthority implements GrantedAuthority {
+public class YueChipSimpleGrantedAuthority implements GrantedAuthority {
 
     private String authority;
 

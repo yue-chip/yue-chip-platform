@@ -1,0 +1,3 @@
+lionException=com.yue.chip.dubbo.filter.LionExceptionFilter
+extendDataConsumer=com.yue.chip.dubbo.filter.ExtendDataConsumerFiter
+extendDataProvider=com.yue.chip.dubbo.filter.ExtendDataProviderFiter

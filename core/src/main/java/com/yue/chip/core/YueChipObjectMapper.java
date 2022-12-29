@@ -2,25 +2,34 @@ package com.yue.chip.core;
 
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author Mr.Liu
  *
  */
-public class LionObjectMapper extends ObjectMapper {
+@Component
+public class YueChipObjectMapper extends ObjectMapper {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7300608107391001448L;
 
-	public LionObjectMapper() {
+
+	public YueChipObjectMapper() {
 		super();
 		// 允许单引号
 		this.configure(Feature.ALLOW_SINGLE_QUOTES, true);
 		// 字段和值都加引号
 		this.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		SimpleModule simpleModule = new SimpleModule();
+		simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+		simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+		registerModule(simpleModule);
 //		this.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		// 空值处理为空串
 //		this.getSerializerProvider()
@@ -44,10 +53,10 @@ public class LionObjectMapper extends ObjectMapper {
 	}
 
 	private static class Holder{
-		private static LionObjectMapper instance = new LionObjectMapper();
+		private static YueChipObjectMapper instance = new YueChipObjectMapper();
 	}
 
-	public static LionObjectMapper getInstance(){
+	public static YueChipObjectMapper getInstance(){
 		return Holder.instance;
 	}
 }

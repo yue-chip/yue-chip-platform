@@ -3,5 +3,10 @@ archivesBaseName = 'yue-chip-oauth2-resource-serve'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-configuration-processor'
     api 'org.springframework.security:spring-security-oauth2-authorization-server'
+    api "org.reflections:reflections"
+    api "jakarta.platform:jakarta.jakartaee-api"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }

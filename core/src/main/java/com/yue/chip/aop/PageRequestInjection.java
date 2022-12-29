@@ -1,7 +1,7 @@
 package com.yue.chip.aop;
 
 import com.yue.chip.constant.GlobalConstant;
-import com.yue.chip.core.LionPage;
+import com.yue.chip.core.YueChipPage;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -43,8 +43,8 @@ public class PageRequestInjection {
         Object[] args = pjp.getArgs();
         for (int i =0; i< args.length; i++){
             Object arg = args[i];
-            if(arg instanceof PageRequest || arg instanceof LionPage){
-                args[i] = new LionPage(getPage(),getSize(),Sort.unsorted());
+            if(arg instanceof PageRequest || arg instanceof YueChipPage){
+                args[i] = new YueChipPage(getPage(),getSize(),Sort.unsorted());
             }
         }
         return pjp.proceed(args);

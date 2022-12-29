@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yue.chip.constant.ResultDataConstant;
 import com.yue.chip.core.common.enums.ResultDataState;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.*;
@@ -23,6 +24,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Schema()
+@Builder
 public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>, Serializable {
 
     private static final long serialVersionUID = 8078379219201834984L;
@@ -48,7 +50,7 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
     }
 
     public PageResultData(){
-        super(Collections.EMPTY_LIST, new LionPage(),10L);
+        super(Collections.EMPTY_LIST, new YueChipPage(),10L);
     }
 
     @JsonGetter
@@ -70,7 +72,7 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
     }
 
     public static IPageResultData<?> convert(Page page) {
-        return new PageResultData(page.getContent(),new LionPage(page.getPageable().getPageNumber(),page.getPageable().getPageSize()),page.getTotalElements());
+        return new PageResultData(page.getContent(),new YueChipPage(page.getPageable().getPageNumber(),page.getPageable().getPageSize()),page.getTotalElements());
     }
 
 

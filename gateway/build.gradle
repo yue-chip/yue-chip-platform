@@ -11,8 +11,10 @@ bootJar {
 }
 dependencies{
     api(project(':core'))
+    api 'org.springframework.boot:spring-boot-configuration-processor'
+    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     api 'org.springframework.boot:spring-boot-starter-actuator'
-    api 'org.springframework:spring-web'
+    api 'org.springframework:spring-webmvc'
     api 'org.springframework.cloud:spring-cloud-starter-gateway'
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
     api 'org.aspectj:aspectjrt'

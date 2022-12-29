@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.yue.chip.constant.ResultDataConstant;
 import com.yue.chip.core.common.enums.ResultDataState;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +22,7 @@ import java.io.Serializable;
 @JsonInclude(Include.NON_NULL)
 @Data
 @Schema()
+@Builder
 public class ResultData<T> implements Serializable, IResultData<T> {
 
 	private static final long serialVersionUID = 981792735336739260L;
@@ -43,27 +45,31 @@ public class ResultData<T> implements Serializable, IResultData<T> {
 		return this;
 	}
 
-	public IResultData succeed(String message){
-		if (StringUtils.hasText(message)){
-			this.message = message;
-		}
-		return this;
+	public static ResultData succeed(String message){
+		return ResultData.builder()
+				.status(ResultDataState.ERROR.getKey())
+				.exceptionMessage(message)
+				.build();
 	}
 
-	public IResultData failed(String message){
-		this.status = ResultDataState.ERROR.getKey();
-		if (StringUtils.hasText(message)){
-			this.message = message;
-		}
-		return this;
+	public static ResultData succeed(){
+		return succeed(ResultDataConstant.SUCCEED_MESSAGE);
 	}
 
-	public IResultData failed(){
+	public static ResultData failed(String message){
+		return failed(ResultDataState.ERROR.getKey(),message);
+	}
+
+	public static ResultData failed(int state, String message){
+		return ResultData.builder()
+				.status(state)
+				.exceptionMessage(message)
+				.build();
+	}
+
+	public static ResultData failed(){
 		return failed(ResultDataConstant.FAILED_MESSAGE);
 	}
 
-	public static ResultData instance(){
-		return new ResultData();
-	}
 
 }

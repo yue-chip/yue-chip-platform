@@ -11,24 +11,24 @@ import java.util.*;
  * @author: Mr.Liu
  * @create: 2020-01-24 18:55
  */
-public class LionUserDetails extends User {
+public class YueChipUserDetails extends User {
 
     private static final long serialVersionUID = -883666601L;
 
-    public LionUserDetails() {
+    public YueChipUserDetails() {
         this(UUID.randomUUID().toString(),UUID.randomUUID().toString(), getGrantedAuthority());
     }
 
-    public LionUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public YueChipUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(StringUtils.hasText(username)?username:UUID.randomUUID().toString(), StringUtils.hasText(password)?password:UUID.randomUUID().toString(), Objects.isNull(authorities)?getGrantedAuthority():authorities);
     }
 
-    public LionUserDetails(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public YueChipUserDetails(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 
     private static List<GrantedAuthority> getGrantedAuthority(){
-        LionSimpleGrantedAuthority grantedAuthority = new LionSimpleGrantedAuthority();
+        YueChipSimpleGrantedAuthority grantedAuthority = new YueChipSimpleGrantedAuthority();
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
         list.add(grantedAuthority);
         return list;

@@ -1,7 +1,7 @@
 package com.yue.chip.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.yue.chip.core.LionObjectMapper;
+import com.yue.chip.core.YueChipObjectMapper;
 
 /**
  * @description: json序列化工具
@@ -11,7 +11,7 @@ import com.yue.chip.core.LionObjectMapper;
 public class JsonUtil {
 
     public static String convertToJsonString(final Object object) throws JsonProcessingException {
-        LionObjectMapper lionObjectMapper = LionObjectMapper.getInstance();
-        return lionObjectMapper.writeValueAsString(object);
+        YueChipObjectMapper yueChipObjectMapper = YueChipObjectMapper.getInstance();
+        return yueChipObjectMapper.writeValueAsString(object);
     }
 }

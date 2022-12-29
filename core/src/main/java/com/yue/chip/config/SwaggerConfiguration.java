@@ -1,11 +1,13 @@
 package com.yue.chip.config;
 
 import com.fasterxml.classmate.TypeResolver;
-import com.yue.chip.core.LionPage;
+import com.yue.chip.core.YueChipPage;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -16,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.PathProvider;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -31,10 +35,14 @@ import springfox.documentation.spring.web.SpringfoxWebConfiguration;
 import springfox.documentation.spring.web.paths.DefaultPathProvider;
 import springfox.documentation.spring.web.paths.Paths;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.spring.web.plugins.WebFluxRequestHandlerProvider;
+import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 import springfox.documentation.swagger2.configuration.Swagger2WebMvcConfiguration;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
@@ -89,7 +97,7 @@ public class SwaggerConfiguration {
             @Override
             public List<AlternateTypeRule> rules() {
                 List<AlternateTypeRule> list = new ArrayList<AlternateTypeRule>();
-                list.add(newRule(resolver.resolve(LionPage.class), resolver.resolve(Page.class)));
+                list.add(newRule(resolver.resolve(YueChipPage.class), resolver.resolve(Page.class)));
                 return list;
             }
         };
@@ -129,12 +137,44 @@ public class SwaggerConfiguration {
 
     @Bean
     @Primary
-    public PathProvider lionPathProvider() {
+    public PathProvider pathProvider() {
         return new DefaultPathProvider() {
             @Override
             public String getOperationPath(String operationPath) {
                 UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath("/"+basePath+"/");
                 return Paths.removeAdjacentForwardSlashes(uriComponentsBuilder.path(operationPath).build().toString());
+            }
+        };
+    }
+
+    @Bean
+    public BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
+        return new BeanPostProcessor() {
+            @Override
+            public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+                if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
+                    customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
+                }
+                return bean;
+            }
+
+            private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(List<T> mappings) {
+                List<T> copy = mappings.stream()
+                        .filter(mapping -> mapping.getPatternParser() == null)
+                        .collect(Collectors.toList());
+                mappings.clear();
+                mappings.addAll(copy);
+            }
+
+            @SuppressWarnings("unchecked")
+            private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
+                try {
+                    Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
+                    field.setAccessible(true);
+                    return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
+                } catch (IllegalArgumentException | IllegalAccessException e) {
+                    throw new IllegalStateException(e);
+                }
             }
         };
     }

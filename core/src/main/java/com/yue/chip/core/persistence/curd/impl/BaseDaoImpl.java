@@ -1,6 +1,6 @@
 package com.yue.chip.core.persistence.curd.impl;
 
-import com.yue.chip.core.persistence.curd.LionSimpleJpaRepository;
+import com.yue.chip.core.persistence.curd.YueChipSimpleJpaRepository;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import jakarta.persistence.EntityManager;
 import org.hibernate.jdbc.ReturningWork;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
  *
  */
 @NoRepositoryBean
-public class BaseDaoImpl<T extends BaseEntity> extends LionSimpleJpaRepository<T> {
+public class BaseDaoImpl<T extends BaseEntity> extends YueChipSimpleJpaRepository<T> {
 	
 	public BaseDaoImpl(JpaEntityInformation<T, Serializable> entityInformation, EntityManager entityManager) {
 		super(entityInformation, entityManager);

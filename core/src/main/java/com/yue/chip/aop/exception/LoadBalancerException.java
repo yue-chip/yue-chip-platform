@@ -1,6 +1,6 @@
 package com.yue.chip.aop.exception;
 
-import com.yue.chip.core.LionObjectMapper;
+import com.yue.chip.core.YueChipObjectMapper;
 import com.yue.chip.core.ResultData;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -69,7 +69,7 @@ public class LoadBalancerException {
 
                 @Override
                 public InputStream getBody() throws IOException {
-                    LionObjectMapper mapper = new LionObjectMapper();
+                    YueChipObjectMapper mapper = new YueChipObjectMapper();
                     InputStream is =new ByteArrayInputStream(mapper.writeValueAsString(resultData).getBytes("UTF-8"));
                     return is ;
                 }

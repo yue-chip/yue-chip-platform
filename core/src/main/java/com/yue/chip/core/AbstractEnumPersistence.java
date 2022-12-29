@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public abstract class AbstractEnumPersistence implements CommandLineRunner {
 
-    @Value("${lion.enums.persistence.url:http://lion-common-serve}")
+    @Value("${yue-chip.enums.persistence.url:http://yue-chip-common-serve}")
     private String LB_URL ;
 
     @Autowired

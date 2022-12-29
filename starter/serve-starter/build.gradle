@@ -3,6 +3,7 @@ archivesBaseName = 'yue-chip-serve-starter'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
+    api(project(':oauth2:resource-serve'))
     api 'org.springframework.boot:spring-boot-starter'
     api 'org.springframework.boot:spring-boot-configuration-processor'
     api 'org.springframework.cloud:spring-cloud-starter-bootstrap'

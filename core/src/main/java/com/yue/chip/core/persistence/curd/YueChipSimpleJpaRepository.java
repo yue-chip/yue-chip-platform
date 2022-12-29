@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  */
 @NoRepositoryBean
-public abstract class LionSimpleJpaRepository<T extends BaseEntity> extends SimpleJpaRepository<T, Serializable> implements BaseDao<T> {
+public abstract class YueChipSimpleJpaRepository<T extends BaseEntity> extends SimpleJpaRepository<T, Serializable> implements BaseDao<T> {
 
 	private SelectRepository<T> selectRepository;
 
@@ -43,8 +43,8 @@ public abstract class LionSimpleJpaRepository<T extends BaseEntity> extends Simp
 	// T的具体类
 	protected Class<T> clazz;
 
-	public LionSimpleJpaRepository(JpaEntityInformation<T, Serializable> entityInformation,
-								   EntityManager entityManager) {
+	public YueChipSimpleJpaRepository(JpaEntityInformation<T, Serializable> entityInformation,
+									  EntityManager entityManager) {
 		super(entityInformation, entityManager);
 		this.entityManager = entityManager;
 		this.entityInformation = entityInformation;
