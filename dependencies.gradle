@@ -51,6 +51,8 @@ dependencies {
         api "cn.hutool:hutool-all:${hutoolVserion}"
         api "commons-beanutils:commons-beanutils:${commonsBeanutils}"
         api "org.apache.dubbo:dubbo-registry-nacos:${dubboVersion}"
+        api "org.apache.dubbo:dubbo-rpc-dubbo:${dubboVersion}"
+        api "org.apache.dubbo:dubbo-rpc-triple:${dubboVersion}"
         api "com.alibaba.csp:sentinel-core:${sentinelVersion}"
         api "com.alibaba.csp:sentinel-parameter-flow-control:${sentinelVersion}"
         api "com.alibaba.csp:sentinel-datasource-extension:${sentinelVersion}"
@@ -89,5 +91,10 @@ dependencies {
         api "jakarta.platform:jakarta.jakartaee-api:${jakartaeeVersion}"
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
     }
-
 }
+//configurations.all {
+////    exclude ("org.springframework.boot","spring-boot-starter-logging")
+//    resolutionStrategy {
+//        force "org.apache.dubbo:dubbo:${dubboVersion}"
+//    }
+//}

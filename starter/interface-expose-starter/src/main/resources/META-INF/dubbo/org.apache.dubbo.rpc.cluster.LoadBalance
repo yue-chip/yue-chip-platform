@@ -1,1 +1,1 @@
-lionLoadBalance=com.yue.chip.dubbo.cluster.LionLoadBalance
+yueChipLoadBalance=com.yue.chip.dubbo.cluster.YueChipLoadBalance

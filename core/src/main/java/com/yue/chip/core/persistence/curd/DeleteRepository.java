@@ -1,5 +1,7 @@
 package com.yue.chip.core.persistence.curd;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Map;
 
 /**
@@ -14,6 +16,7 @@ public interface DeleteRepository<T> {
 	 * @param jpql	jpql删除语句
 	 * @return				int
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	int delete(String jpql);
 
 	/**
@@ -22,6 +25,7 @@ public interface DeleteRepository<T> {
 	 * @param parameter			删除条件
 	 * @return				int
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	int delete(String jpql, Map<String, Object> parameter);
 
 

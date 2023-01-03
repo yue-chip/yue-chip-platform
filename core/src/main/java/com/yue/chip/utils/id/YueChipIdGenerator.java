@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author: Mr.Liu
  * @create: 2020-01-04 10:44
  */
-public class LionIdGenerator extends IdentityGenerator {
+public class YueChipIdGenerator extends IdentityGenerator {
     @Override
     public Object generate(SharedSessionContractImplementor s, Object obj) {
         Object id = SnowflakeUtil.getId();

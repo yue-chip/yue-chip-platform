@@ -4,6 +4,7 @@ apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
     api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-security'
     api 'org.springframework.boot:spring-boot-configuration-processor'
     api 'org.springframework.security:spring-security-oauth2-authorization-server'
     api "org.reflections:reflections"

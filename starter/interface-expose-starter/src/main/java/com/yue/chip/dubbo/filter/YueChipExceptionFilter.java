@@ -9,7 +9,7 @@ import org.apache.dubbo.rpc.*;
  * @create: 2020-02-14 20:51
  */
 @Activate
-public class LionExceptionFilter implements Filter {
+public class YueChipExceptionFilter implements Filter {
 
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         return invoker.invoke(invocation);

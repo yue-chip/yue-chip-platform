@@ -16,21 +16,9 @@ import java.util.Objects;
  **/
 public class JpaTenantInterceptor implements Interceptor,StatementInspector {
 
-    private static final String TENANT_ID ="tenant_id";
-
     @SneakyThrows
     @Override
     public String inspect( String sql) {
         return TenantSqlUtil.sqlReplace(sql);
-    }
-
-    @Override
-    public boolean onSave(Object entity, Object id, Object[] state, String[] propertyNames, Type[] types) {
-        Long tenantId = CurrentUserUtil.getCurrentUserTenantId(false);
-        BaseEntity baseEntity = (BaseEntity)entity;
-        if (Objects.isNull(baseEntity.getId()) && Objects.nonNull(tenantId) ) {
-            baseEntity.setTenantId(tenantId);
-        }
-        return false;
     }
 }

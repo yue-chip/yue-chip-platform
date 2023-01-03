@@ -1,5 +1,7 @@
 package com.yue.chip.core.persistence.curd;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Map;
 
 /**
@@ -13,6 +15,7 @@ public interface UpdateRepository<T> {
 	 * 使用jpql语句更新数据
 	 * @param jpql	jpql更新语句
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	int update(String jpql);
 
 	/**
@@ -20,12 +23,14 @@ public interface UpdateRepository<T> {
 	 * @param jpql	jpql更新语句
 	 * @param parameter			更新条件
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	int update(String jpql, Map<String, Object> parameter);
 
 	/**
 	 * 根据model对象更新数据
 	 * @param entity		model对象<T>
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	void update(T entity);
 
 }

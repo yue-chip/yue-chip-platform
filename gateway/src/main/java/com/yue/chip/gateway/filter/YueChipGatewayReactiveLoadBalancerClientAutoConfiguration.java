@@ -19,7 +19,7 @@ import java.util.Objects;
  * @create: 2020-10-09 19:39
  **/
 @Configuration(proxyBeanMethods = false)
-public class LionGatewayReactiveLoadBalancerClientAutoConfiguration {
+public class YueChipGatewayReactiveLoadBalancerClientAutoConfiguration {
 
     @Value("${spring.cloud.gateway.development.mode.enabled:false}")
     private Boolean mode;
@@ -28,7 +28,7 @@ public class LionGatewayReactiveLoadBalancerClientAutoConfiguration {
     public ReactiveLoadBalancerClientFilter gatewayLoadBalancerClientFilter(LoadBalancerClientFactory clientFactory,
                                                                             GatewayLoadBalancerProperties properties, LoadBalancerProperties loadBalancerProperties) {
         return Objects.equals(mode,true) ?
-                new LionReactiveLoadBalancerClientFilter(clientFactory,properties) :
+                new YueChipReactiveLoadBalancerClientFilter(clientFactory,properties) :
                 new ReactiveLoadBalancerClientFilter(clientFactory,properties);
     }
 

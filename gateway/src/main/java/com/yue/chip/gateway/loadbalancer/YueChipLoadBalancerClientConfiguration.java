@@ -22,7 +22,7 @@ import java.util.Objects;
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnDiscoveryEnabled
-public class LionLoadBalancerClientConfiguration extends LoadBalancerClientConfiguration {
+public class YueChipLoadBalancerClientConfiguration extends LoadBalancerClientConfiguration {
 
     @Value("${spring.cloud.gateway.development.mode.enabled:false}")
     private Boolean mode;
@@ -35,7 +35,7 @@ public class LionLoadBalancerClientConfiguration extends LoadBalancerClientConfi
             LoadBalancerClientFactory loadBalancerClientFactory) {
         String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
         return Objects.equals(mode,true) ?
-                new LionLoadBalancer(loadBalancerClientFactory.getLazyProvider(name,ServiceInstanceListSupplier.class), name) :
+                new YueChipLoadBalancer(loadBalancerClientFactory.getLazyProvider(name,ServiceInstanceListSupplier.class), name) :
                 new RoundRobinLoadBalancer(loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);
     }
 }

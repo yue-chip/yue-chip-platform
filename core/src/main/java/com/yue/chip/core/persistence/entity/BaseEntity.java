@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.yue.chip.core.common.enums.Delete;
+import com.yue.chip.core.persistence.JpaInterceptor;
 import com.yue.chip.core.persistence.Validator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -26,9 +27,11 @@ import java.time.LocalDateTime;
  */
 @MappedSuperclass
 @Data
-@DynamicInsert
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(ignoreUnknown = true,value = {"isDelete","createDateTime","updateDateTime","createUserId","updateUserId","tenantId","createUserName","updateUserName"})
+//@DynamicInsert
+//@DynamicUpdate
+//@SelectBeforeUpdate
+@EntityListeners({AuditingEntityListener.class, JpaInterceptor.class})
+@JsonIgnoreProperties(ignoreUnknown = true,value = {"isDelete","createDateTime","updateDateTime","createUserId","updateUserId","tenantId"})
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -90000050L;
@@ -67,13 +70,12 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "update_user_id", insertable = false)
     protected Long updateUserId;
 
-//    @CreatedBy
-//    @Column(name = "create_user_name", updatable = false)
-//    protected String createUserName;
-//
-//    @LastModifiedBy
-//    @Column(name = "update_user_name", insertable = false)
-//    protected String updateUserName;
+
+    @Column(name = "create_user_name", updatable = false)
+    protected String createUserName;
+
+    @Column(name = "update_user_name", insertable = false)
+    protected String updateUserName;
 
 
     @NotNull(message="版本号不能为空",groups= {Validator.Update.class})
@@ -84,5 +86,5 @@ public abstract class BaseEntity implements Serializable {
     @Schema(description = "租户id")
     @JsonIgnore
     @Column(name = "tenant_id", updatable = false)
-    protected Long tenantId = 10000L;
+    protected Long tenantId;
 }

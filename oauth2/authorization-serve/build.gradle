@@ -11,7 +11,19 @@ bootJar {
 }
 dependencies {
     api(project(':core'))
-    api(project(':starter:business-starter'))
-    api(project(':starter:serve-starter'))
+    api(project(':starter:interface-expose-starter')) {
+        exclude group: "io.seata", module: "seata-spring-boot-starter"
+    }
+    api(project(':starter:business-starter')) {
+        exclude group: "io.seata", module: "seata-spring-boot-starter"
+    }
+    api 'org.springframework.boot:spring-boot-configuration-processor'
+    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.springframework.security:spring-security-oauth2-authorization-server'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
+        exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-netflix-ribbon'
+    }
+    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
 }

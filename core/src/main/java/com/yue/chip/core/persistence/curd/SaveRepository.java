@@ -1,5 +1,7 @@
 package com.yue.chip.core.persistence.curd;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Map;
 
 /**
@@ -15,6 +17,7 @@ public interface SaveRepository<T> {
 	 * @param jpql	jpql插入语句
 	 * @return				int
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	int save(String jpql);
 	
 	/**
@@ -23,6 +26,7 @@ public interface SaveRepository<T> {
 	 * @param parameter			插入数据
 	 * @return				int
 	 */
+	@Transactional(rollbackFor = Throwable.class)
 	int save(String jpql, Map<String, Object> parameter);
 		
 }

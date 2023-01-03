@@ -4,6 +4,7 @@ import com.yue.chip.core.Optional;
 import com.yue.chip.core.persistence.curd.BaseDao;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import com.yue.chip.core.service.BaseService;
+import com.yue.chip.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -55,16 +56,22 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void update(T entity) {
+        if (Objects.isNull(((BaseEntity)entity).getVersion())) {
+            BusinessException.throwException("版本号不能为空");
+        }
         baseDao.update(entity);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteInBatch(Iterable<T> entities) {
         baseDao.deleteInBatch(entities);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteAllInBatch() {
         baseDao.deleteAllInBatch();
     }
@@ -91,6 +98,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public <S extends T> S save(S entity) {
         if (Objects.nonNull(entity)){
             if (Objects.nonNull( ((BaseEntity)entity).getId())){
@@ -132,22 +140,25 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteById(Serializable id) {
         baseDao.deleteById(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void delete(T entity) {
         baseDao.delete(entity);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteAll(Iterable<? extends T> entities) {
         baseDao.deleteAll(entities);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteAll() {
         baseDao.deleteAll();
     }

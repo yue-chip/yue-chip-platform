@@ -25,9 +25,9 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
     public Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions options) {
         ServerHttpResponse response = request.exchange().getResponse();
         response.setStatusCode(HttpStatus.OK);
-        ResultData resultData = new ResultData();
-        resultData.setStatus(ResultDataState.NOT_FOUND_SERVER.getKey());
-        resultData.setMessage("找不到服务！请稍后重试");
+        ResultData resultData = ResultData.builder()
+                                .status(ResultDataState.NOT_FOUND_SERVER.getKey())
+                                .message("找不到服务！请稍后重试").build();
         return BeanToMapUtil.transBeanToMap(resultData);
     }
 }

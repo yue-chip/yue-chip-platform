@@ -27,12 +27,14 @@ public class ResultData<T> implements Serializable, IResultData<T> {
 
 	private static final long serialVersionUID = 981792735336739260L;
 
+	@Builder.Default
 	@Schema(description = "返回消息", type="string")
 	private String message = ResultDataConstant.SUCCEED_MESSAGE;
 
 	@Schema(description = "异常消息", type="string")
 	private String exceptionMessage;
 
+	@Builder.Default
 	@Schema(description = "状态编码",type="integer")
 	private Integer status = ResultDataState.SUCCESS.getKey();
 
@@ -48,7 +50,7 @@ public class ResultData<T> implements Serializable, IResultData<T> {
 	public static ResultData succeed(String message){
 		return ResultData.builder()
 				.status(ResultDataState.ERROR.getKey())
-				.exceptionMessage(message)
+				.message(message)
 				.build();
 	}
 

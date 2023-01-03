@@ -29,9 +29,10 @@ public class ExceptionData {
 
     public static ResultData instance(final Throwable e){
         e.printStackTrace();
-        ResultData resultData = new ResultData();
-        resultData.setMessage(e.getMessage());
-        resultData.setStatus(ResultDataState.ERROR.getKey());
+        ResultData resultData = ResultData.builder()
+                                .message(e.getMessage())
+                                .status(ResultDataState.ERROR.getKey())
+                                .build();
         try {
             handle(e, resultData);
         } catch (Throwable ex) {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yue.chip.core.ResultData;
 import com.yue.chip.core.common.enums.ResultDataState;
 import com.yue.chip.utils.JsonUtil;
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -26,16 +25,16 @@ import java.nio.charset.StandardCharsets;
 @Component
 @Primary
 @Order(-2)
-public class LionWebExceptionHandler implements WebExceptionHandler {
+public class YueChipWebExceptionHandler implements WebExceptionHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add("Content-Type","application/stream+json;charset=UTF-8");
-        ResultData resultData = new ResultData();
-        resultData.setStatus(ResultDataState.NOT_FOUND_SERVER.getKey());
-        resultData.setMessage(ex.getMessage());
+        ResultData resultData = ResultData.builder()
+                                .status(ResultDataState.NOT_FOUND_SERVER.getKey())
+                                .message(ex.getMessage()).build();
         String json = null;
         try {
             json = JsonUtil.convertToJsonString(resultData);

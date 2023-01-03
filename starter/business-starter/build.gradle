@@ -11,11 +11,14 @@ dependencies {
     api 'org.hibernate.validator:hibernate-validator'
     api ('io.seata:seata-spring-boot-starter') {
         exclude group: "com.alibaba", module: "druid"
+        exclude group: "org.apache.dubbo", module: "dubbo"
     }
+    api 'org.apache.dubbo:dubbo-spring-boot-starter'
     api "com.mysql:mysql-connector-j"
     api "com.alibaba:druid-spring-boot-starter"
     api "org.mapstruct:mapstruct"
     api "org.mapstruct:mapstruct-processor"
     api "org.mapstruct:mapstruct-jdk8"
     api "org.modelmapper:modelmapper"
+    api 'commons-dbutils:commons-dbutils'
 }

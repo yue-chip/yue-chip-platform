@@ -1,6 +1,6 @@
 package com.yue.chip.gateway.filter;
 
-import com.yue.chip.gateway.loadbalancer.LionLoadBalancer;
+import com.yue.chip.gateway.loadbalancer.YueChipLoadBalancer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.cloud.client.ServiceInstance;
@@ -30,7 +30,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.*
  * @author: mr.liu
  * @create: 2020-10-09 19:47
  **/
-public class LionReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerClientFilter implements GlobalFilter, Ordered {
+public class YueChipReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerClientFilter implements GlobalFilter, Ordered {
     private static final Log log = LogFactory.getLog(ReactiveLoadBalancerClientFilter.class);
 
     /**
@@ -43,8 +43,8 @@ public class LionReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerCl
     private final GatewayLoadBalancerProperties properties;
 
 
-    public LionReactiveLoadBalancerClientFilter(LoadBalancerClientFactory clientFactory,
-                                            GatewayLoadBalancerProperties properties) {
+    public YueChipReactiveLoadBalancerClientFilter(LoadBalancerClientFactory clientFactory,
+                                                   GatewayLoadBalancerProperties properties) {
         super(clientFactory,properties);
         this.clientFactory = clientFactory;
         this.properties = properties;
@@ -138,7 +138,7 @@ public class LionReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerCl
         }
         supportedLifecycleProcessors.forEach(lifecycle -> lifecycle.onStart(lbRequest));
         String path = lbRequest.getContext().getClientRequest().getUrl().getPath();
-        return ((LionLoadBalancer)loadBalancer).choose(lbRequest,ip,path);
+        return ((YueChipLoadBalancer)loadBalancer).choose(lbRequest,ip,path);
     }
 
     private String getHint(String serviceId) {

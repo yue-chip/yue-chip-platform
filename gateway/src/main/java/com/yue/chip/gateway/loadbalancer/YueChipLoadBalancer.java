@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author: Mr.Liu
  * @create: 2020-07-10 14:22
  */
-public class LionLoadBalancer  implements ReactorServiceInstanceLoadBalancer{
+public class YueChipLoadBalancer implements ReactorServiceInstanceLoadBalancer{
 
     private static final Log log = LogFactory.getLog(RandomLoadBalancer.class);
     private final String serviceId;
@@ -30,7 +30,7 @@ public class LionLoadBalancer  implements ReactorServiceInstanceLoadBalancer{
     private final String IS_SHOW_SWAGGER = "isShowSwagger";
     private final String IS_DEVELOPMENT_NODE = "isDevelopmentNode";
 
-    public LionLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider, String serviceId) {
+    public YueChipLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider, String serviceId) {
         this.serviceId = serviceId;
         this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
     }

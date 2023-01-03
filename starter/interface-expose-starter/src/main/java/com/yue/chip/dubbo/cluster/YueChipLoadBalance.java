@@ -19,13 +19,13 @@ import java.util.Random;
  * @author: mr.liu
  * @create: 2020-10-10 15:26
  **/
-@SPI(LionLoadBalance.NAME)
+@SPI(YueChipLoadBalance.NAME)
 @Log4j2
-public class LionLoadBalance extends AbstractLoadBalance {
+public class YueChipLoadBalance extends AbstractLoadBalance {
 
     public static final String NAME = "lionLoadBalance";
 
-    private static volatile LionLoadBalanceMetadate lionLoadBalanceMetadate;
+    private static volatile YueChipLoadBalanceMetadate yueChipLoadBalanceMetadate;
 
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
@@ -75,15 +75,15 @@ public class LionLoadBalance extends AbstractLoadBalance {
     }
 
 
-    private LionLoadBalanceMetadate getLionLoadBalanceMetadate(){
-        synchronized (LionLoadBalance.class){
-            if (Objects.isNull(lionLoadBalanceMetadate)){
-                synchronized (LionLoadBalance.class) {
-                    lionLoadBalanceMetadate = (LionLoadBalanceMetadate) SpringContextUtil.getBean("lionLoadBalanceMetadate");
+    private YueChipLoadBalanceMetadate getLionLoadBalanceMetadate(){
+        synchronized (YueChipLoadBalance.class){
+            if (Objects.isNull(yueChipLoadBalanceMetadate)){
+                synchronized (YueChipLoadBalance.class) {
+                    yueChipLoadBalanceMetadate = (YueChipLoadBalanceMetadate) SpringContextUtil.getBean("lionLoadBalanceMetadate");
                 }
             }
         }
-        return lionLoadBalanceMetadate;
+        return yueChipLoadBalanceMetadate;
     }
 
 }

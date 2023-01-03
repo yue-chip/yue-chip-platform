@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yue.chip.constant.ResultDataConstant;
 import com.yue.chip.core.common.enums.ResultDataState;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.data.domain.*;
 import java.io.Serializable;
 import java.util.Collections;
@@ -29,12 +27,14 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
 
     private static final long serialVersionUID = 8078379219201834984L;
 
+    @Builder.Default
     @Schema(description = "返回消息", type="string")
     private String message = ResultDataConstant.SUCCEED_MESSAGE;
 
     @Schema(description = "异常信息", type="string")
     private String exceptionMessage;
 
+    @Builder.Default
     @Schema(description = "状态编码", type="integer")
     private Integer status = ResultDataState.SUCCESS.getKey();
 
@@ -43,6 +43,15 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
 
     public PageResultData(List content, Pageable pageable, long total) {
         super(content, pageable, total);
+    }
+
+    @Deprecated
+    public PageResultData(String message, String exceptionMessage, Integer status,T data) {
+        super(Collections.EMPTY_LIST, new YueChipPage(),10L);
+        this.message = message;
+        this.exceptionMessage = exceptionMessage;
+        this.status = status;
+        this.data = data;
     }
 
     public PageResultData(List content) {

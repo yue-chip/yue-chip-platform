@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LionLoadBalanceMetadate {
+public class YueChipLoadBalanceMetadate {
 
     @Value("${dubbo.developmentIpRange:''}")
     private String developmentIpRange;
