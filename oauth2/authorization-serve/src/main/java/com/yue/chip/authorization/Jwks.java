@@ -70,4 +70,8 @@ public final class Jwks {
 				.build();
 		// @formatter:on
 	}
+
+	public static void main(String agrs[]) {
+		generateRsa();
+	}
 }

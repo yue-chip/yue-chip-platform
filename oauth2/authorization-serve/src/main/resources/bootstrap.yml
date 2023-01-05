@@ -1,5 +1,5 @@
-#server:
-#  port: 0
+server:
+  port: 0
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -30,7 +30,6 @@ spring:
           - data-id: yue-chip-dubbo-common.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-
 #security:
 #  user:
 #    name: user

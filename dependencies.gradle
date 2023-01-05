@@ -2,13 +2,13 @@ ext {
     aliyunSpringBootVersion = '1.0.0'
     springCloudAlibabaVersion = '2022.0.0.0-RC1'
     springCloudVersion = '2022.0.0'
-    nacosVersion = '2.1.2'
+//    nacosVersion = '2.2.1-RC'
+    springdocVserion= '2.0.2'
     seataVersion = '1.6.0'
     dubboVersion = '3.2.0-beta.3'
     druidVersion = '1.2.15'
-    springfoxVersion = '3.0.0'
     rocketmqVersion = '2.2.2'
-    knife4jVersion = '3.0.3'
+    knife4jVersion = '4.0.0'
     lombokMapstructBinding = '0.2.0'
     hutoolVserion = '5.8.10'
     commonsBeanutils = '1.9.4'
@@ -39,13 +39,17 @@ dependencies {
         api ("io.seata:seata-spring-boot-starter:${seataVersion}")
         api "org.apache.dubbo:dubbo-spring-boot-starter:${dubboVersion}"
         api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
-        api "io.springfox:springfox-boot-starter:${springfoxVersion}"
         api "org.apache.rocketmq:rocketmq-spring-boot-starter:${rocketmqVersion}"
-        api "com.github.xiaoymin:knife4j-spring-boot-starter:${knife4jVersion}"
+        api "com.github.xiaoymin:knife4j-openapi3-ui:${knife4jVersion}"
+        api "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:${knife4jVersion}"
+        api "com.github.xiaoymin:knife4j-gateway-spring-boot-starter:${knife4jVersion}"
+        api "com.github.xiaoymin:knife4j-aggregation-spring-boot-starter:${knife4jVersion}"
+        api "org.springdoc:springdoc-openapi-starter-webflux-ui:${springdocVserion}"
+        api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVserion}"
 
-        api "com.alibaba.nacos:nacos-api:${nacosVersion}"
-        api "com.alibaba.nacos:nacos-client:${nacosVersion}"
-        api "com.alibaba.nacos:nacos-common:${nacosVersion}"
+//        api "com.alibaba.nacos:nacos-api:${nacosVersion}"
+//        api "com.alibaba.nacos:nacos-client:${nacosVersion}"
+//        api "com.alibaba.nacos:nacos-common:${nacosVersion}"
         api "org.projectlombok:lombok:${lombokVersion}"
         api "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBinding}"
         api "cn.hutool:hutool-all:${hutoolVserion}"
@@ -93,7 +97,7 @@ dependencies {
     }
 }
 //configurations.all {
-////    exclude ("org.springframework.boot","spring-boot-starter-logging")
+//    exclude ("org.springframework.boot","spring-boot-starter-logging")
 //    resolutionStrategy {
 //        force "org.apache.dubbo:dubbo:${dubboVersion}"
 //    }

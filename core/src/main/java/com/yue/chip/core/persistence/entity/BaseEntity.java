@@ -70,14 +70,6 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "update_user_id", insertable = false)
     protected Long updateUserId;
 
-
-    @Column(name = "create_user_name", updatable = false)
-    protected String createUserName;
-
-    @Column(name = "update_user_name", insertable = false)
-    protected String updateUserName;
-
-
     @NotNull(message="版本号不能为空",groups= {Validator.Update.class})
     @Schema(description = "版本号（修改需要传version,新增不需要传）")
     @Version

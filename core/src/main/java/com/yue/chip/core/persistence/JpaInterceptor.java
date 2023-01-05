@@ -25,20 +25,4 @@ public class JpaInterceptor implements ConfigurableObject {
             baseEntity.setTenantId(tenantId);
         }
     }
-
-    @CreatedBy
-    public void setCreateName(BaseEntity baseEntity) {
-        String name = CurrentUserUtil.getCurrentUserUsername();
-        if (StringUtils.hasText(name)) {
-            baseEntity.setCreateUserName(name);
-        }
-    }
-
-    @LastModifiedBy
-    public void setUpdateName(BaseEntity baseEntity) {
-        String name = CurrentUserUtil.getCurrentUserUsername();
-        if (StringUtils.hasText(name)) {
-            baseEntity.setUpdateUserName(name);
-        }
-    }
 }

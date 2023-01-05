@@ -1,6 +1,5 @@
 package com.yue.chip.core.persistence.curd.impl;
 
-import com.yue.chip.core.IEnum;
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SelectRepository;
 import com.yue.chip.utils.SqlUtil;
@@ -8,16 +7,19 @@ import com.yue.chip.utils.TenantSqlUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import net.sf.jsqlparser.JSQLParserException;
-import org.hibernate.Session;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.query.sql.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import springfox.documentation.service.ParameterSpecification;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 为兼容其它数据库所有操作均不提供本地sql封装，均采用jpql操作！

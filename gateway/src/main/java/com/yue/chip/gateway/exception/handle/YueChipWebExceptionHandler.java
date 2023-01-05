@@ -1,9 +1,5 @@
 package com.yue.chip.gateway.exception.handle;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.yue.chip.core.ResultData;
-import com.yue.chip.core.common.enums.ResultDataState;
-import com.yue.chip.utils.JsonUtil;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -32,16 +28,7 @@ public class YueChipWebExceptionHandler implements WebExceptionHandler {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add("Content-Type","application/stream+json;charset=UTF-8");
-        ResultData resultData = ResultData.builder()
-                                .status(ResultDataState.NOT_FOUND_SERVER.getKey())
-                                .message(ex.getMessage()).build();
-        String json = null;
-        try {
-            json = JsonUtil.convertToJsonString(resultData);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = "{ \"message\": \"404 NOT_FOUND\",\"status\": 404}".getBytes(StandardCharsets.UTF_8);
         DataBuffer wrap = exchange.getResponse().bufferFactory().wrap(bytes);
         return exchange.getResponse().writeWith(Flux.just(wrap));
     }

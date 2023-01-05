@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
@@ -101,11 +102,6 @@ public class AuthorizationServerConfig {
         });
         oAuth2AuthorizationServerConfigurer.registeredClientRepository(new JdbcRegisteredClientRepository(jdbcTemplate));
 
-        http.exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/login"))
-                ).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-//        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         SecurityFilterChain securityFilterChain = http.build();
         addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(http);
         return securityFilterChain;
