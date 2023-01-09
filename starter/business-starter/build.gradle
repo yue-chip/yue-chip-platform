@@ -22,4 +22,5 @@ dependencies {
     api "org.modelmapper:modelmapper"
     api 'commons-dbutils:commons-dbutils'
     api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+    api 'com.github.jsqlparser:jsqlparser'
 }

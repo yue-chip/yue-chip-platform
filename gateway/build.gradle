@@ -21,10 +21,7 @@ dependencies{
         exclude group: "org.springframework.cloud", module: "spring-cloud-starter-netflix-ribbon"
     }
     api 'org.springdoc:springdoc-openapi-starter-webflux-ui'
-    api ("com.github.xiaoymin:knife4j-gateway-spring-boot-starter") {
-//        exclude group: "com.github.xiaoymin", module: "knife4j-openapi2-ui"
-    }
-//    api "com.github.xiaoymin:knife4j-openapi3-ui"
+    api ('com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter')
 }
 
 

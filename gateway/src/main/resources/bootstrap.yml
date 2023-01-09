@@ -20,11 +20,10 @@ spring:
           - data-id: yue-chip-common.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-knife4j:
-  gateway:
-    enable: true
-    routes:
-      - name: test
-        order: 0
-        service-name: yue-chip-upms-serve
-        url: /yue-chip-upms-serve/v3/api-docs?group=default
+#
+#springdoc:
+#  swagger-ui:
+#    use-root-path: true
+#    urls:
+#      - name: upms
+#        url: /yue-chip-upms-serve/v3/api-docs

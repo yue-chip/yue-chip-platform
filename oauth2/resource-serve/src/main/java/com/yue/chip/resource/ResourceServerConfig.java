@@ -21,15 +21,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class ResourceServerConfig {
     private String jwkSetUri;
 
     @Bean
-    @Order(Ordered.LOWEST_PRECEDENCE)
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         authorizationIgnoreProperties.getIgnoreUrl().add("/actuator/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/webjars/**");
@@ -76,9 +76,9 @@ public class ResourceServerConfig {
         }).authorizeHttpRequests(authorize ->{
                     authorize.anyRequest().authenticated();
         }).exceptionHandling(exception -> {
-            exception.accessDeniedHandler(new AccessDeniedHandler() {
+            exception.authenticationEntryPoint(new AuthenticationEntryPoint() {
                 @Override
-                public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException, IOException {
+                public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
                     response.setCharacterEncoding("UTF-8");
                     response.setStatus(HttpStatus.OK.value());
                     response.setContentType("application/json");
