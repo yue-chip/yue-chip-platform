@@ -136,54 +136,43 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 	 * @return
 	 */
 	private Long getCount(String jpql, Map<String, Object> searchParameter) {
-//		Session session = entityManager.unwrap(Session.class);
-//		SessionFactoryImplementor sessionFactoryImplementor = (SessionFactoryImplementor)session.getSessionFactory();
-//		Map replacements = Objects.isNull(searchParameter)?Collections.EMPTY_MAP:searchParameter;
-//		QueryTranslatorImpl queryTranslator=new QueryTranslatorImpl(jpql,jpql,replacements,sessionFactoryImplementor);
-//		queryTranslator.compile(replacements,true);
-//		String sql = queryTranslator.getSQLString();
-//		List<ParameterSpecification> parameter = queryTranslator.getCollectedParameterSpecifications();
-//		for(ParameterSpecification parameterSpecification : parameter){
-//			StringBuilder sb = new StringBuilder();
-//			int index = sql.indexOf("?");
-//			sb.append(sql.substring(0,index));
-//			sb.append(":");
-//			sb.append(((NamedParameterSpecification)parameterSpecification).getName());
-//			sb.append(sql.substring(index+1));
-//			sql = sb.toString();
-//		}
-//		Set<String> keys = searchParameter.keySet();
-//		keys.forEach(key->{
-//			Object o = searchParameter.get(key);
-//			if (o instanceof IEnum){
-//				searchParameter.put(key,((IEnum)o).getKey());
-//			}
-//		});
-//		return getCountByNativeSql(sql,searchParameter);
-		Query query = entityManager.createQuery(jpql);
-		RepositoryParameter.setParameter(query, searchParameter);
-//		String sql = query.createQuery().unwrap(org.eclipse.persistence.jpa.JpaQuery.class).getDatabaseQuery().getSQLString();
-		String sql = query.unwrap(org.hibernate.query.Query.class).getQueryString();
-		return getCountByNativeSql(sql,null);
-
+		String jpqlTmp = jpql;
+		jpql = jpql.toLowerCase();
+		if (jpql.indexOf("from")>-1){
+			jpql = " select count(*) " + jpqlTmp.substring(jpql.indexOf("from"));
+		}
+		return getCountByJql(jpql,searchParameter);
 	}
 
 	private Long getCountByNativeSql(String sql,Map<String, Object> searchParameter) {
 		StringBuffer countSql = new StringBuffer();
-		try {
-			sql = TenantSqlUtil.sqlReplace(sql);
-		} catch (JSQLParserException e) {
-			throw new RuntimeException(e);
-		}
-		try {
-			sql = SqlUtil.sqlReplaceOrderBy(sql);
-		} catch (JSQLParserException e) {
-			throw new RuntimeException(e);
-		}
 		countSql.append(" select count(1) from (");
-		countSql.append(sql);
+		countSql.append(replace(sql));
 		countSql.append(") tb");
 		Query query = entityManager.createNativeQuery(countSql.toString());
+		return getCount(query,searchParameter);
+	}
+
+	private Long getCountByJql(String jpql,Map<String, Object> searchParameter) {
+		Query query = entityManager.createQuery(replace(jpql));
+		return getCount(query,searchParameter);
+	}
+
+	private String replace(String sqlOrJpql) {
+		try {
+			sqlOrJpql = TenantSqlUtil.sqlReplace(sqlOrJpql);
+		} catch (JSQLParserException e) {
+			throw new RuntimeException(e);
+		}
+		try {
+			sqlOrJpql = SqlUtil.sqlReplaceOrderBy(sqlOrJpql);
+		} catch (JSQLParserException e) {
+			throw new RuntimeException(e);
+		}
+		return sqlOrJpql;
+	}
+
+	private Long getCount(Query query,Map<String, Object> searchParameter) {
 		query = RepositoryParameter.setParameter(query, searchParameter);
 		return Long.valueOf(query.getSingleResult().toString());
 	}
