@@ -16,6 +16,7 @@ import java.util.Map;
  *
  * @param <T>
  */
+@Deprecated
 public interface BaseService<T extends BaseEntity>{
 
 	public List<T> findAll();

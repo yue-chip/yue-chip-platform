@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * @param <T>
  * @author mrliu
  */
+@Deprecated
 public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
 
@@ -46,17 +48,18 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public <S extends T> List<S> saveAll(Iterable<S> entities) {
         return baseDao.saveAll(entities);
     }
 
     @Override
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public <S extends T> S saveAndFlush(S entity) {
         return baseDao.saveAndFlush(entity);
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void update(T entity) {
         if (Objects.isNull(((BaseEntity)entity).getVersion())) {
             BusinessException.throwException("版本号不能为空");
@@ -65,13 +68,13 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void deleteInBatch(Iterable<T> entities) {
         baseDao.deleteInBatch(entities);
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void deleteAllInBatch() {
         baseDao.deleteAllInBatch();
     }
@@ -98,7 +101,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public <S extends T> S save(S entity) {
         if (Objects.nonNull(entity)){
             if (Objects.nonNull( ((BaseEntity)entity).getId())){
@@ -140,25 +143,25 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void deleteById(Serializable id) {
         baseDao.deleteById(id);
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void delete(T entity) {
         baseDao.delete(entity);
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void deleteAll(Iterable<? extends T> entities) {
         baseDao.deleteAll(entities);
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void deleteAll() {
         baseDao.deleteAll();
     }

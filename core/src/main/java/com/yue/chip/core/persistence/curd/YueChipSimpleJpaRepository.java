@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
@@ -104,49 +105,49 @@ public abstract class YueChipSimpleJpaRepository<T extends BaseEntity> extends S
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int update(String jpql) {
 		return updateRepository.update(jpql);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int update(String jpql, Map<String, Object> parameter) {
 		return updateRepository.update(jpql, parameter);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public void update(T entity) {
 		updateRepository.update(entity);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int save(String jpql) {
 		return saveRepository.save(jpql);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int save(String jpql, Map<String, Object> parameter) {
 		return saveRepository.save(jpql, parameter);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int delete(String jpql) {
 		return deleteRepository.delete(jpql);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int delete(String jpql, Map<String, Object> parameter) {
 		return deleteRepository.delete(jpql, parameter);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED)
+	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public <S extends T> S save(S entity) {
 		BaseEntity baseEntity = (BaseEntity)entity;
 		if (Objects.isNull(baseEntity.getId())){

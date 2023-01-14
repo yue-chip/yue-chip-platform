@@ -11,6 +11,9 @@ import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -42,11 +45,13 @@ public class UpdateRepositoryImpl<T>  implements UpdateRepository<T> {
 	}
 	
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public int update(String jpql) {
 		return update(jpql, null);
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public int update(String jpql,Map<String, Object> parameter) {
 		Query query = entityManager.createQuery(jpql);
 		query = RepositoryParameter.setParameter(query, parameter);
@@ -55,19 +60,13 @@ public class UpdateRepositoryImpl<T>  implements UpdateRepository<T> {
 
 	@Override
 	public void update(T entity) {
-		BaseEntity newEntity = (BaseEntity)entity;
-		if (Objects.isNull(newEntity.getVersion())){
+		BaseEntity baseEntity = (BaseEntity)entity;
+		if (Objects.isNull(baseEntity.getVersion())){
 			BusinessException.throwException("该数据版本号不能为空");
 		}
-		Serializable id = entityInformation.getId(entity);
-		Optional<T> optional = simpleJpaRepository.findById(id);
-		if (optional.isPresent()) {
-			BaseEntity oldEntity = (BaseEntity) optional.get();
-			if (!Objects.equals(newEntity.getVersion(),oldEntity.getVersion())) {
-				BusinessException.throwException("该数据发生变化,请重新获取");
-			}
-			BeanUtil.copyProperties(newEntity, oldEntity, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
-			simpleJpaRepository.save((T) oldEntity);
+		BaseEntity newEntity = (BaseEntity) simpleJpaRepository.save((T) entity);
+		if (!Objects.equals(baseEntity.getVersion()+1,newEntity.getVersion())) {
+			BusinessException.throwException("该数据发生变化,请重新获取");
 		}
 	}
 

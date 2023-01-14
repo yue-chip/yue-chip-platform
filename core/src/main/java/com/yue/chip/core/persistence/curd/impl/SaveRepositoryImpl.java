@@ -4,6 +4,7 @@ import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SaveRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public class SaveRepositoryImpl<T>  implements SaveRepository<T> {
 	}
 	
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public int save(String jpql,Map<String, Object> parameter) {
 		Query query = entityManager.createQuery(jpql);
 		query = RepositoryParameter.setParameter(query, parameter);
@@ -30,6 +32,7 @@ public class SaveRepositoryImpl<T>  implements SaveRepository<T> {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public int save(String jpql) {
 		return save(jpql, null);
 	}

@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,56 +29,89 @@ import java.time.LocalDateTime;
  */
 @MappedSuperclass
 @Data
-//@DynamicInsert
-//@DynamicUpdate
-//@SelectBeforeUpdate
+@SuperBuilder
 @EntityListeners({AuditingEntityListener.class, JpaInterceptor.class})
-@JsonIgnoreProperties(ignoreUnknown = true,value = {"isDelete","createDateTime","updateDateTime","createUserId","updateUserId","tenantId"})
+@JsonIgnoreProperties(ignoreUnknown = true,value = {"isDelete","createUserId","updateUserId","tenantId"})
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -90000050L;
 
-    @Id()
-//    @GeneratedValue(generator = "snow_flake_id")
-//    @GenericGenerator(name = "snow_flake_id", strategy = "com.lion.utils.id.LionIdGenerator")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name="assigned", strategy="assigned")
-    @GeneratedValue(generator="assigned")
-    @Column(name = "id")
     @NotNull(message="ID不能为空",groups= {Validator.Update.class, Validator.Delete.class})
     @Schema(description = "ID")
-    protected Long id;
+    private Long id;
 
     @JsonIgnore
-    @Column(name = "is_delete")
-    @Convert(converter = Delete.DeleteConverter.class)
+    @Builder.Default
     private Delete isDelete = Delete.FALSE;
 
-    @CreatedDate
-    @Column(name = "create_date_time", updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime createDateTime;
+    @Schema(description = "创建时间")
+    private LocalDateTime createDateTime;
 
-    @LastModifiedDate
-    @Column(name = "update_date_time", insertable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime updateDateTime;
+    @Schema(description = "最后修改时间")
+    private LocalDateTime updateDateTime;
 
-    @CreatedBy
-    @Column(name = "create_user_id", updatable = false)
-    protected Long createUserId;
+    private Long createUserId;
 
-    @LastModifiedBy
-    @Column(name = "update_user_id", insertable = false)
-    protected Long updateUserId;
+    private Long updateUserId;
 
     @NotNull(message="版本号不能为空",groups= {Validator.Update.class})
     @Schema(description = "版本号（修改需要传version,新增不需要传）")
-    @Version
-    protected Long version = 0L;
+    @Builder.Default
+    private Long version = 0L;
 
     @Schema(description = "租户id")
     @JsonIgnore
-    @Column(name = "tenant_id", updatable = false)
-    protected Long tenantId;
+    @Builder.Default
+    private Long tenantId = 10000L;
+
+    public BaseEntity() {
+    }
+
+    @Id()
+    @GenericGenerator(name="assigned", strategy="assigned")
+    @GeneratedValue(generator="assigned")
+    public Long getId() {
+        return id;
+    }
+
+    @Convert(converter = Delete.DeleteConverter.class)
+    public Delete getIsDelete() {
+        return isDelete;
+    }
+
+    @CreatedDate
+    @Column( updatable = false)
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    @CreatedBy
+    @Column( updatable = false)
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    @LastModifiedBy
+    @Column(insertable = false)
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    @Version
+    public Long getVersion() {
+        return version;
+    }
+
+    @Column(updatable = false)
+    public Long getTenantId() {
+        return tenantId;
+    }
 }
