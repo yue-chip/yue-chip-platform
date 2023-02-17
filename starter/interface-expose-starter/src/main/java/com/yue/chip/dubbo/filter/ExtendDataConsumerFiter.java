@@ -1,5 +1,6 @@
 package com.yue.chip.dubbo.filter;
 
+import com.yue.chip.dubbo.util.ClientRemoteAddressUtil;
 import com.yue.chip.dubbo.util.CurrentUserUtil;
 import com.yue.chip.dubbo.util.ExtendDataUtil;
 import org.apache.dubbo.common.extension.Activate;
@@ -17,7 +18,7 @@ public class ExtendDataConsumerFiter implements Filter {
         ExtendDataUtil.setExtendData();
         Result result = invoker.invoke(invocation);
         RpcContext.getServiceContext().clearAttachments();
-        CurrentUserUtil.cleanThreadLocal();
+        ExtendDataUtil.cleanThreadLocal();
         return result;
     }
 

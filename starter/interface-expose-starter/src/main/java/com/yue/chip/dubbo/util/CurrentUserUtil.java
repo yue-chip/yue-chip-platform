@@ -14,12 +14,11 @@ public class CurrentUserUtil {
         String username = null;
         if (Objects.isNull(threadLocal.get())) {
             username = com.yue.chip.utils.CurrentUserUtil.getCurrentUserUsername();
-        }
-        if (!StringUtils.hasText(username)) {
+            if (StringUtils.hasText(username)){
+                threadLocal.set(username);
+            }
+        }else {
             username = threadLocal.get();
-        }
-        if (StringUtils.hasText(username) && Objects.isNull(threadLocal.get())) {
-            threadLocal.set(username);
         }
         return username;
     }
@@ -30,7 +29,7 @@ public class CurrentUserUtil {
     public static void setCurrentUser(){
         String username = getCurrentUser();
         if (StringUtils.hasText(username)) {
-            RpcContext.getServiceContext().setAttachment(DubboConstant.USERNAME,username);
+            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.USERNAME,username);
         }
     }
 

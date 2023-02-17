@@ -27,4 +27,5 @@ dependencies {
         exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-netflix-ribbon'
     }
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }

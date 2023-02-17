@@ -1,6 +1,12 @@
 apply from: this.rootProject.file('javaLibrary.gradle')
 archivesBaseName = 'yue-chip-core'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
+compileJava {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true',
+            '-Amapstruct.suppressGeneratorVersionInfoComment=true'
+    ]
+}
 dependencies {
     api platform(project(':dependencies'))
     compileOnly 'org.reflections:reflections'
@@ -20,8 +26,16 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compileOnly 'org.apache.commons:commons-lang3'
     compileOnly 'commons-dbutils:commons-dbutils'
-    api 'org.projectlombok:lombok'
-    api 'org.projectlombok:lombok-mapstruct-binding'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
     api 'cn.hutool:hutool-all'
+    api "org.mapstruct:mapstruct"
+    api "org.mapstruct:mapstruct-processor"
+    api "org.mapstruct:mapstruct-jdk8"
+    api "org.projectlombok:lombok"
+    api "org.projectlombok:lombok-mapstruct-binding"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

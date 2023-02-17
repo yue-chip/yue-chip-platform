@@ -1,12 +1,14 @@
 package com.yue.chip.exception;
 
+import java.io.Serializable;
+
 /**
  * 异常处理类
  *
  * @author mrliu
  *
  */
-public class BusinessException extends  RuntimeException {
+public class BusinessException extends  RuntimeException implements Serializable {
 
 	private static final long serialVersionUID = 7670720348542447804L;
 

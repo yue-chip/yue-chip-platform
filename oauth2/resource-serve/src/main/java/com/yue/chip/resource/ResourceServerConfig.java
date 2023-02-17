@@ -93,7 +93,6 @@ public class ResourceServerConfig {
             oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()));
         })
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         return httpSecurity.build();
     }
 

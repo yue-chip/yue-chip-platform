@@ -6,12 +6,15 @@ import com.yue.chip.core.ICurrentUser;
 import com.yue.chip.exception.AuthorizationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.dubbo.rpc.RpcContext;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.lang.module.FindException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,6 +26,11 @@ import java.util.Objects;
 public class CurrentUserUtil {
 
     private static volatile ICurrentUser iCurrentUser;
+    private static final String NAME = "name";
+    private static final String TENANT_ID = "tenantId";
+    private static final String USER_ID = "userId";
+    private static final String ID = "id";
+    private static volatile RedisTemplate redisTemplate;
 
     public static Map<String,Object> getCurrentUser(){
         return getCurrentUser(true);
@@ -38,7 +46,7 @@ public class CurrentUserUtil {
             username = getUsername();
         }else {
             RpcContext rpcContext = RpcContext.getServiceContext();
-            username = String.valueOf(rpcContext.getAttachment(DubboConstant.USERNAME));
+            username = String.valueOf(rpcContext.getObjectAttachments().get(DubboConstant.USERNAME));
         }
         if(StringUtils.hasText(username)) {
             user = getICurrentUser().findUserToMap(username);
@@ -50,9 +58,20 @@ public class CurrentUserUtil {
     }
 
     public static Long getCurrentUserTenantId(Boolean isMustLogin){
+        String username = getUsername();
+        Object tenantId = null;
+        if (StringUtils.hasText(username)) {
+            tenantId = getRedisTemplate().opsForValue().get(TENANT_ID + "-" + username);
+            if (Objects.nonNull(tenantId)) {
+                return (Long) tenantId;
+            }
+        }else {
+            return null;
+        }
         Map<String,Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
-        if (Objects.nonNull(user) && user.containsKey("tenantId") && Objects.nonNull(user.containsKey("tenantId"))) {
-            Object tenantId = user.get("tenantId");
+        if (Objects.nonNull(user) && user.containsKey(TENANT_ID) && Objects.nonNull(user.containsKey(TENANT_ID))) {
+            tenantId = user.get(TENANT_ID);
+            getRedisTemplate().opsForValue().set(TENANT_ID+"-"+username,(Long)tenantId);
             return (Long)tenantId;
         }
         return null;
@@ -68,8 +87,8 @@ public class CurrentUserUtil {
      */
     private static String getCurrentUserName(){
         Map<String,Object> currentUser = getCurrentUser();
-        if(currentUser.containsKey("name")){
-            return String.valueOf(currentUser.get("name"));
+        if(currentUser.containsKey(NAME)){
+            return String.valueOf(currentUser.get(NAME));
         }
         return "";
     }
@@ -82,7 +101,7 @@ public class CurrentUserUtil {
         if(isHttpWebRequest()){
             return getUsername();
         }else{
-            Object obj = RpcContext.getServiceContext().getAttachment(DubboConstant.USERNAME);
+            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USERNAME);
             if (Objects.nonNull(obj)) {
                 String username = String.valueOf(obj);
                 return username;
@@ -116,9 +135,21 @@ public class CurrentUserUtil {
     }
 
     public static Long getCurrentUserId(Boolean isMustLogin){
+        String username = getUsername();
+        Object userId = null;
+        if (StringUtils.hasText(username)) {
+            userId = getRedisTemplate().opsForValue().get(USER_ID + "-" + username);
+            if (Objects.nonNull(userId)) {
+                return (Long) userId;
+            }
+        }else {
+            return null;
+        }
         Map<String,Object> currentUser = getCurrentUser(isMustLogin);
-        if(Objects.nonNull(currentUser) && currentUser.containsKey("id")){
-            return Long.valueOf(String.valueOf(currentUser.get("id")));
+        if(Objects.nonNull(currentUser) && currentUser.containsKey(ID)){
+            userId = currentUser.get(ID);
+            getRedisTemplate().opsForValue().set(USER_ID+"-"+username,(Long)userId);
+            return (Long)userId;
         }
         return null;
     }
@@ -151,6 +182,17 @@ public class CurrentUserUtil {
             }
         }
         return iCurrentUser;
+    }
+
+    private static RedisTemplate getRedisTemplate(){
+        if(Objects.isNull(redisTemplate)){
+            synchronized(CurrentUserUtil.class){
+                if(Objects.isNull(redisTemplate)){
+                    redisTemplate = (RedisTemplate) SpringContextUtil.getBean("redisTemplate");
+                }
+            }
+        }
+        return redisTemplate;
     }
 
 }

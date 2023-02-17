@@ -8,12 +8,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.yue.chip.authorization.converter.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.yue.chip.authorization.converter.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.yue.chip.core.ResultData;
-import com.yue.chip.core.YueChipObjectMapper;
 import com.yue.chip.core.common.enums.ResultDataState;
 import jakarta.servlet.Servlet;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,14 +18,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -40,19 +38,10 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
@@ -65,12 +54,9 @@ public class AuthorizationServerConfig {
 
     @Autowired
     private JdbcTemplate  jdbcTemplate;
-
     @DubboReference
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    private YueChipObjectMapper yueChipObjectMapper;
+    private final HttpMessageConverter<Object> responseConverter = new MappingJackson2HttpMessageConverter();
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -80,27 +66,45 @@ public class AuthorizationServerConfig {
                 .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
 
         oAuth2AuthorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint -> {
-
+            authorizationEndpoint.errorResponseHandler((request, response, exception) -> {
+                ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+                httpResponse.setStatusCode(HttpStatus.OK);
+                ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
+                responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
+            });
         });
         oAuth2AuthorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> {
             tokenEndpoint.accessTokenRequestConverter(new DelegatingAuthenticationConverter(Arrays.asList(
 //                    new OAuth2AuthorizationCodeAuthenticationConverter(), // 授权码模式
 //                    new OAuth2RefreshTokenAuthenticationConverter(),  // 刷新token
 //                    new OAuth2ClientCredentialsAuthenticationConverter(),  // 客户端模式
-                    new OAuth2ResourceOwnerPasswordAuthenticationConverter() //密码模式
-                    ))
-            );
+                new OAuth2ResourceOwnerPasswordAuthenticationConverter() //密码模式
+            )));
+//            tokenEndpoint.authenticationProvider(new OAuth2ResourceOwnerPasswordAuthenticationProvider(http.getSharedObject(AuthenticationManager.class), http.getSharedObject(OAuth2AuthorizationService.class),http.getSharedObject(OAuth2TokenGenerator.class)))
+//                    .accessTokenRequestConverter(new OAuth2ResourceOwnerPasswordAuthenticationConverter());
+            tokenEndpoint.errorResponseHandler((request, response, exception) -> {
+                ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+                httpResponse.setStatusCode(HttpStatus.OK);
+                ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
+                responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
+            });
+            tokenEndpoint.accessTokenResponseHandler((request, response, authentication) -> {
+                ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+                httpResponse.setStatusCode(HttpStatus.OK);
+                ResultData resultData = ResultData.builder().data(authentication).build();
+                responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
+            });
         });
-//        oAuth2AuthorizationServerConfigurer.tokenGenerator(context -> {
-//            return null;
-//        });
-        oAuth2AuthorizationServerConfigurer.tokenIntrospectionEndpoint(tokenIntrospectionEndpoint -> {
-
-        });
-        oAuth2AuthorizationServerConfigurer.tokenRevocationEndpoint(tokenRevocationEndpoint -> {
-
+        oAuth2AuthorizationServerConfigurer.clientAuthentication(authenticationConfigurer -> {
+            authenticationConfigurer.errorResponseHandler((request, response, exception) -> {
+                ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+                httpResponse.setStatusCode(HttpStatus.OK);
+                ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
+                responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
+            });
         });
         oAuth2AuthorizationServerConfigurer.registeredClientRepository(new JdbcRegisteredClientRepository(jdbcTemplate));
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         SecurityFilterChain securityFilterChain = http.build();
         addCustomOAuth2ResourceOwnerPasswordAuthenticationProvider(http);
@@ -151,7 +155,7 @@ public class AuthorizationServerConfig {
         OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = http.getSharedObject(OAuth2TokenGenerator.class);
 
         OAuth2ResourceOwnerPasswordAuthenticationProvider resourceOwnerPasswordAuthenticationProvider =
-                new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator);
+                new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator, userDetailsService);
 
         http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
 

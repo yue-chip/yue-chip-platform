@@ -1,5 +1,6 @@
 package com.yue.chip.authorization.converter;
 
+import com.yue.chip.exception.BusinessException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -39,22 +41,27 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 	private final AuthenticationManager authenticationManager;
 	private final OAuth2AuthorizationService authorizationService;
 	private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+	private final UserDetailsService userDetailsService;
 	
 	/**
 	 * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using the provided parameters.
 	 *
 	 * @param authenticationManager the authentication manager
-	 * @param authorizationService the authorization service
-	 * @param tokenGenerator the token generator
+	 * @param authorizationService  the authorization service
+	 * @param tokenGenerator        the token generator
+	 * @param userDetailsService
 	 * @since 0.2.3
 	 */
 	public OAuth2ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
-                                                             OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+															 OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, UserDetailsService userDetailsService) {
+
 		Assert.notNull(authorizationService, "authorizationService cannot be null");
 		Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
+		Assert.notNull(userDetailsService, "tokenGenerator cannot be null");
 		this.authenticationManager = authenticationManager;
 		this.authorizationService = authorizationService;
 		this.tokenGenerator = tokenGenerator;
+		this.userDetailsService = userDetailsService;
 	}
 	
 	@Override
@@ -73,6 +80,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
+
+//		userDetailsService.loadUserByUsername("admin");
+//		BusinessException.throwException("用户不存在");
 
 		Authentication usernamePasswordAuthentication = getUsernamePasswordAuthentication(resouceOwnerPasswordAuthentication);
 		

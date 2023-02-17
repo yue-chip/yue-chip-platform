@@ -41,7 +41,7 @@ public class ClientRemoteAddressUtil {
             }
         }
         if (!StringUtils.hasText(ip)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS);
+            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.CLIENT_REMOTE_ADDRESS);
             if (Objects.nonNull(obj)) {
                 ip = String.valueOf(obj);
                 threadLocal.set(ip);
@@ -59,7 +59,11 @@ public class ClientRemoteAddressUtil {
     public static void setClientRemoteAddress(){
         String ip = getClientRemoteAddress();
         if (StringUtils.hasText(ip)) {
-            RpcContext.getServiceContext().setAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
+            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
         }
+    }
+
+    public static void cleanThreadLocal(){
+        threadLocal.remove();
     }
 }

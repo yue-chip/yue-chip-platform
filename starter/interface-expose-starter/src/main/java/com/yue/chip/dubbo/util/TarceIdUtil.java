@@ -19,7 +19,7 @@ public class TarceIdUtil {
             trackId = SystemLogDataUtil.get().getTrackId();
         }
         if (Objects.isNull(trackId)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TRACE_ID);
+            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.TRACE_ID);
             if (Objects.nonNull(obj) && obj instanceof Long) {
                 trackId = Long.valueOf(String.valueOf(obj));
             }

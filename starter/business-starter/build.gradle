@@ -8,6 +8,7 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter-data-redis'
     api 'org.apache.commons:commons-pool2'
     api 'jakarta.platform:jakarta.jakartaee-api'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     api 'org.hibernate.validator:hibernate-validator'
     api ('io.seata:seata-spring-boot-starter') {
         exclude group: "com.alibaba", module: "druid"
@@ -15,6 +16,7 @@ dependencies {
     }
     api 'org.apache.dubbo:dubbo-spring-boot-starter'
     api "com.mysql:mysql-connector-j"
+    api "org.mariadb.jdbc:mariadb-java-client"
     api "com.alibaba:druid-spring-boot-starter"
     api "org.mapstruct:mapstruct"
     api "org.mapstruct:mapstruct-processor"
@@ -23,5 +25,5 @@ dependencies {
     api 'commons-dbutils:commons-dbutils'
     api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     api 'com.github.jsqlparser:jsqlparser'
-    api "org.redisson:redisson-spring-boot-starter"
+//    api "org.redisson:redisson-spring-boot-starter"
 }

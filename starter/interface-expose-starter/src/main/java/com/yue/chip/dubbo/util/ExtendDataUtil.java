@@ -6,4 +6,10 @@ public class ExtendDataUtil {
         CurrentUserUtil.setCurrentUser();
 //        TarceIdUtil.setTarceId();
     }
+
+    public static void cleanThreadLocal(){
+        CurrentUserUtil.cleanThreadLocal();
+        ClientRemoteAddressUtil.cleanThreadLocal();
+        CurrentUserUtil.cleanThreadLocal();
+    }
 }

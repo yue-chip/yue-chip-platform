@@ -2,10 +2,10 @@ ext {
     aliyunSpringBootVersion = '1.0.0'
     springCloudAlibabaVersion = '2022.0.0.0-RC1'
     springCloudVersion = '2022.0.1'
-//    nacosVersion = '2.2.1-RC'
+    nacosVersion = '2.2.1-RC'
     springdocVserion= '2.0.2'
     seataVersion = '1.6.1'
-    dubboVersion = '3.2.0-beta.4'
+    dubboVersion = '3.2.0-beta.5'
     druidVersion = '1.2.15'
     rocketmqVersion = '2.2.2'
     knife4jVersion = '4.0.0'
@@ -14,7 +14,6 @@ ext {
     commonsBeanutils = '1.9.4'
     sentinelVersion = '1.8.6'
     modelmapperVersion = '3.1.1'
-    mapstructVersion = '1.5.3.Final'
     commonsDbutilsVersion = '1.7'
     easyCaptchaVersion = '1.6.2'
     fastjsonVersion = '2.0.21'
@@ -27,7 +26,8 @@ ext {
     oauth2AuthorizationServerVersion = '1.0.0'
     jakartaeeVersion = '10.0.0'
     mysqlConnectorJVersion = '8.0.31'
-    redissonVersion='3.19.1'
+    mariadbVersion= '3.1.2'
+    redissonVersion= '3.19.1'
 }
 
 dependencies {
@@ -49,9 +49,9 @@ dependencies {
         api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVserion}"
         api "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
 
-//        api "com.alibaba.nacos:nacos-api:${nacosVersion}"
-//        api "com.alibaba.nacos:nacos-client:${nacosVersion}"
-//        api "com.alibaba.nacos:nacos-common:${nacosVersion}"
+        api "com.alibaba.nacos:nacos-api:${nacosVersion}"
+        api "com.alibaba.nacos:nacos-client:${nacosVersion}"
+        api "com.alibaba.nacos:nacos-common:${nacosVersion}"
         api "org.projectlombok:lombok:${lombokVersion}"
         api "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBinding}"
         api "cn.hutool:hutool-all:${hutoolVserion}"
@@ -96,6 +96,7 @@ dependencies {
         api "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
         api "jakarta.platform:jakarta.jakartaee-api:${jakartaeeVersion}"
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
+        api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
     }
 }
 //configurations.all {
