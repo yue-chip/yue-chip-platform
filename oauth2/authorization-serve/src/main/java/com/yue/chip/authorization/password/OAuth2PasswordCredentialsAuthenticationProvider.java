@@ -51,7 +51,7 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
 
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
-                .principal(new UsernamePasswordAuthenticationToken(oAuth2PasswordCredentialsAuthenticationToken.getAdditionalParameters().get(OAuth2ParameterNames.USERNAME), oAuth2PasswordCredentialsAuthenticationToken.getAdditionalParameters().get(OAuth2ParameterNames.PASSWORD)))
+                .principal(new UsernamePasswordAuthenticationToken(oAuth2PasswordCredentialsAuthenticationToken.getAdditionalParameters().get(OAuth2ParameterNames.USERNAME), oAuth2PasswordCredentialsAuthenticationToken.getAdditionalParameters().get(OAuth2ParameterNames.PASSWORD), Collections.EMPTY_LIST))
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(registeredClient.getScopes())
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
