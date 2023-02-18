@@ -27,5 +27,10 @@ dependencies {
         exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-netflix-ribbon'
     }
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
-    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    api 'com.google.guava:guava'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

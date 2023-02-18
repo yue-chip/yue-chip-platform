@@ -26,8 +26,9 @@ ext {
     oauth2AuthorizationServerVersion = '1.0.0'
     jakartaeeVersion = '10.0.0'
     mysqlConnectorJVersion = '8.0.31'
-    mariadbVersion= '3.1.2'
-    redissonVersion= '3.19.1'
+    mariadbVersion = '3.1.2'
+    redissonVersion = '3.19.1'
+    guavaVersion = '31.1-jre'
 }
 
 dependencies {
@@ -97,6 +98,7 @@ dependencies {
         api "jakarta.platform:jakarta.jakartaee-api:${jakartaeeVersion}"
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
+        api "com.google.guava:guava:${guavaVersion}"
     }
 }
 //configurations.all {
