@@ -14,4 +14,5 @@ dependencies {
     api 'org.apache.dubbo:dubbo-spring-boot-starter'
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.aspectj:aspectjrt'
+    implementation 'org.springframework.security:spring-security-oauth2-authorization-server'
 }

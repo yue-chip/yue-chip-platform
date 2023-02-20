@@ -10,6 +10,5 @@ public class ExtendDataUtil {
     public static void cleanThreadLocal(){
         CurrentUserUtil.cleanThreadLocal();
         ClientRemoteAddressUtil.cleanThreadLocal();
-        CurrentUserUtil.cleanThreadLocal();
     }
 }

@@ -1,7 +1,5 @@
 package com.yue.chip.dubbo.filter;
 
-import com.yue.chip.dubbo.util.ClientRemoteAddressUtil;
-import com.yue.chip.dubbo.util.CurrentUserUtil;
 import com.yue.chip.dubbo.util.ExtendDataUtil;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
@@ -12,7 +10,7 @@ import org.apache.dubbo.rpc.*;
  * @create: 2020-10-10 14:07
  **/
 @Activate
-public class ExtendDataProviderFiter implements Filter {
+public class ExtendDataProviderFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         ExtendDataUtil.setExtendData();

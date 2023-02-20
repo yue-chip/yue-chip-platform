@@ -1,5 +1,7 @@
 package com.yue.chip.authorization.password;
 
+import com.yue.chip.core.common.enums.ResultDataState;
+import com.yue.chip.security.YueChipUserDetails;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * @author Mr.Liu
@@ -47,7 +50,10 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-//        userDetailsService.loadUserByUsername("admin");
+        YueChipUserDetails yueChipUserDetails = (YueChipUserDetails) userDetailsService.loadUserByUsername("admin");
+        if (Objects.isNull(yueChipUserDetails)) {
+            throw new OAuth2AuthenticationException(new OAuth2Error(ResultDataState.ERROR.getDesc()),"该用户不存在");
+        }
 
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)

@@ -82,7 +82,7 @@ public class ResourceServerConfig {
                     response.setCharacterEncoding("UTF-8");
                     response.setStatus(HttpStatus.OK.value());
                     response.setContentType("application/json");
-                    ResultData resultData = ResultData.failed(ResultDataState.NO_PERMISSION.getKey(),"鉴权异常！请重新登陆/联系管理员");
+                    ResultData resultData = ResultData.failed(ResultDataState.NO_PERMISSION.getKey(),"鉴权失败！"+authException.getMessage());
                     PrintWriter printWriter = response.getWriter();
                     printWriter.println(yueChipObjectMapper.writeValueAsString(resultData));
                     printWriter.flush();
