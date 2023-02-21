@@ -27,9 +27,9 @@ public class CurrentUserUtil {
 
     private static volatile ICurrentUser iCurrentUser;
     private static final String NAME = "name";
-    private static final String TENANT_ID = "tenantId";
-    private static final String USER_ID = "userId";
-    private static final String ID = "id";
+    public static final String TENANT_ID = "tenantId";
+    public static final String USER_ID = "userId";
+    public static final String ID = "id";
     private static volatile RedisTemplate redisTemplate;
 
     public static Map<String,Object> getCurrentUser(){

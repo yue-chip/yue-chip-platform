@@ -1,3 +1,4 @@
 yueChipException=com.yue.chip.dubbo.filter.YueChipExceptionFilter
-extendDataConsumer=com.yue.chip.dubbo.filter.ExtendDataConsumerFiter
-extendDataProvider=com.yue.chip.dubbo.filter.ExtendDataProviderFiter
+extendDataConsumer=com.yue.chip.dubbo.filter.ExtendDataConsumerFilter
+extendDataProvider=com.yue.chip.dubbo.filter.ExtendDataProviderFilter
+yueChipAuthenticationPrepare=com.yue.chip.dubbo.filter.YueChipContextHolderAuthenticationPrepareFilter
