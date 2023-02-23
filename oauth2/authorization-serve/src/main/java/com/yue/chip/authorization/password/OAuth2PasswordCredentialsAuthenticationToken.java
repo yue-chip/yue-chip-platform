@@ -1,11 +1,16 @@
 package com.yue.chip.authorization.password;
 
+import jakarta.security.enterprise.identitystore.openid.RefreshToken;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2RefreshToken;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -18,14 +23,14 @@ public class OAuth2PasswordCredentialsAuthenticationToken extends AbstractAuthen
     @Getter
     private final Map<String, String> additionalParameters;
 
-    /**
-     * Creates a token with the supplied array of authorities.
-     *
-     * @param authorities the collection of <tt>GrantedAuthority</tt>s for the principal
-     *                    represented by this authentication object.
-     */
-    public OAuth2PasswordCredentialsAuthenticationToken(Authentication clientPrincipal,Map<String, String> additionalParameters,Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    private Object credentials;
+
+    private OAuth2AccessToken accessToken;
+    private OAuth2RefreshToken refreshToken;
+
+
+    public OAuth2PasswordCredentialsAuthenticationToken(Authentication clientPrincipal,Map<String, String> additionalParameters) {
+        super(Collections.EMPTY_LIST);
         this.clientPrincipal = clientPrincipal;
         this.additionalParameters = additionalParameters;
     }
@@ -39,4 +44,13 @@ public class OAuth2PasswordCredentialsAuthenticationToken extends AbstractAuthen
     public Object getPrincipal() {
         return clientPrincipal;
     }
+
+    public void setRefreshToken(OAuth2RefreshToken refreshToken){
+        this.refreshToken = refreshToken;
+    }
+
+    public void setAccessToken(OAuth2AccessToken accessToken){
+        this.accessToken = accessToken;
+    }
+
 }

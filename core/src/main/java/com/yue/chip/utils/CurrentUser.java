@@ -12,15 +12,12 @@ import java.util.Map;
  * @author: Mr.Liu
  * @create: 2020-02-20 20:03
  */
-@Component
-public class CurrentUser implements ICurrentUser {
+@Component("currentUser")
+public class CurrentUser {
 
     @DubboReference(cluster = DubboConstant.CLUSTER_FAILOVER, retries = DubboConstant.RETRIES)
     private ICurrentUser iCurrentUser;
 
-
-
-    @Override
     public Map<String, Object> findUserToMap(String username) {
         try {
             return iCurrentUser.findUserToMap(username);

@@ -15,7 +15,6 @@ public class AccessToken {
 
     private String access_token;
     private String refresh_token;
-    private String scope;
     private String toke_type;
     private long expires_in;
 }

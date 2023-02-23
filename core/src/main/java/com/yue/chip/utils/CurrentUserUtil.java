@@ -2,19 +2,20 @@ package com.yue.chip.utils;
 
 
 import com.yue.chip.constant.DubboConstant;
-import com.yue.chip.core.ICurrentUser;
 import com.yue.chip.exception.AuthorizationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.lang.module.FindException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ import java.util.Objects;
  */
 public class CurrentUserUtil {
 
-    private static volatile ICurrentUser iCurrentUser;
+    private static volatile CurrentUser currentUser;
     private static final String NAME = "name";
     public static final String TENANT_ID = "tenantId";
     public static final String USER_ID = "userId";
@@ -49,7 +50,7 @@ public class CurrentUserUtil {
             username = String.valueOf(rpcContext.getObjectAttachments().get(DubboConstant.USERNAME));
         }
         if(StringUtils.hasText(username)) {
-            user = getICurrentUser().findUserToMap(username);
+            user = getCurrentUserBean().findUserToMap(username);
         }
         if((Objects.isNull(user) || user.isEmpty() || user.size() ==0 || !user.containsKey("id")) && isMustLogin){
             AuthorizationException.throwException("登陆异常，请重新登陆");
@@ -117,10 +118,13 @@ public class CurrentUserUtil {
     private static String getUsername(){
         String username = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(Objects.nonNull(authentication)){
-            Object principal = authentication.getPrincipal();
-            if(Objects.nonNull(principal) && principal instanceof String){
-                username = String.valueOf(principal);
+        if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
+            Jwt principal = (Jwt) authentication.getPrincipal();
+            if (Objects.nonNull(principal)) {
+                Object obj = principal.getClaims().get(OAuth2ParameterNames.USERNAME);
+                if (Objects.nonNull(obj)) {
+                    username = (String) obj;
+                }
             }
         }
         return username;
@@ -170,18 +174,17 @@ public class CurrentUserUtil {
     }
 
     /**
-     *
      * @return
      */
-    private static ICurrentUser getICurrentUser(){
-        if(Objects.isNull(iCurrentUser)){
+    private static CurrentUser getCurrentUserBean(){
+        if(Objects.isNull(currentUser)){
             synchronized(CurrentUserUtil.class){
-                if(Objects.isNull(iCurrentUser)){
-                    iCurrentUser = (ICurrentUser) SpringContextUtil.getBean("currentUser");
+                if(Objects.isNull(currentUser)){
+                    currentUser = (CurrentUser) SpringContextUtil.getBean("currentUser");
                 }
             }
         }
-        return iCurrentUser;
+        return currentUser;
     }
 
     private static RedisTemplate getRedisTemplate(){

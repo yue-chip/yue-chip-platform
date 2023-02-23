@@ -59,13 +59,17 @@ public class ResultData<T> implements Serializable, IResultData<T> {
 	}
 
 	public static ResultData failed(String message){
-		return failed(ResultDataState.ERROR.getKey(),message);
+		return failed(ResultDataState.ERROR.getKey(),message,null);
+	}
+	public static ResultData failed(String message,String exceptionMessage){
+		return failed(ResultDataState.ERROR.getKey(),message,exceptionMessage);
 	}
 
-	public static ResultData failed(int state, String message){
+	public static ResultData failed(int state, String message,String exceptionMessage){
 		return ResultData.builder()
 				.status(state)
-				.exceptionMessage(message)
+				.message(message)
+				.exceptionMessage(exceptionMessage)
 				.build();
 	}
 
