@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: mysql-svc
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - image: 'mysql:latest'
+          name: mysql
+          args:
+            - '--lower_case_table_names=1'
+            - '--default_authentication_plugin=mysql_native_password'
+            - '--max_connections=1000'
+            - '--wait_timeout=300'
+            - '--interactive_timeout=300'
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: smartlinks@123$%^
+            - name: TZ
+              value: Asia/Shanghai
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-volumeclaim
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-volumeclaim
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: managed-nfs-storage
+        resources:
+          requests:
+            storage: 50Gi
