@@ -1,8 +1,6 @@
 package com.yue.chip.authorization.password;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.google.common.collect.Maps;
-import com.nimbusds.jose.jwk.source.JWKSource;
 import com.yue.chip.core.common.enums.ResultDataState;
 import com.yue.chip.security.YueChipUserDetails;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,11 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
-import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -25,7 +18,9 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
-import org.springframework.security.oauth2.server.authorization.token.*;
+import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
 import java.util.Collections;
 import java.util.Map;
