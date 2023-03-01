@@ -26,7 +26,7 @@ public class YueChipAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
         httpResponse.setStatusCode(HttpStatus.OK);
-        ResultData resultData = ResultData.failed(ResultDataState.NO_PERMISSION.getKey(),"鉴权失败！请重新登录",authException.getMessage());
+        ResultData resultData = ResultData.failed(ResultDataState.LOGIN_FAIL.getKey(),"鉴权失败！请重新登录",authException.getMessage());
         responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
     }
 }
