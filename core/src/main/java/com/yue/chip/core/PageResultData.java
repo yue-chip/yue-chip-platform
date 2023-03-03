@@ -11,6 +11,7 @@ import org.springframework.data.domain.*;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @description: 分页返回结果集
@@ -81,7 +82,11 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
     }
 
     public static IPageResultData<?> convert(Page page) {
-        return new PageResultData(page.getContent(),new YueChipPage(page.getPageable().getPageNumber(),page.getPageable().getPageSize()),page.getTotalElements());
+        return convert(page,null);
+    }
+
+    public static IPageResultData<?> convert(Page page,List<?> content) {
+        return new PageResultData(Objects.isNull(content)?page.getContent():content,new YueChipPage(page.getPageable().getPageNumber(),page.getPageable().getPageSize()),page.getTotalElements());
     }
 
 

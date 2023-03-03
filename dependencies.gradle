@@ -29,6 +29,7 @@ ext {
     mariadbVersion = '3.1.2'
     redissonVersion = '3.19.1'
     guavaVersion = '31.1-jre'
+    apmToolkitMicrometerVersion = '8.14.0'
 }
 
 dependencies {
@@ -60,6 +61,8 @@ dependencies {
         api "org.apache.dubbo:dubbo-registry-nacos:${dubboVersion}"
         api "org.apache.dubbo:dubbo-rpc-dubbo:${dubboVersion}"
         api "org.apache.dubbo:dubbo-rpc-triple:${dubboVersion}"
+        api "org.apache.dubbo:dubbo-metrics-api:${dubboVersion}"
+        api "org.apache.skywalking:apm-toolkit-micrometer-1.10:${apmToolkitMicrometerVersion}"
         api "com.alibaba.csp:sentinel-core:${sentinelVersion}"
         api "com.alibaba.csp:sentinel-parameter-flow-control:${sentinelVersion}"
         api "com.alibaba.csp:sentinel-datasource-extension:${sentinelVersion}"

@@ -40,7 +40,6 @@ public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -90000050L;
 
-    @NotNull(message="ID不能为空",groups= {Validator.Update.class, Validator.Delete.class})
     @Schema(description = "ID")
     private Long id;
 
@@ -64,7 +63,7 @@ public abstract class BaseEntity implements Serializable {
 
     private Long updateUserId;
 
-    @NotNull(message="版本号不能为空",groups= {Validator.Update.class})
+
     @Schema(description = "版本号（修改需要传version,新增不需要传）")
     @Builder.Default
     private Long version = 0L;
