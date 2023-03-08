@@ -28,8 +28,8 @@ public class CurrentUserUtil {
 
     private static volatile CurrentUser currentUser;
     private static final String NAME = "name";
-    public static final String TENANT_ID = "tenantId";
-    public static final String USER_ID = "userId";
+    public static final String TENANT_ID = "tenantId-";
+    public static final String USER_ID = "userId-";
     public static final String ID = "id";
     private static volatile RedisTemplate redisTemplate;
 
@@ -62,7 +62,7 @@ public class CurrentUserUtil {
         String username = getUsername();
         Object tenantId = null;
         if (StringUtils.hasText(username)) {
-            tenantId = getRedisTemplate().opsForValue().get(TENANT_ID + "-" + username);
+            tenantId = getRedisTemplate().opsForValue().get(TENANT_ID +  username);
             if (Objects.nonNull(tenantId)) {
                 return (Long) tenantId;
             }
@@ -71,8 +71,8 @@ public class CurrentUserUtil {
         }
         Map<String,Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
         if (Objects.nonNull(user) && user.containsKey(TENANT_ID) && Objects.nonNull(user.containsKey(TENANT_ID))) {
-            tenantId = user.get(TENANT_ID);
-            getRedisTemplate().opsForValue().set(TENANT_ID+"-"+username,(Long)tenantId);
+            tenantId = user.get("tenantId");
+            getRedisTemplate().opsForValue().set(TENANT_ID+username,(Long)tenantId);
             return (Long)tenantId;
         }
         return null;
@@ -142,7 +142,7 @@ public class CurrentUserUtil {
         String username = getUsername();
         Object userId = null;
         if (StringUtils.hasText(username)) {
-            userId = getRedisTemplate().opsForValue().get(USER_ID + "-" + username);
+            userId = getRedisTemplate().opsForValue().get(USER_ID +  username);
             if (Objects.nonNull(userId)) {
                 return (Long) userId;
             }
@@ -152,7 +152,7 @@ public class CurrentUserUtil {
         Map<String,Object> currentUser = getCurrentUser(isMustLogin);
         if(Objects.nonNull(currentUser) && currentUser.containsKey(ID)){
             userId = currentUser.get(ID);
-            getRedisTemplate().opsForValue().set(USER_ID+"-"+username,(Long)userId);
+            getRedisTemplate().opsForValue().set(USER_ID+username,(Long)userId);
             return (Long)userId;
         }
         return null;

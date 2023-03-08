@@ -15,4 +15,5 @@ dependencies {
     api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    api 'org.apache.skywalking:apm-toolkit-micrometer-1.10'
 }
