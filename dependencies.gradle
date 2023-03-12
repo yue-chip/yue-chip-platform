@@ -29,7 +29,8 @@ ext {
     mariadbVersion = '3.1.2'
     redissonVersion = '3.19.1'
     guavaVersion = '31.1-jre'
-    apmToolkitMicrometerVersion = '8.14.0'
+    skywalkingApmToolkitVersion = '8.14.0'
+
 }
 
 dependencies {
@@ -62,7 +63,9 @@ dependencies {
         api "org.apache.dubbo:dubbo-rpc-dubbo:${dubboVersion}"
         api "org.apache.dubbo:dubbo-rpc-triple:${dubboVersion}"
         api "org.apache.dubbo:dubbo-metrics-api:${dubboVersion}"
-        api "org.apache.skywalking:apm-toolkit-micrometer-1.10:${apmToolkitMicrometerVersion}"
+        api "org.apache.skywalking:apm-toolkit-micrometer-1.10:${skywalkingApmToolkitVersion}"
+        api "org.apache.skywalking:apm-toolkit-trace:${skywalkingApmToolkitVersion}"
+        api "org.apache.skywalking:apm-toolkit-logback-1.x:${skywalkingApmToolkitVersion}"
         api "com.alibaba.csp:sentinel-core:${sentinelVersion}"
         api "com.alibaba.csp:sentinel-parameter-flow-control:${sentinelVersion}"
         api "com.alibaba.csp:sentinel-datasource-extension:${sentinelVersion}"
@@ -102,6 +105,7 @@ dependencies {
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
         api "com.google.guava:guava:${guavaVersion}"
+
     }
 }
 //configurations.all {

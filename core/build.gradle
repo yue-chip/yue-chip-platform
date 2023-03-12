@@ -33,6 +33,8 @@ dependencies {
     api "org.mapstruct:mapstruct-jdk8"
     api "org.projectlombok:lombok"
     api "org.projectlombok:lombok-mapstruct-binding"
+    api "org.apache.skywalking:apm-toolkit-trace"
+    api "org.apache.skywalking:apm-toolkit-logback-1.x"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"

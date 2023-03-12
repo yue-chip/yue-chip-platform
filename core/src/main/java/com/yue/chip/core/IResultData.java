@@ -20,4 +20,6 @@ public interface IResultData<T> {
 
     @Schema(description = "返回的数据")
     public T getData();
+    @Schema(description = "链路/日志追踪id")
+    public String getTraceId();
 }
