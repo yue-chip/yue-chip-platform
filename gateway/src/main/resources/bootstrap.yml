@@ -6,7 +6,7 @@ spring:
   nacos:
     group: YUE-CHIP-GROUP
     host: 192.168.177.129:8848
-    namespace: cbce5ffe-31d2-4826-99ab-384241f16917
+    namespace: 0f535a7e-6ea7-4ee8-bd4f-abaf312650b3
   application:
     name: yue-chip-gateway
   cloud:

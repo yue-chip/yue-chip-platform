@@ -30,7 +30,6 @@ ext {
     redissonVersion = '3.19.1'
     guavaVersion = '31.1-jre'
     skywalkingApmToolkitVersion = '8.14.0'
-
 }
 
 dependencies {
