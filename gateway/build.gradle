@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'application'
+    id 'org.graalvm.buildtools.native' version "${nativeVersion}"
 }
 archivesBaseName = 'yue-chip-gateway'
 apply plugin: 'org.springframework.boot'
