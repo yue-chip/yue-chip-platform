@@ -5,7 +5,7 @@ ext {
     nacosVersion = '2.2.1-RC'
     springdocVserion= '2.0.2'
     seataVersion = '1.6.1'
-    dubboVersion = '3.2.0-beta.5'
+    dubboVersion = '3.2.0-beta.6'
     druidVersion = '1.2.15'
     rocketmqVersion = '2.2.2'
     knife4jVersion = '4.0.0'

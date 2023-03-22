@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'application'
-    id 'org.graalvm.buildtools.native' version "${nativeVersion}"
+//    id 'org.graalvm.buildtools.native' version "${nativeVersion}"
 }
 archivesBaseName = 'yue-chip-gateway'
 apply plugin: 'org.springframework.boot'
@@ -10,6 +10,21 @@ apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 bootJar {
     enabled true
 }
+//graalvmNative {
+//    binaries {
+//        main {
+//            verbose = true
+//            fallback = true
+//            buildArgs.add('-H:+ReportExceptionStackTraces')
+//            buildArgs.add('--no-fallback')
+//            buildArgs.add('--report-unsupported-elements-at-runtime')
+//            buildArgs.add('--allow-incomplete-classpath')
+//            buildArgs.add('--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger')
+//            buildArgs.add('--trace-class-initialization=org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger')
+//            buildArgs.add('--trace-object-instantiation=java.net.Inet4Address')
+//        }
+//    }
+//}
 dependencies{
     api platform(project(':dependencies'))
     api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
