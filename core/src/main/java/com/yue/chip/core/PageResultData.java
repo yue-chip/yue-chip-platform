@@ -25,7 +25,7 @@ import java.util.Objects;
 @EqualsAndHashCode(callSuper=false)
 @Schema()
 @Builder
-public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>, Serializable {
+public class PageResultData extends PageImpl implements IPageResultData, Serializable {
 
     private static final long serialVersionUID = 8078379219201834984L;
 
@@ -34,7 +34,7 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
     private String exceptionMessage;
     @Builder.Default
     private Integer status = ResultDataState.SUCCESS.getKey();
-    private T data;
+    private Object data;
     private String traceId;
 
     public String getTraceId() {
@@ -46,7 +46,7 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
     }
 
     @Deprecated
-    public PageResultData(String message, String exceptionMessage, Integer status,T data,String traceId) {
+    public PageResultData(String message, String exceptionMessage, Integer status,Object data,String traceId) {
         super(Collections.EMPTY_LIST, new YueChipPage(),10L);
         this.message = message;
         this.exceptionMessage = exceptionMessage;
@@ -64,11 +64,11 @@ public class PageResultData<T> extends PageImpl<T> implements IPageResultData<T>
     }
 
     @JsonGetter
-    public T getData() {
-        return (T) this.getContent();
+    public Object getData() {
+        return this.getContent();
     }
 
-    public PageResultData<T> setData(T data) {
+    public PageResultData setData(Object data) {
         this.data = data;
         return this;
     }

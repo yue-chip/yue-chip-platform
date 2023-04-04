@@ -24,7 +24,7 @@ import java.io.Serializable;
 @Data
 @Schema()
 @Builder
-public class ResultData<T> implements Serializable, IResultData<T> {
+public class ResultData implements Serializable, IResultData {
 
 	private static final long serialVersionUID = 981792735336739260L;
 
@@ -36,7 +36,7 @@ public class ResultData<T> implements Serializable, IResultData<T> {
 	@Builder.Default
 	private Integer status = ResultDataState.SUCCESS.getKey();
 
-	private T data;
+	private Object data;
 
 	private String traceId;
 
@@ -44,7 +44,7 @@ public class ResultData<T> implements Serializable, IResultData<T> {
 		return TraceContext.traceId();
 	}
 
-	public IResultData<T> setData(T data) {
+	public IResultData setData(Object data) {
 		this.data = data;
 		return this;
 	}
