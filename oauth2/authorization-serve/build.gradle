@@ -19,10 +19,10 @@ graalvmNative {
             buildArgs.add('--no-fallback')
             buildArgs.add('--report-unsupported-elements-at-runtime')
             buildArgs.add('--allow-incomplete-classpath')
-            buildArgs.add('--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger')
-            buildArgs.add('--initialize-at-run-time=java.net.Inet4Address')
-            buildArgs.add('--trace-class-initialization=org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger')
-//            buildArgs.add('--trace-object-instantiation=java.net.Inet4Address')
+            buildArgs.add('--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger,org.springframework.util.ConcurrentReferenceHashMap')
+            buildArgs.add('--initialize-at-run-time=java.net.Inet4Address,com.sun.jndi.dns.DnsClient,org.apache.commons.logging.LogAdapter')
+            buildArgs.add('--trace-class-initialization=org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger,org.apache.commons.logging.LogAdapter')
+            buildArgs.add('--trace-object-instantiation=org.springframework.util.ConcurrentReferenceHashMap')
         }
     }
 }
