@@ -1,6 +1,5 @@
 package com.yue.chip.aop.exception;
 
-import com.yue.chip.annotation.SystemLog;
 import com.yue.chip.exception.BusinessException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -38,31 +37,6 @@ public class RestulException {
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Object invokeResult = null;
         Object[] args = pjp.getArgs();
-        Signature signature = pjp.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-        SystemLog systemLog = method.getAnnotation(SystemLog.class);
-//        try {
-//            Arrays.stream(args).forEach(arg ->{
-//                if(arg instanceof BindingResult){
-//                    BindingResult bindingResult = (BindingResult) arg;
-//                    bindingResult.getFieldErrors().forEach(error ->{
-//                        BusinessException.throwException(error.getDefaultMessage());
-//                    });
-//                }
-//            });
-//            invokeResult = pjp.proceed();
-//        } catch (Throwable e) {
-////            if ((Objects.nonNull(systemLog) && systemLog.log()) || Objects.isNull(systemLog)) {
-////                SystemLogData systemLogData = SystemLogDataUtil.get();
-////                systemLogData.setIsException(true);
-////                StringWriter sw = new StringWriter();
-////                PrintWriter pw = new PrintWriter(sw);
-////                e.printStackTrace(pw);
-////                systemLogData.setException(sw.toString());
-////            }
-//            return ExceptionData.instance(e);
-//        }
         Arrays.stream(args).forEach(arg ->{
             if(arg instanceof BindingResult){
                 BindingResult bindingResult = (BindingResult) arg;

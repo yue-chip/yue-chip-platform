@@ -27,6 +27,8 @@ dependencies {
     compileOnly 'org.apache.commons:commons-lang3'
     compileOnly 'commons-dbutils:commons-dbutils'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
+    compileOnly 'com.querydsl:querydsl-jpa'
+    compileOnly 'com.querydsl:querydsl-apt'
     api 'cn.hutool:hutool-all'
     api "org.mapstruct:mapstruct"
     api "org.mapstruct:mapstruct-processor"

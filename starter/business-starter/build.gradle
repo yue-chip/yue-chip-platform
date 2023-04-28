@@ -24,5 +24,7 @@ dependencies {
     api 'commons-dbutils:commons-dbutils'
     api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     api 'com.github.jsqlparser:jsqlparser'
-//    api "org.redisson:redisson-spring-boot-starter"
+//    api 'com.querydsl:querydsl-jpa'
+//    api 'com.querydsl:querydsl-apt'
+    api "org.redisson:redisson-spring-boot-starter"
 }
