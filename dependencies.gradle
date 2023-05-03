@@ -1,14 +1,14 @@
 ext {
     aliyunSpringBootVersion = '1.0.0'
     springCloudAlibabaVersion = '2022.0.0.0-RC1'
-    springCloudVersion = '2022.0.1'
+    springCloudVersion = '2022.0.2'
     nacosVersion = '2.2.2'
-    springdocVserion= '2.0.2'
+    springdocVserion= '2.1.0'
     seataVersion = '1.6.1'
     dubboVersion = '3.2.0'
     druidVersion = '1.2.15'
     rocketmqVersion = '2.2.2'
-    knife4jVersion = '4.0.0'
+    knife4jVersion = '4.1.0'
     lombokMapstructBinding = '0.2.0'
     hutoolVserion = '5.8.10'
     commonsBeanutils = '1.9.4'
@@ -30,7 +30,8 @@ ext {
     redissonVersion = '3.20.1'
     guavaVersion = '31.1-jre'
     skywalkingApmToolkitVersion = '8.14.0'
-    querydslVserion = '5.0.0'
+    querydslVersion = '5.0.0'
+    multilevelCacheVersion = '3.0.0'
 }
 
 dependencies {
@@ -51,6 +52,7 @@ dependencies {
         api "org.springdoc:springdoc-openapi-starter-webflux-ui:${springdocVserion}"
         api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVserion}"
         api "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
+        api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter:${multilevelCacheVersion}"
 
         api "com.alibaba.nacos:nacos-api:${nacosVersion}"
         api "com.alibaba.nacos:nacos-client:${nacosVersion}"
@@ -105,8 +107,8 @@ dependencies {
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
         api "com.google.guava:guava:${guavaVersion}"
-        api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVserion}"
-        api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVserion}" ,classifier:'jakarta'
+        api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
+        api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVersion}" ,classifier:'jakarta'
     }
 }
 //configurations.all {
