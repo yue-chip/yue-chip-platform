@@ -12,7 +12,7 @@ mavenUsername=admin
 mavenPassword=smartlinks@123$%^
 ```
 
-#modify [gradle.properties](gradle.properties)  The address of Maven published to the private server does not need to be changed if it is not published to the private server
+#modify [gradle.properties](gradle.properties)  Maven is published to the address of the private server, and does not need to be changed if it is not published to the private server
 ```java 
 mavenRepository=http://192.168.8.213:32129/repository/maven-public/
 mavenSnapshots=http://192.168.8.213:32129/repository/maven-snapshots/
