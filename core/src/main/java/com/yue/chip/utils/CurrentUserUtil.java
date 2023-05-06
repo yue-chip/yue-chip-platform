@@ -63,17 +63,13 @@ public class CurrentUserUtil {
         Object tenantId = null;
         if (StringUtils.hasText(username)) {
             tenantId = getRedisTemplate().opsForValue().get(TENANT_ID +  username);
-            if (Objects.nonNull(tenantId)) {
-                return (Long) tenantId;
-            }
-        }else {
-            return null;
+            return toLong(tenantId);
         }
         Map<String,Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
         if (Objects.nonNull(user) && user.containsKey(TENANT_ID) && Objects.nonNull(user.containsKey(TENANT_ID))) {
             tenantId = user.get("tenantId");
             getRedisTemplate().opsForValue().set(TENANT_ID+username,(Long)tenantId);
-            return (Long)tenantId;
+            return toLong(tenantId);
         }
         return null;
     }
@@ -143,17 +139,13 @@ public class CurrentUserUtil {
         Object userId = null;
         if (StringUtils.hasText(username)) {
             userId = getRedisTemplate().opsForValue().get(USER_ID +  username);
-            if (Objects.nonNull(userId)) {
-                return (Long) userId;
-            }
-        }else {
-            return null;
+            return toLong(userId);
         }
         Map<String,Object> currentUser = getCurrentUser(isMustLogin);
         if(Objects.nonNull(currentUser) && currentUser.containsKey(ID)){
             userId = currentUser.get(ID);
             getRedisTemplate().opsForValue().set(USER_ID+username,(Long)userId);
-            return (Long)userId;
+            return toLong(userId);
         }
         return null;
     }
@@ -196,6 +188,17 @@ public class CurrentUserUtil {
             }
         }
         return redisTemplate;
+    }
+
+    private static Long toLong(Object number) {
+        if (Objects.nonNull(number)) {
+            if (number instanceof Integer) {
+                return ((Integer) number).longValue();
+            }else if (number instanceof Long) {
+                return (Long) number;
+            }
+        }
+        return null;
     }
 
 }
