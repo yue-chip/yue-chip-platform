@@ -1,18 +1,17 @@
 package com.yue.chip.gateway.component;
 
-import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 @Slf4j
 @Configuration

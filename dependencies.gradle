@@ -1,6 +1,6 @@
 ext {
     aliyunSpringBootVersion = '1.0.0'
-    springCloudAlibabaVersion = '2022.0.0.0-RC1'
+    springCloudAlibabaVersion = '2022.0.0.0-RC2'
     springCloudVersion = '2022.0.2'
     nacosVersion = '2.2.2'
     springdocVserion= '2.1.0'

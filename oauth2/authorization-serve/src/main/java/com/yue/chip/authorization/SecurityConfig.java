@@ -23,8 +23,9 @@ public class SecurityConfig {
                 .authenticationEntryPoint(
                         new LoginUrlAuthenticationEntryPoint("/login"))
         ).authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+        .sessionManagement(sessionManagementConfigurer -> {
+            sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        })
         .formLogin(Customizer.withDefaults());
         return http.build();
     }

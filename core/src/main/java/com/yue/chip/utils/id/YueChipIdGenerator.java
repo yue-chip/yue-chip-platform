@@ -1,6 +1,8 @@
 package com.yue.chip.utils.id;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.Assigned;
+import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.id.IdentityGenerator;
 
 import java.io.Serializable;
@@ -10,13 +12,13 @@ import java.io.Serializable;
  * @author: Mr.Liu
  * @create: 2020-01-04 10:44
  */
-public class YueChipIdGenerator extends IdentityGenerator {
+public class YueChipIdGenerator extends Assigned {
     @Override
     public Object generate(SharedSessionContractImplementor s, Object obj) {
         Object id = SnowflakeUtil.getId();
         if (id != null) {
             return (Serializable) id;
         }
-        return super.generate(s, obj);
+        return super.generate(s,obj);
     }
 }

@@ -1,6 +1,5 @@
 package com.yue.chip.resource;
 
-import com.yue.chip.resource.enums.Scope;
 import com.yue.chip.resource.properties.AuthorizationIgnoreProperties;
 import com.yue.chip.resource.properties.OauthClientScopeProperties;
 import jakarta.annotation.Resource;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +20,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -111,7 +108,9 @@ public class ResourceServerConfig {
                     }
                 }
             }, BearerTokenAuthenticationFilter.class)
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .sessionManagement(sessionManagementConfigurer -> {
+                sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            });
         SecurityFilterChain securityFilterChain = httpSecurity.build();
         List<Filter> filterList = securityFilterChain.getFilters();
         filterList.forEach(filter -> {

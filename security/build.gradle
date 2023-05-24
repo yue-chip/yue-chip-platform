@@ -1,0 +1,7 @@
+apply from: this.rootProject.file('javaLibrary.gradle')
+archivesBaseName = 'yue-chip-security'
+apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
+dependencies {
+    api platform(project(':dependencies'))
+    api 'org.springframework.boot:spring-boot-starter-security'
+}

@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 28/04/2023 10:35:39
+ Date: 24/05/2023 15:45:42
 */
 
 SET NAMES utf8mb4;
@@ -94,6 +94,7 @@ CREATE TABLE `oauth2_registered_client` (
   `scopes` varchar(1000) NOT NULL,
   `client_settings` varchar(2000) NOT NULL,
   `token_settings` varchar(2000) NOT NULL,
+  `post_logout_redirect_uris` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -101,7 +102,7 @@ CREATE TABLE `oauth2_registered_client` (
 -- Records of oauth2_registered_client
 -- ----------------------------
 BEGIN;
-INSERT INTO `oauth2_registered_client` (`id`, `client_id`, `client_id_issued_at`, `client_secret`, `client_secret_expires_at`, `client_name`, `client_authentication_methods`, `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`, `token_settings`) VALUES ('0741eeb8-d5c3-4bff-8cfa-019a9ce32615', 'yue-chip-client', '2023-01-02 01:38:45', '{noop}yue-chip-client', '2023-12-31 00:00:00', 'yue-chip', 'client_secret_post,client_secret_jwt,client_secret_basic', 'refresh_token,client_credentials,authorization_code,password', 'http://www.baidu.com/callback', 'write,update,delete,test', '{\"@class\":\"java.util.Collections$UnmodifiableMap\",\"settings.client.require-proof-key\":false,\"settings.client.require-authorization-consent\":true}', '{\"@class\":\"java.util.Collections$UnmodifiableMap\",\"settings.token.reuse-refresh-tokens\":true,\"settings.token.id-token-signature-algorithm\":[\"org.springframework.security.oauth2.jose.jws.SignatureAlgorithm\",\"RS256\"],\"settings.token.access-token-time-to-live\":[\"java.time.Duration\",1800.000000000],\"settings.token.access-token-format\":{\"@class\":\"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat\",\"value\":\"self-contained\"},\"settings.token.refresh-token-time-to-live\":[\"java.time.Duration\",86400.000000000],\"settings.token.authorization-code-time-to-live\":[\"java.time.Duration\",600.000000000]}');
+INSERT INTO `oauth2_registered_client` (`id`, `client_id`, `client_id_issued_at`, `client_secret`, `client_secret_expires_at`, `client_name`, `client_authentication_methods`, `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`, `token_settings`, `post_logout_redirect_uris`) VALUES ('0741eeb8-d5c3-4bff-8cfa-019a9ce32615', 'yue-chip-client', '2023-01-02 01:38:45', '{bcrypt}$2a$10$KKuAnpSY.n.WDXAq4YCp4.jSEC9IQkpDZTKIXYOuTUnPFap4ynUxW', '2023-12-31 00:00:00', 'yue-chip', 'client_secret_post,client_secret_jwt,client_secret_basic', 'refresh_token,client_credentials,password,authorization_code', 'http://www.baidu.com/callback', 'test,update,write,delete', '{\"@class\":\"java.util.Collections$UnmodifiableMap\",\"settings.client.require-proof-key\":false,\"settings.client.require-authorization-consent\":true}', '{\"@class\":\"java.util.Collections$UnmodifiableMap\",\"settings.token.reuse-refresh-tokens\":true,\"settings.token.id-token-signature-algorithm\":[\"org.springframework.security.oauth2.jose.jws.SignatureAlgorithm\",\"RS256\"],\"settings.token.access-token-time-to-live\":[\"java.time.Duration\",1800.000000000],\"settings.token.access-token-format\":{\"@class\":\"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat\",\"value\":\"self-contained\"},\"settings.token.refresh-token-time-to-live\":[\"java.time.Duration\",86400.000000000],\"settings.token.authorization-code-time-to-live\":[\"java.time.Duration\",600.000000000]}', '');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
