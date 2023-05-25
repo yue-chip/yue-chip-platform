@@ -1,1 +1,2 @@
-yue.chip.security.SecurityConfig
+com.yue.chip.security.AuthorizationIgnoreConfiguration
+com.yue.chip.security.SecurityConfig

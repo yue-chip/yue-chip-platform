@@ -1,4 +1,4 @@
-package com.yue.chip.resource.properties;
+package com.yue.chip.security.properties;
 
 import lombok.Data;
 

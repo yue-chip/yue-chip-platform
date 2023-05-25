@@ -2,6 +2,11 @@ apply from: this.rootProject.file('javaLibrary.gradle')
 archivesBaseName = 'yue-chip-security'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
-    api platform(project(':dependencies'))
+    api(project(':core'))
     api 'org.springframework.boot:spring-boot-starter-security'
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api "org.reflections:reflections"
+    api "jakarta.platform:jakarta.jakartaee-api"
+    api 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }

@@ -1,4 +1,4 @@
-package com.yue.chip.resource.enums;
+package com.yue.chip.security.enums;
 
 import com.yue.chip.core.AbstractEnumPersistence;
 import jakarta.persistence.AttributeConverter;

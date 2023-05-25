@@ -1,4 +1,4 @@
-package com.yue.chip.resource.enums;
+package com.yue.chip.security.enums;
 
 import cn.hutool.core.util.NumberUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,27 +9,25 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @description: 客户端权限
+ * @description: 客户端鉴权方式
  * @author: mr.liu
- * @create: 2020-10-03 14:18
+ * @create: 2020-10-03 14:22
  **/
-public enum Scope implements IEnum {
-
-    READ(0, "读"), WRITE(1, "写"),UPDATE(2,"更新"),DELETE(3,"删除");
+public enum GrantTypes implements IEnum {
+    AUTHORIZATION_CODE(0, "授权码模式"), PASSWORD(1, "密码模式"),CLIENT_CREDENTIALS(2,"客户端模式"),IMPLICIT(3,"简化模式"),REFRESH_TOKEN(4,"刷新TOKEN模式"),EXTENSION(5,"扩展模式");
 
     private final int key;
 
     private final String desc;
 
-    private Scope(int key, String desc) {
+    private GrantTypes(int key, String desc) {
         this.key = key;
         this.desc = desc;
     }
 
-
     @Override
     public String code() {
-        return "oauth2Scope";
+        return "oauth2GrantTypes";
     }
 
     @Override
@@ -57,7 +55,7 @@ public enum Scope implements IEnum {
     }
 
     @JsonCreator
-    public static Scope instance(Object value){
+    public static GrantTypes instance(Object value){
         if (Objects.isNull(value)){
             return null;
         }
@@ -67,8 +65,8 @@ public enum Scope implements IEnum {
         return instance(String.valueOf(value));
     }
 
-    private static Scope instance(Integer key){
-        for(Scope item : values()){
+    private static GrantTypes instance(Integer key){
+        for(GrantTypes item : values()){
             if (item.getKey()==key){
                 return item;
             }
@@ -76,12 +74,14 @@ public enum Scope implements IEnum {
         return null;
     }
 
-    private static Scope instance(String name){
-        for(Scope item : values()){
+    private static GrantTypes instance(String name){
+        for(GrantTypes item : values()){
             if(Objects.equals(item.getName(),name)){
                 return item;
             }
         }
         return null;
     }
+
+
 }
