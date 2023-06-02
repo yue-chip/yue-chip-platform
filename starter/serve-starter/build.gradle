@@ -3,7 +3,8 @@ archivesBaseName = 'yue-chip-serve-starter'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
-    api(project(':oauth2:resource-serve'))
+//    api(project(':oauth2:resource-serve'))
+//    api(project(':security'))
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.springframework.boot:spring-boot-starter-actuator'
     api 'org.springframework.boot:spring-boot-configuration-processor'
@@ -15,5 +16,4 @@ dependencies {
     api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
-    api 'org.apache.skywalking:apm-toolkit-micrometer-1.10'
 }

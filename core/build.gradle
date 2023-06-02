@@ -37,6 +37,7 @@ dependencies {
     api "org.projectlombok:lombok-mapstruct-binding"
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"
+    api 'org.apache.skywalking:apm-toolkit-micrometer-1.10'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"

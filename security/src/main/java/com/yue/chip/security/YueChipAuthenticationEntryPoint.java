@@ -1,4 +1,4 @@
-package com.yue.chip.resource;
+package com.yue.chip.security;
 
 import com.yue.chip.core.ResultData;
 import com.yue.chip.core.common.enums.ResultDataState;

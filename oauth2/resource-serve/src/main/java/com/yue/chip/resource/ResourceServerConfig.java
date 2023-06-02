@@ -1,5 +1,6 @@
 package com.yue.chip.resource;
 
+import com.yue.chip.security.YueChipAuthenticationEntryPoint;
 import jakarta.servlet.Filter;
 import jakarta.servlet.Servlet;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +30,7 @@ public class ResourceServerConfig extends AbstractSecurityConfig {
 
     @Value("${jwk.set.uri}")
     private String jwkSetUri;
-    private YueChipAuthenticationEntryPoint authenticationEntryPoint = new YueChipAuthenticationEntryPoint();
+
 
     public ResourceServerConfig() {
         setRemoveTonkeFilterBeforeClass(BearerTokenAuthenticationFilter.class);
@@ -40,9 +41,7 @@ public class ResourceServerConfig extends AbstractSecurityConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity = security(httpSecurity);
-        httpSecurity.exceptionHandling(exception -> {
-            exception.authenticationEntryPoint(authenticationEntryPoint);
-        }).oauth2ResourceServer(oauth2 -> {
+        httpSecurity.oauth2ResourceServer(oauth2 -> {
             oauth2.jwt(jwt -> jwt.decoder(NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build()));
         });
         SecurityFilterChain securityFilterChain = httpSecurity.build();
@@ -50,7 +49,7 @@ public class ResourceServerConfig extends AbstractSecurityConfig {
         filterList.forEach(filter -> {
             if (filter instanceof BearerTokenAuthenticationFilter) {
                 BearerTokenAuthenticationFilter bearerTokenAuthenticationFilter = (BearerTokenAuthenticationFilter) filter;
-                bearerTokenAuthenticationFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
+                bearerTokenAuthenticationFilter.setAuthenticationEntryPoint(new YueChipAuthenticationEntryPoint());
             }
         });
         return securityFilterChain;

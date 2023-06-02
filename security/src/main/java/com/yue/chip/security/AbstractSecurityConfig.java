@@ -34,6 +34,8 @@ public abstract class AbstractSecurityConfig {
     @Resource
     private OauthClientScopeProperties oauthClientScopeProperties;
 
+    private YueChipAuthenticationEntryPoint authenticationEntryPoint = new YueChipAuthenticationEntryPoint();
+
     protected HttpSecurity security(HttpSecurity httpSecurity) throws Exception {
         authorizationIgnoreProperties.getIgnoreUrl().add("/actuator/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/webjars/**");
@@ -44,6 +46,8 @@ public abstract class AbstractSecurityConfig {
         authorizationIgnoreProperties.getIgnoreUrl().add("/favicon.ico");
         httpSecurity.authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(authorizationIgnoreProperties.getIgnoreUrl().toArray(new String[]{})).permitAll();
+                }).exceptionHandling(exception -> {
+                    exception.authenticationEntryPoint(authenticationEntryPoint);
                 })
 //        .authorizeHttpRequests(authorize -> {
 //            authorize.requestMatchers(HttpMethod.GET).access(new WebExpressionAuthorizationManager("#oauth2.hasScope('"+ Scope.READ.getName().toLowerCase()+"')" ))
