@@ -17,12 +17,12 @@ public class JpaInterceptor implements ConfigurableObject {
 
     @PrePersist
     public void setTenantId(BaseEntity baseEntity) {
-        Long tenantId = CurrentUserUtil.getCurrentUserTenantId(false);
-        if (Objects.isNull(tenantId)) {
-            tenantId = 10000L;
-        }
-        if (Objects.nonNull(tenantId) ) {
-            baseEntity.setTenantId(tenantId);
-        }
+//        Long tenantId = CurrentUserUtil.getCurrentUserTenantId(false);
+//        if (Objects.isNull(tenantId)) {
+//            tenantId = 10000L;
+//        }
+//        if (Objects.nonNull(tenantId) ) {
+//            baseEntity.setTenantId(tenantId);
+//        }
     }
 }

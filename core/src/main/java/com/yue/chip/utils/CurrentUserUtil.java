@@ -3,9 +3,12 @@ package com.yue.chip.utils;
 
 import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.exception.AuthorizationException;
+import com.yue.chip.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -30,9 +33,12 @@ public class CurrentUserUtil {
 
     private static volatile CurrentUser currentUser;
     private static final String NAME = "name";
+    public static final String AUTHORITY = "authority-";
     public static final String TENANT_ID = "tenantId-";
     public static final String USER_ID = "userId-";
     public static final String ID = "id";
+    public static final String TOKEN_ID = "token-id";
+    public static final String TOKEN_USERNAME = "token-username-";
     private static volatile RedisTemplate redisTemplate;
 
     public static Map<String,Object> getCurrentUser(){
@@ -127,6 +133,11 @@ public class CurrentUserUtil {
                         throw new RuntimeException(e);
                     }
                 }
+            }
+        }else if (Objects.nonNull(authentication) && authentication instanceof AbstractAuthenticationToken) {
+            username = (String) authentication.getPrincipal();
+            if (!StringUtils.hasText(username)) {
+                BusinessException.throwException("登录异常");
             }
         }
         return username;

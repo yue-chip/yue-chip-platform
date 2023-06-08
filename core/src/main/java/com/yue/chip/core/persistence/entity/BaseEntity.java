@@ -64,21 +64,22 @@ public abstract class BaseEntity implements Serializable {
     private Long updateUserId;
 
 
-    @Schema(description = "版本号（修改需要传version,新增不需要传）")
-    @Builder.Default
-    private Long version = 0L;
+//    @Schema(description = "版本号（修改需要传version,新增不需要传）")
+//    @Builder.Default
+//    private Long version = 0L;
 
-    @Schema(description = "租户id")
-    @JsonIgnore
-    @Builder.Default
-    private Long tenantId = 10000L;
+//    @Schema(description = "租户id")
+//    @JsonIgnore
+//    @Builder.Default
+//    private Long tenantId = 10000L;
 
     public BaseEntity() {
     }
 
     @Id()
-    @GeneratedValue(generator = "snowFlakeId")
-    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
+//    @GeneratedValue(generator = "snowFlakeId")
+//    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -112,13 +113,13 @@ public abstract class BaseEntity implements Serializable {
         return updateUserId;
     }
 
-    @Version
-    public Long getVersion() {
-        return version;
-    }
-
-    @Column(updatable = false)
-    public Long getTenantId() {
-        return tenantId;
-    }
+//    @Version
+//    public Long getVersion() {
+//        return version;
+//    }
+//
+//    @Column(updatable = false)
+//    public Long getTenantId() {
+//        return tenantId;
+//    }
 }

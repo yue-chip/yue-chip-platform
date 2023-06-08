@@ -61,9 +61,9 @@ public class UpdateRepositoryImpl<T>  implements UpdateRepository<T> {
 	@Override
 	public void update(T entity) {
 		BaseEntity newEntity = (BaseEntity)entity;
-		if (Objects.isNull(newEntity.getVersion())){
-			BusinessException.throwException("该数据版本号不能为空");
-		}
+//		if (Objects.isNull(newEntity.getVersion())){
+//			BusinessException.throwException("该数据版本号不能为空");
+//		}
 		Serializable id = entityInformation.getId(entity);
 		Optional<T> optional = simpleJpaRepository.findById(id);
 		if (optional.isPresent()) {

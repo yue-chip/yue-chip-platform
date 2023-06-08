@@ -61,9 +61,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 
     @Override
     public void update(T entity) {
-        if (Objects.isNull(((BaseEntity)entity).getVersion())) {
-            BusinessException.throwException("版本号不能为空");
-        }
         baseDao.update(entity);
     }
 

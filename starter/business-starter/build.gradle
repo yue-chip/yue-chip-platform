@@ -12,6 +12,7 @@ dependencies {
     api ('io.seata:seata-spring-boot-starter') {
         exclude group: "com.alibaba", module: "druid"
         exclude group: "org.apache.dubbo", module: "dubbo"
+        exclude group: "com.alibaba", module: "fastjson"
     }
     api 'org.apache.dubbo:dubbo-spring-boot-starter'
     api "com.mysql:mysql-connector-j"

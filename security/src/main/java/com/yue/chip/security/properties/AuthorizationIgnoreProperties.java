@@ -14,8 +14,8 @@ import java.util.List;
  * @create: 2020-02-06 20:47
  */
 @Component
-@ConditionalOnExpression("!'${security.oauth2.ignore-url}'.isEmpty()")
-@ConfigurationProperties(prefix = "security.oauth2")
+@ConditionalOnExpression("!'${spring.security.ignore-url}'.isEmpty()")
+@ConfigurationProperties(prefix = "spring.security")
 @Data
 public class AuthorizationIgnoreProperties  {
 

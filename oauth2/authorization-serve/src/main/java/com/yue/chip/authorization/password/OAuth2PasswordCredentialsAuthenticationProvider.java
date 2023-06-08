@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.*;
@@ -58,8 +60,8 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        YueChipUserDetails yueChipUserDetails = (YueChipUserDetails) userDetailsService.loadUserByUsername(parameters.get(OAuth2ParameterNames.USERNAME));
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername(parameters.get(OAuth2ParameterNames.USERNAME));
+        YueChipUserDetails yueChipUserDetails = (YueChipUserDetails) userDetails;
         if (Objects.isNull(yueChipUserDetails)) {
             throw new OAuth2AuthenticationException(new OAuth2Error(ResultDataState.ERROR.getDesc()),"该用户不存在");
         }

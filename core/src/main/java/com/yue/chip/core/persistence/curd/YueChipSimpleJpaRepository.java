@@ -150,12 +150,12 @@ public abstract class YueChipSimpleJpaRepository<T extends BaseEntity> extends S
 	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public <S extends T> S save(S entity) {
 		BaseEntity baseEntity = (BaseEntity)entity;
-		if (Objects.isNull(baseEntity.getId())){
-			baseEntity.setId(SnowflakeUtil.getId());
-		}
-		if (this.entityInformation.isNew(entity)) {
-			baseEntity.setVersion(0L);
-		}
+//		if (Objects.isNull(baseEntity.getId())){
+//			baseEntity.setId(SnowflakeUtil.getId());
+//		}
+//		if (this.entityInformation.isNew(entity)) {
+//			baseEntity.setVersion(0L);
+//		}
 		return super.save(entity);
 	}
 }
