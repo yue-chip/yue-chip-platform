@@ -5,6 +5,7 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class AuthorityPermissionServiceImpl implements AuthorityPermission{
         String username = CurrentUserUtil.getCurrentUserUsername();
         Object obj = redisTemplate.opsForValue().get(CurrentUserUtil.AUTHORITY+username);
         if (Objects.nonNull(obj)) {
-            List<YueChipSimpleGrantedAuthority> list = (List<YueChipSimpleGrantedAuthority>) obj;
+            Collection<YueChipSimpleGrantedAuthority> list = (Collection<YueChipSimpleGrantedAuthority>) obj;
             for (String code : permissions) {
                 YueChipSimpleGrantedAuthority grantedAuthority = new YueChipSimpleGrantedAuthority();
                 grantedAuthority.setAuthority(code);

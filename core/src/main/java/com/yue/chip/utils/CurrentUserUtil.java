@@ -37,7 +37,7 @@ public class CurrentUserUtil {
     public static final String TENANT_ID = "tenantId-";
     public static final String USER_ID = "userId-";
     public static final String ID = "id";
-    public static final String TOKEN_ID = "token-id";
+    public static final String TOKEN_ID = "token-id-";
     public static final String TOKEN_USERNAME = "token-username-";
     private static volatile RedisTemplate redisTemplate;
 
