@@ -1,5 +1,6 @@
 package com.yue.chip.config;
 
+import com.yue.chip.annotation.YueChipDDDEntity;
 import com.yue.chip.utils.CurrentUserUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;

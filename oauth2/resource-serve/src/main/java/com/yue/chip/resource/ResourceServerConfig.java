@@ -1,6 +1,7 @@
 package com.yue.chip.resource;
 
 import com.yue.chip.security.YueChipAuthenticationEntryPoint;
+import com.yue.chip.security.filter.YueChipAuthenticationFilter;
 import jakarta.servlet.Filter;
 import jakarta.servlet.Servlet;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,6 +47,7 @@ public class ResourceServerConfig extends AbstractSecurityConfig {
         });
         SecurityFilterChain securityFilterChain = httpSecurity.build();
         List<Filter> filterList = securityFilterChain.getFilters();
+        filterList.remove(YueChipAuthenticationFilter.class);
         filterList.forEach(filter -> {
             if (filter instanceof BearerTokenAuthenticationFilter) {
                 BearerTokenAuthenticationFilter bearerTokenAuthenticationFilter = (BearerTokenAuthenticationFilter) filter;

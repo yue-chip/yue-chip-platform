@@ -9,7 +9,7 @@ compileJava {
 }
 dependencies {
     api platform(project(':dependencies'))
-    compileOnly 'org.reflections:reflections'
+    api 'org.reflections:reflections'
     compileOnly 'com.github.jsqlparser:jsqlparser'
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.springframework.cloud:spring-cloud-starter-loadbalancer'

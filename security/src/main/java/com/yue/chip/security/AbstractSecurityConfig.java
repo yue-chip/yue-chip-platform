@@ -1,5 +1,6 @@
 package com.yue.chip.security;
 
+import com.yue.chip.security.filter.YueChipAuthenticationFilter;
 import com.yue.chip.security.properties.OauthClientScopeProperties;
 import jakarta.annotation.Resource;
 import jakarta.servlet.*;
@@ -9,6 +10,9 @@ import lombok.Setter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.StringUtils;
 import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
@@ -46,6 +50,8 @@ public abstract class AbstractSecurityConfig {
         authorizationIgnoreProperties.getIgnoreUrl().add("/swagger-ui.html");
         authorizationIgnoreProperties.getIgnoreUrl().add("/doc.html");
         authorizationIgnoreProperties.getIgnoreUrl().add("/favicon.ico");
+        YueChipAuthenticationFilter yueChipAuthenticationFilter = new YueChipAuthenticationFilter();
+        yueChipAuthenticationFilter.setAuthorizationIgnoreProperties(authorizationIgnoreProperties);
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> {
                     httpSecurityCsrfConfigurer.disable();
                 }).cors(httpSecurityCorsConfigurer -> {
@@ -56,44 +62,45 @@ public abstract class AbstractSecurityConfig {
                 }).exceptionHandling(exception -> {
                     exception.authenticationEntryPoint(authenticationEntryPoint);
                 })
-//                .addFilterBefore(new Filter() {
-//                    @Override
-//                    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//                        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-//                        String uri = httpServletRequest.getRequestURI();
-//                        if (authorizationIgnoreProperties.getIgnoreUrl().contains("/**") || authorizationIgnoreProperties.getIgnoreUrl().contains(uri)){
-//                            //假装从header删除Authorization
-//                            HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper((HttpServletRequest) request) {
-//                                @Override
-//                                public String getHeader(String name) {
-//                                    if(StringUtils.hasText(name) && authorizationToken.equals(name.toLowerCase()) ){
-//                                        return null;
-//                                    }
-//                                    return super.getHeader(name);
-//                                }
-//                                @Override
-//                                public Enumeration<String> getHeaders(String name) {
-//                                    if(StringUtils.hasText(name) && authorizationToken.equals(name.toLowerCase()) ){
-//                                        return new Enumeration() {
-//                                            @Override
-//                                            public boolean hasMoreElements() {
-//                                                return false;
-//                                            }
-//                                            @Override
-//                                            public Object nextElement() {
-//                                                return null;
-//                                            }
-//                                        };
-//                                    }
-//                                    return super.getHeaders(name);
-//                                }
-//                            };
-//                            chain.doFilter(requestWrapper,response );
-//                        }else {
-//                            chain.doFilter(request, response);
-//                        }
-//                    }
-//                }, Objects.nonNull(removeTonkeFilterBeforeClass)? removeTonkeFilterBeforeClass : BasicAuthenticationFilter.class)
+                .addFilterBefore(new Filter() {
+                    @Override
+                    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+                        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+                        String uri = httpServletRequest.getRequestURI();
+                        if (authorizationIgnoreProperties.getIgnoreUrl().contains("/**") || authorizationIgnoreProperties.getIgnoreUrl().contains(uri)){
+                            //假装从header删除Authorization
+                            HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper((HttpServletRequest) request) {
+                                @Override
+                                public String getHeader(String name) {
+                                    if(StringUtils.hasText(name) && authorizationToken.equals(name.toLowerCase()) ){
+                                        return null;
+                                    }
+                                    return super.getHeader(name);
+                                }
+                                @Override
+                                public Enumeration<String> getHeaders(String name) {
+                                    if(StringUtils.hasText(name) && authorizationToken.equals(name.toLowerCase()) ){
+                                        return new Enumeration() {
+                                            @Override
+                                            public boolean hasMoreElements() {
+                                                return false;
+                                            }
+                                            @Override
+                                            public Object nextElement() {
+                                                return null;
+                                            }
+                                        };
+                                    }
+                                    return super.getHeaders(name);
+                                }
+                            };
+                            chain.doFilter(requestWrapper,response );
+                        }else {
+                            chain.doFilter(request, response);
+                        }
+                    }
+                }, Objects.nonNull(removeTonkeFilterBeforeClass)? removeTonkeFilterBeforeClass : AnonymousAuthenticationFilter.class)
+                .addFilterBefore(yueChipAuthenticationFilter, AuthorizationFilter.class)
                 .sessionManagement(sessionManagementConfigurer -> {
                     sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 });
