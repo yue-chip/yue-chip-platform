@@ -80,7 +80,7 @@ public class ExceptionData {
 //                    resultData.setStatus(ResultDataState.LOGIN_FAIL.getKey());
 //                }
 //            }else
-                if (e instanceof InsufficientAuthenticationException){
+            if (e instanceof InsufficientAuthenticationException){
                 resultData.setMessage("登陆异常，请重新登陆");
                 resultData.setStatus(ResultDataState.LOGIN_FAIL.getKey());
             }

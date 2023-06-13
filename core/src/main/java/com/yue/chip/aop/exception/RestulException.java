@@ -20,9 +20,10 @@ import java.util.Arrays;
  * 统一异常处理
  */
 
-@Aspect
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE+1)
+//@Aspect
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE+1)
+@Deprecated
 public class RestulException {
 
     private static Logger logger = LoggerFactory.getLogger(RestulException.class);
