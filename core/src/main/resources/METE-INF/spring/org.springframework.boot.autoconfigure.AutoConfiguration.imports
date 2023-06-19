@@ -14,3 +14,4 @@ com.yue.chip.config.SpringDocConfiguration
 com.yue.chip.config.RedisConfigurer
 com.yue.chip.core.persistence.JpaInterceptor
 com.yue.chip.config.DDDEntityScan
+com.yue.chip.config.LettuceConnectionValidConfig
