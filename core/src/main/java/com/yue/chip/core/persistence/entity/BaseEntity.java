@@ -43,9 +43,9 @@ public abstract class BaseEntity implements Serializable {
     @Schema(description = "ID")
     private Long id;
 
-    @JsonIgnore
-    @Builder.Default
-    private Delete isDelete = Delete.FALSE;
+//    @JsonIgnore
+//    @Builder.Default
+//    private Delete isDelete = Delete.FALSE;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -84,10 +84,10 @@ public abstract class BaseEntity implements Serializable {
         return id;
     }
 
-    @Convert(converter = Delete.DeleteConverter.class)
-    public Delete getIsDelete() {
-        return isDelete;
-    }
+//    @Convert(converter = Delete.DeleteConverter.class)
+//    public Delete getIsDelete() {
+//        return isDelete;
+//    }
 
     @CreatedDate
     @Column( updatable = false)
