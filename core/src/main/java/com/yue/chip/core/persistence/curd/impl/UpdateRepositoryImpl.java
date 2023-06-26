@@ -71,6 +71,7 @@ public class UpdateRepositoryImpl<T>  implements UpdateRepository<T> {
 			BeanUtil.copyProperties(newEntity, oldEntity, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
 			simpleJpaRepository.save((T) oldEntity);
 		}
+
 	}
 
 }

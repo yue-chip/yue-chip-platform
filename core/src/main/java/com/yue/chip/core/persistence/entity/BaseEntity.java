@@ -51,17 +51,17 @@ public abstract class BaseEntity implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "创建时间")
-    private LocalDateTime createDateTime;
+    private LocalDateTime createDateTime = LocalDateTime.MIN;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "最后修改时间")
-    private LocalDateTime updateDateTime;
+    private LocalDateTime updateDateTime = LocalDateTime.MIN;
 
-    private Long createUserId;
+    private Long createUserId = Long.MIN_VALUE;
 
-    private Long updateUserId;
+    private Long updateUserId = Long.MIN_VALUE;;
 
 
 //    @Schema(description = "版本号（修改需要传version,新增不需要传）")

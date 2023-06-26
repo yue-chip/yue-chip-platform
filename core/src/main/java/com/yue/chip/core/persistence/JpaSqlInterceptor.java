@@ -1,5 +1,6 @@
 package com.yue.chip.core.persistence;
 
+import com.yue.chip.utils.SqlOrderOptimizeUtil;
 import com.yue.chip.utils.TenantSqlUtil;
 import lombok.SneakyThrows;
 import org.hibernate.Interceptor;
@@ -10,11 +11,14 @@ import org.hibernate.resource.jdbc.spi.StatementInspector;
  * @author: mr.liu
  * @create: 2020-10-20 16:04
  **/
-public class JpaTenantInterceptor implements Interceptor,StatementInspector {
+public class JpaSqlInterceptor implements Interceptor,StatementInspector {
 
     @SneakyThrows
     @Override
     public String inspect( String sql) {
-        return TenantSqlUtil.sqlReplace(sql);
+//        sql = SqlWhereOptimizeUtil.sqlReplace(sql);
+//        sql = SqlOrderOptimizeUtil.sqlReplace(sql);
+        sql = TenantSqlUtil.sqlReplace(sql);
+        return sql;
     }
 }

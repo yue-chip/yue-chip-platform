@@ -2,11 +2,11 @@ package com.yue.chip.core.persistence.curd.impl;
 
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SelectRepository;
-import com.yue.chip.utils.SqlUtil;
+import com.yue.chip.utils.SqlOrderOptimizeUtil;
+import com.yue.chip.utils.SqlWhereOptimizeUtil;
 import com.yue.chip.utils.TenantSqlUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import net.sf.jsqlparser.JSQLParserException;
 import org.hibernate.query.sql.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.springframework.data.domain.Page;
@@ -100,7 +100,7 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 
 	/**
 	 * 分页查询
-	 * 
+	 *
 	 * @param pageable
 	 * @param jpql
 	 * @param searchParameter
@@ -130,7 +130,7 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 
 	/**
 	 * 查询总行数
-	 * 
+	 *
 	 * @param jpql
 	 * @param searchParameter
 	 * @return
@@ -141,6 +141,7 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 		if (jpql.indexOf("from")>-1){
 			jpql = " select count(*) " + jpqlTmp.substring(jpql.indexOf("from"));
 		}
+		jpql = SqlOrderOptimizeUtil.sqlReplace(jpql);
 		return getCountByJql(jpql,searchParameter);
 	}
 
@@ -154,21 +155,14 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 	}
 
 	private Long getCountByJql(String jpql,Map<String, Object> searchParameter) {
-		Query query = entityManager.createQuery(replace(jpql));
+		Query query = entityManager.createQuery(jpql);
 		return getCount(query,searchParameter);
 	}
 
 	private String replace(String sqlOrJpql) {
-		try {
-			sqlOrJpql = TenantSqlUtil.sqlReplace(sqlOrJpql);
-		} catch (JSQLParserException e) {
-			throw new RuntimeException(e);
-		}
-		try {
-			sqlOrJpql = SqlUtil.sqlReplaceOrderBy(sqlOrJpql);
-		} catch (JSQLParserException e) {
-			throw new RuntimeException(e);
-		}
+//		sqlOrJpql = SqlWhereOptimizeUtil.sqlReplace(sqlOrJpql);
+		sqlOrJpql = SqlOrderOptimizeUtil.sqlReplace(sqlOrJpql);
+		sqlOrJpql = TenantSqlUtil.sqlReplace(sqlOrJpql);
 		return sqlOrJpql;
 	}
 

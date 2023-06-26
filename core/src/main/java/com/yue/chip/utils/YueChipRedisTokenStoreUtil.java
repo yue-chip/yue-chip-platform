@@ -26,7 +26,11 @@ public class YueChipRedisTokenStoreUtil {
         if (Objects.isNull(userId)) {
             Object obj =  getRedisTemplate().opsForValue().get(CurrentUserUtil.USER_ID+username);
             if (Objects.nonNull(obj)) {
-                userId = (Long)obj;
+                if (obj instanceof Integer) {
+                    userId = ((Integer) obj).longValue();
+                }else if (obj instanceof Long) {
+                    userId = (Long)obj;
+                }
             }
         }
         getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_ID+token,userId,30, TimeUnit.MINUTES);
