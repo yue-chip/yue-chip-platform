@@ -80,6 +80,7 @@ public abstract class BaseEntity implements Serializable {
 //    @GeneratedValue(generator = "snowFlakeId")
 //    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column( updatable = false, columnDefinition = "bigint COMMENT 'id'")
     public Long getId() {
         return id;
     }
@@ -90,25 +91,25 @@ public abstract class BaseEntity implements Serializable {
 //    }
 
     @CreatedDate
-    @Column( updatable = false)
+    @Column( updatable = false, columnDefinition = "datetime(6) DEFAULT NOW() COMMENT '创建时间'")
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }
 
     @LastModifiedDate
-    @Column(insertable = false)
+    @Column(insertable = false, columnDefinition = "datetime(6) COMMENT '修改时间'")
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
     @CreatedBy
-    @Column( updatable = false, columnDefinition = "bigint NOT NULL DEFAULT -9223372036854775808 COMMENT '创建人'")
+    @Column( updatable = false, columnDefinition = "bigint DEFAULT -9223372036854775808 COMMENT '创建人'")
     public Long getCreateUserId() {
         return createUserId;
     }
 
     @LastModifiedBy
-    @Column(insertable = false, columnDefinition = "bigint NOT NULL DEFAULT -9223372036854775808 COMMENT '修改人'")
+    @Column(insertable = false, columnDefinition = "bigint DEFAULT -9223372036854775808 COMMENT '修改人'")
     public Long getUpdateUserId() {
         return updateUserId;
     }
