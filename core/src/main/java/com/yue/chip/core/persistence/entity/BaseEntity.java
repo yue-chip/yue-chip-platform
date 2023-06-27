@@ -102,13 +102,13 @@ public abstract class BaseEntity implements Serializable {
     }
 
     @CreatedBy
-    @Column( updatable = false)
+    @Column( updatable = false, columnDefinition = "bigint NOT NULL DEFAULT -9223372036854775808 COMMENT '创建人'")
     public Long getCreateUserId() {
         return createUserId;
     }
 
     @LastModifiedBy
-    @Column(insertable = false)
+    @Column(insertable = false, columnDefinition = "bigint NOT NULL DEFAULT -9223372036854775808 COMMENT '修改人'")
     public Long getUpdateUserId() {
         return updateUserId;
     }
@@ -122,4 +122,5 @@ public abstract class BaseEntity implements Serializable {
 //    public Long getTenantId() {
 //        return tenantId;
 //    }
+
 }
