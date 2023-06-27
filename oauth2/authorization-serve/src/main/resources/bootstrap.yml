@@ -9,7 +9,7 @@ spring:
     host: 192.168.177.129:8848
     namespace: cbce5ffe-31d2-4826-99ab-384241f16917
   application:
-    name: yue-chip-oauth2-authorization-serve
+    name: oauth2-authorization
   cloud:
     nacos:
       config:
@@ -18,43 +18,15 @@ spring:
         namespace: ${spring.nacos.namespace}
         group: ${spring.nacos.group}
         extension-configs:
-          - data-id: yue-chip-common.${spring.cloud.nacos.config.file-extension}
+          - data-id: common.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-          - data-id: yue-chip-datasource-common.${spring.cloud.nacos.config.file-extension}
+          - data-id: datasource.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-          - data-id: yue-chip-redis-common.${spring.cloud.nacos.config.file-extension}
+          - data-id: redis.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-          - data-id: yue-chip-dubbo-common.${spring.cloud.nacos.config.file-extension}
+          - data-id: dubbo.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-#security:
-#  user:
-#    name: user
-#    password: password
-#    role: USER
-
-#  http://localhost:8081/oauth2/authorize?response_type=code&client_id=console 授权端点
-#  http://console:console@127.0.0.1:8081/oauth2/token?code=eqE1OE&grant_type=authorization_code  令牌端点
-#  /oauth/confirm_access    用户批准授权的端点
-#  /oauth/error    用于渲染授权服务器的错误
-#  /oauth/check_token    资源服务器解码access token
-#  /oauth/check_token    当使用JWT的时候，暴露公钥的端点
-
-#  OAuth2.0错误响应中的错误码定义如下表所示：
-#  错误码(error) 	错误编号(error_code) 	错误描述(error_description)
-#  redirect_uri_mismatch 	21322 	重定向地址不匹配
-#  invalid_request 	21323 	请求不合法
-#  invalid_client 	21324 	client_id或client_secret参数无效
-#  invalid_grant 	21325 	提供的Access Grant是无效的、过期的或已撤销的
-#  unauthorized_client 	21326 	客户端没有权限
-#  expired_token 	21327 	token过期
-#  unsupported_grant_type 	21328 	不支持的 GrantType
-#  unsupported_response_type 	21329 	不支持的 ResponseType
-#  access_denied 	21330 	用户或授权服务器拒绝授予数据访问权限
-#  temporarily_unavailable 	21331 	服务暂时无法访问
-
-#http://localhost:8080/oauth2/authorize?response_type=code&client_id=messaging-client&redirect_uri=http://www.baidu.com/callback&scope=message.read
-

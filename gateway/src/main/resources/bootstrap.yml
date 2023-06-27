@@ -8,7 +8,7 @@ spring:
     host: 192.168.177.129:8848
     namespace: cbce5ffe-31d2-4826-99ab-384241f16917
   application:
-    name: yue-chip-gateway
+    name: gateway
   cloud:
     nacos:
       config:
@@ -17,13 +17,6 @@ spring:
         namespace: ${spring.nacos.namespace}
         group: ${spring.nacos.group}
         extension-configs:
-          - data-id: yue-chip-common.${spring.cloud.nacos.config.file-extension}
+          - data-id: common.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
-#
-#springdoc:
-#  swagger-ui:
-#    use-root-path: true
-#    urls:
-#      - name: upms
-#        url: /yue-chip-upms-serve/v3/api-docs
