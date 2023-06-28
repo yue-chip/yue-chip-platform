@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @date 2022/04/15 下午6:20
  */
 public class SqlOrderOptimizeUtil {
-    private static final String ORDER_BY = "(((order){1}|(ORDER){1})\\s*{1,}.*)";
+//    private static final String ORDER_BY = "(((order){1}|(ORDER){1})\\s*{1,}.*)";
 
     public static String sqlReplace(String sql) {
         //性能慢屏蔽

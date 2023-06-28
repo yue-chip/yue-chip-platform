@@ -17,11 +17,13 @@ import java.util.regex.Pattern;
  * @description
  * @date 2022/04/15 下午6:20
  */
+//加多祖户字段  数据库会租户字段在B树结构里不够分散  导致索引失效，数据量多的时候性能会慢  不建议使用，
+// 建议分表/分库，可采用ShardingSphere进行透明代理 根据租户字段把sql分发到不同库/表
 public class TenantSqlUtil {
 
-    private static final String WHERE_TENANT_ID = "tenant_id = ";
+//    private static final String WHERE_TENANT_ID = "tenant_id = ";
 
-    private static final String PATTERN_TENANT = "(((tenant_id){1}|(TENANT_ID){1})\\s*\\={1}\\s*\\?{1})";
+//    private static final String PATTERN_TENANT = "(((tenant_id){1}|(TENANT_ID){1})\\s*\\={1}\\s*\\?{1})";
 
     public static String sqlReplace(String sql) {
         //性能慢屏蔽
@@ -44,7 +46,7 @@ public class TenantSqlUtil {
 //        }
 
         Long tenantId = CurrentUserUtil.getCurrentUserTenantId();
-        sql.replace("#tenant_id#",String.valueOf(tenantId));
+        sql.replace("#tenant_id#"," " + String.valueOf(tenantId) + " ");
         return sql;
     }
 

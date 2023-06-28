@@ -3,7 +3,6 @@ package com.yue.chip.core.persistence.curd.impl;
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SelectRepository;
 import com.yue.chip.utils.SqlOrderOptimizeUtil;
-import com.yue.chip.utils.SqlWhereOptimizeUtil;
 import com.yue.chip.utils.TenantSqlUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
