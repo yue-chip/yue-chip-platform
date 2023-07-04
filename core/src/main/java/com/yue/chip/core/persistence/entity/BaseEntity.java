@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
 @Data
 @SuperBuilder
 @EntityListeners({AuditingEntityListener.class, JpaInterceptor.class})
-@JsonIgnoreProperties(ignoreUnknown = true,value = {"isDelete","createUserId","updateUserId","tenantId"})
+@JsonIgnoreProperties(ignoreUnknown = true,value = {"createDateTime","updateDateTime","createUserId","updateUserId"})
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -90000050L;
@@ -90,13 +90,13 @@ public abstract class BaseEntity implements Serializable {
 //    }
 
     @CreatedDate
-    @Column( updatable = false, columnDefinition = "datetime DEFAULT NOW() COMMENT '创建时间'")
+    @Column(name = "create_date_time", updatable = false, columnDefinition = "datetime DEFAULT NOW() COMMENT '创建时间'")
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }
 
     @LastModifiedDate
-    @Column(insertable = false, columnDefinition = "datetime COMMENT '修改时间'")
+    @Column(name = "update_date_time",insertable = false, columnDefinition = "datetime COMMENT '修改时间'")
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }

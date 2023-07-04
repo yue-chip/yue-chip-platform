@@ -11,10 +11,16 @@ bootJar {
     enabled true
 }
 //graalvmNative {
+//    toolchainDetection = true
+//    testSupport = false
 //    binaries {
 //        main {
 //            verbose = true
 //            fallback = true
+//            javaLauncher = javaToolchains.launcherFor {
+//                languageVersion = JavaLanguageVersion.of(17)
+//                vendor = JvmVendorSpec.matching("Oracle Corporation")
+//            }
 //            buildArgs.add('-H:+ReportExceptionStackTraces')
 //            buildArgs.add('--no-fallback')
 //            buildArgs.add('--report-unsupported-elements-at-runtime')
