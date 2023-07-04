@@ -7,8 +7,6 @@ import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.select.Select;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Mr.Liu
@@ -37,10 +35,21 @@ public class SqlOrderOptimizeUtil {
 //        } catch (JSQLParserException e) {
 //            throw new RuntimeException(e);
 //        }
+        try {
+            Statements statements = CCJSqlParserUtil.parseStatements(sql);
+            List<Statement> list = statements.getStatements();
+            for (Statement statement : list) {
+                if (statement instanceof Select) {
+                    int index = sql.toLowerCase().lastIndexOf("order");
+                    if (index>-1) {
+                        sql = sql.substring(0,index);
+                    }
+                    return sql;
+                }
+            }
 
-        int index = sql.toLowerCase().lastIndexOf("order");
-        if (index>-1) {
-            sql = sql.substring(0,index);
+        } catch (JSQLParserException e) {
+            throw new RuntimeException(e);
         }
         return sql;
     }

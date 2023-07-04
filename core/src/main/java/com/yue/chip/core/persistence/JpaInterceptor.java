@@ -1,18 +1,11 @@
 package com.yue.chip.core.persistence;
 
 import com.yue.chip.core.persistence.entity.BaseEntity;
-import com.yue.chip.utils.CurrentUserUtil;
 import jakarta.persistence.PrePersist;
-import org.springframework.beans.factory.annotation.Configurable;
+import org.hibernate.Interceptor;
 import org.springframework.beans.factory.aspectj.ConfigurableObject;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.util.StringUtils;
 
-import java.util.Objects;
-
-@Configurable
-public class JpaInterceptor implements ConfigurableObject {
+public class JpaInterceptor implements  Interceptor, ConfigurableObject {
 
 
     @PrePersist
@@ -25,4 +18,5 @@ public class JpaInterceptor implements ConfigurableObject {
 //            baseEntity.setTenantId(tenantId);
 //        }
     }
+
 }

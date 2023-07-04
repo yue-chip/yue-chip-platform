@@ -1,22 +1,17 @@
 package com.yue.chip.core.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.yue.chip.core.common.enums.Delete;
 import com.yue.chip.core.persistence.JpaInterceptor;
-import com.yue.chip.core.persistence.Validator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -77,9 +72,9 @@ public abstract class BaseEntity implements Serializable {
     }
 
     @Id()
-//    @GeneratedValue(generator = "snowFlakeId")
-//    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(generator = "snowFlakeId")
+    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
+//    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -122,5 +117,4 @@ public abstract class BaseEntity implements Serializable {
 //    public Long getTenantId() {
 //        return tenantId;
 //    }
-
 }

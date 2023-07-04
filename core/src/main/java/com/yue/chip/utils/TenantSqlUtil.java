@@ -7,9 +7,6 @@ import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.select.Select;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Mr.Liu
@@ -44,9 +41,20 @@ public class TenantSqlUtil {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        try {
+            Statements statements = CCJSqlParserUtil.parseStatements(sql);
+            List<Statement> list = statements.getStatements();
+            for (Statement statement : list) {
+                if (statement instanceof Select) {
+                    Long tenantId = CurrentUserUtil.getCurrentUserTenantId();
+                    sql.replace("#tenant_id#"," " + String.valueOf(tenantId) + " ");
+                    return sql;
+                }
+            }
 
-        Long tenantId = CurrentUserUtil.getCurrentUserTenantId();
-        sql.replace("#tenant_id#"," " + String.valueOf(tenantId) + " ");
+        } catch (JSQLParserException e) {
+            throw new RuntimeException(e);
+        }
         return sql;
     }
 
