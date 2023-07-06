@@ -14,6 +14,7 @@ import java.util.Objects;
  * @description: 是否删除标识（逻辑删除）
  * @date 2020/8/14上午9:43
  */
+@Deprecated(since = "逻辑删除，删除字段的索引会失效导致全表扫描")
 public enum Delete implements IEnum {
 
     FALSE(0, "未删除"), TRUE(1, "已删除");
