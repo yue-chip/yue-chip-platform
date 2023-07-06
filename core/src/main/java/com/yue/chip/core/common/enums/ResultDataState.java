@@ -1,5 +1,6 @@
 package com.yue.chip.core.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.yue.chip.core.IEnum;
 
 import java.util.HashMap;
@@ -24,15 +25,23 @@ public enum ResultDataState implements IEnum {
 
     private final String desc;
 
+    public static final String code = "delete";
+
+    public static final String version = "1";
+
     ResultDataState(int key, String desc) {
 
         this.key = key;
         this.desc = desc;
     }
 
-    @Override
-    public String code() {
-        return "commonResultDataState";
+    @JsonValue
+    public Map<String, Object> jsonValue() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("key", getKey());
+        map.put("desc", getDesc());
+        map.put("name", getName());
+        return map;
     }
 
     @Override
@@ -49,16 +58,4 @@ public enum ResultDataState implements IEnum {
     public String getDesc() {
         return desc;
     }
-
-    public Map<String, Object> jsonValue() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("key", key);
-        map.put("desc", getDesc());
-        map.put("name", getName());
-        return map;
-    }
-
-
-
-
 }

@@ -1,9 +1,13 @@
 package com.yue.chip.utils;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yue.chip.core.IEnum;
+import com.yue.chip.core.common.enums.EnumPersistenceBean;
 import org.reflections.Reflections;
+import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -20,35 +24,52 @@ public class EnumUtil {
      * @param packageName
      * @return
      */
-    public static Map<String, Object> getAllEnumsInPackage(String packageName) {
+    public static List<EnumPersistenceBean> getAllEnumsInPackage(String packageName) {
         Reflections reflections = new Reflections(packageName);
         Set<Class<? extends IEnum>> allClasses = reflections.getSubTypesOf(IEnum.class);
         Map<String, Object> result = new HashMap<String, Object>();
+        List<EnumPersistenceBean> returnList = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
         allClasses.forEach(t -> {
             try {
                 List<String> list = new ArrayList<String>();
-                Method method = t.getMethod("values");
-                IEnum inter[] = (IEnum[]) method.invoke(null);
-                for (IEnum ienum : inter) {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("key", ienum.getKey());
-                    map.put("desc", ienum.getDesc());
-                    map.put("name", ienum.getName());
-                    list.add(objectMapper.writeValueAsString(map));
+                Field fieldCode = ReflectUtil.getField(t,"code");
+                Field fieldVersion = ReflectUtil.getField(t,"version");
+                String code = "";
+                String version = "";
+                if (Objects.nonNull(fieldCode)) {
+                    code = (String) fieldCode.get(t);
                 }
-//                String code = ((IEnum)t).code();
-//                result.put(ienum.code(),list);
+                if (Objects.nonNull(fieldVersion)) {
+                    version = (String) fieldVersion.get(t);
+                }
+                if (StringUtils.hasText(code) && StringUtils.hasText(version)) {
+                    IEnum inter[] = (IEnum[]) t.getMethod("values").invoke(null);
+                    for (IEnum ienum : inter) {
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put("key", ienum.getKey());
+                        map.put("desc", ienum.getDesc());
+                        map.put("name", ienum.getName());
+                        list.add(objectMapper.writeValueAsString(map));
+                    }
+                    returnList.add(EnumPersistenceBean.builder()
+                            .value(objectMapper.writeValueAsString(list))
+                            .version(version)
+                            .code(code)
+                            .build());
+                }
             }catch (Exception exception){
 
             }
         });
-        return result;
+        return returnList;
     }
 
     public static void main(String[] args) {
-        EnumUtil.getAllEnumsInPackage("com.lion.core.common.enums")
-                .forEach((k, v) -> System.out.println(k + "=" + v));
-        Reflections reflections = new Reflections("com.lion.core.common.enums");
+        EnumUtil.getAllEnumsInPackage("com.yue.chip.core.common.enums")
+                .forEach(enumPersistenceBean -> {
+                    System.out.println(enumPersistenceBean);
+                });
+//        Reflections reflections = new Reflections("com.yue.chip.core.common.enums");
     }
 }

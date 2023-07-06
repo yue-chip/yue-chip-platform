@@ -1,7 +1,13 @@
 package com.yue.chip.core;
 
+import cn.hutool.core.util.NumberUtil;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.yue.chip.core.common.enums.Delete;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -11,21 +17,12 @@ import java.util.UUID;
  */
 public interface IEnum {
 
-	default String code(){
-		return UUID.randomUUID().toString();
-	}
-
-	default String dataVersion(){
-		return "1";
-	}
-
 	Integer getKey();
 
 	String getName();
 
 	String getDesc();
 
-	@JsonValue
-	Object jsonValue();
+	public Map<String, Object> jsonValue();
 
 }

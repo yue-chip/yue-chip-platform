@@ -20,14 +20,13 @@ public enum State implements IEnum {
 
     private final String desc;
 
+    public static  final String code = "state";
+
+    public static final String version = "1";
+
     private State(int key, String desc) {
         this.key = key;
         this.desc = desc;
-    }
-
-    @Override
-    public String code() {
-        return "commonState";
     }
 
     @Override

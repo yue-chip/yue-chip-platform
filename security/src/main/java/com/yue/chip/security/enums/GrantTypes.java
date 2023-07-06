@@ -20,14 +20,13 @@ public enum GrantTypes implements IEnum {
 
     private final String desc;
 
+    public static String code = "grantTypes";
+
+    public static String version = "1";
+
     private GrantTypes(int key, String desc) {
         this.key = key;
         this.desc = desc;
-    }
-
-    @Override
-    public String code() {
-        return "oauth2GrantTypes";
     }
 
     @Override

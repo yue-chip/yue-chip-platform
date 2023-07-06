@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -30,7 +31,7 @@ public class EntityAuditorConfiguration  {
         public Optional<Long> getCurrentAuditor() {
 //            Map<String,Object> user = CurrentUserUtil.getCurrentUser(false);
             Long userId = CurrentUserUtil.getCurrentUserId(false);
-            return Optional.ofNullable(userId);
+            return Optional.ofNullable(Objects.isNull(userId)?Long.MIN_VALUE:userId);
         }
     }
 }

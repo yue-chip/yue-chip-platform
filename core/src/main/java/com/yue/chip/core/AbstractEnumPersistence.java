@@ -2,6 +2,7 @@ package com.yue.chip.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yue.chip.config.RestTemplateConfiguration;
+import com.yue.chip.core.common.enums.EnumPersistenceBean;
 import com.yue.chip.utils.EnumUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,15 +25,12 @@ import java.util.Map;
  */
 public abstract class AbstractEnumPersistence implements CommandLineRunner {
 
-    @Value("${yue-chip.enums.persistence.url:http://yue-chip-common-serve}")
+    @Value("${yue-chip.enums.persistence.url:http://common}")
     private String LB_URL ;
 
     @Autowired
     @Qualifier(RestTemplateConfiguration.REST_TAMPLATE_LOAD_BALANCED_BEAN_NAME)
     private RestTemplate restTemplate;
-
-    @Value("${spring.application.name:''}")
-    private String springApplicationName;
 
     private String packageName;
 
@@ -46,22 +44,14 @@ public abstract class AbstractEnumPersistence implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
-            Map<String, Object> map = EnumUtil.getAllEnumsInPackage(this.packageName);
-            List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-            map.forEach((k, v) ->{
-                Map<String, String> temp = new HashMap<String, String>();
-                temp.put("code",k);
-                temp.put("value",String.valueOf(v));
-
-                list.add(temp);
-            });
+            List<EnumPersistenceBean> list = EnumUtil.getAllEnumsInPackage(this.packageName);
             if (list.size() == 0){
                 return;
             }
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(list),headers);
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             ResponseEntity response = restTemplate.postForEntity(LB_URL+"/enum/persistence", request, Object.class);
         }catch (Exception exception){
             exception.printStackTrace();

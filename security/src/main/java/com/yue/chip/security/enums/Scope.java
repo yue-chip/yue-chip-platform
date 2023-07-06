@@ -21,15 +21,13 @@ public enum Scope implements IEnum {
 
     private final String desc;
 
+    public static String code = "oauth2Scope";
+
+    public static String version = "1";
+
     private Scope(int key, String desc) {
         this.key = key;
         this.desc = desc;
-    }
-
-
-    @Override
-    public String code() {
-        return "oauth2Scope";
     }
 
     @Override

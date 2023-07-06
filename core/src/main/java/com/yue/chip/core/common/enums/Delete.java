@@ -2,6 +2,7 @@ package com.yue.chip.core.common.enums;
 
 import cn.hutool.core.util.NumberUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.yue.chip.core.IEnum;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,14 +22,13 @@ public enum Delete implements IEnum {
 
     private final String desc;
 
+    public static final String code = "delete";
+
+    public static final String version = "1";
+
     private Delete(int key, String desc) {
         this.key = key;
         this.desc = desc;
-    }
-
-    @Override
-    public String code() {
-        return "commonDelete";
     }
 
     @Override
@@ -44,15 +44,6 @@ public enum Delete implements IEnum {
     @Override
     public String getDesc(){
         return desc;
-    }
-
-    @Override
-    public Map<String, Object> jsonValue() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("key", key);
-        map.put("desc", desc);
-        map.put("name", getName());
-        return map;
     }
 
     @JsonCreator
@@ -84,6 +75,14 @@ public enum Delete implements IEnum {
         return null;
     }
 
+    @JsonValue
+    public Map<String, Object> jsonValue() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("key", getKey());
+        map.put("desc", getDesc());
+        map.put("name", getName());
+        return map;
+    }
 
 
     public static class DeleteConverter extends EnumConverter<Delete,Integer> {
