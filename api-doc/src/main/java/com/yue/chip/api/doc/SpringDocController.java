@@ -35,8 +35,6 @@ public class SpringDocController {
         for (ServiceInstance serviceInstance : serviceInstances) {
             String swagger_enable = serviceInstance.getMetadata().get(SpringDocAggregation.SWAGGER_ENABLE);
             if (StringUtils.hasText(swagger_enable) && Objects.equals("true", swagger_enable.toLowerCase())) {
-                HttpHeaders headers = new HttpHeaders();
-                headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
                 String response = restTemplate.getForObject("http://"+serviceInstance.getHost()+":"+serviceInstance.getPort()+"/v3/api-docs", String.class);
                 return response;
             }
