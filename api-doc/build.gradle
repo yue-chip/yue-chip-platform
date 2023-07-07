@@ -21,10 +21,8 @@ dependencies{
     api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
         exclude group: "org.springframework.cloud", module: "spring-cloud-starter-netflix-ribbon"
     }
-    api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+//    api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
-
-    api 'org.reflections:reflections'
 }
 
 

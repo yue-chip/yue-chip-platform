@@ -12,3 +12,4 @@ com.yue.chip.config.DDDEntityScan
 com.yue.chip.config.LettuceConnectionValidConfig
 com.yue.chip.config.WebConfig
 com.yue.chip.config.SpringDocConfiguration
+com.yue.chip.config.EnumConverter

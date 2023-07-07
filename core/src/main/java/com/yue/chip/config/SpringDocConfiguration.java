@@ -3,6 +3,7 @@ package com.yue.chip.config;
 import com.yue.chip.core.YueChipPage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Paths;
 import lombok.Data;
 import org.springdoc.core.utils.SpringDocUtils;
 import org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration;

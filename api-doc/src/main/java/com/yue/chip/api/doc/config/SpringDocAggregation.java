@@ -1,63 +1,54 @@
 package com.yue.chip.api.doc.config;
 
-import com.alibaba.nacos.api.annotation.NacosInjected;
-import com.alibaba.nacos.api.naming.NamingService;
-import com.alibaba.nacos.api.naming.pojo.Instance;
+import jakarta.annotation.Resource;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 public class SpringDocAggregation implements CommandLineRunner {
-    public static final String API_URI = "/%s/v3/api-docs";
+    public static final String API_URI = "/docs";
 
-    private final String SWAGGER_ENABLE = "swagger_enable";
-    private final String RESOURCE_NAME = "resource_name";
+    public static final String SWAGGER_ENABLE = "swagger_enable";
+    public static final String RESOURCE_NAME = "resource_name";
 
-//    @NacosInjected
-//    NamingService namingService;
+    @Resource
+    private SwaggerUiConfigProperties configProperties;
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     @Override
     public void run(String... args) throws Exception {
-//        List<Instance> allInstances = namingService.getAllInstances("");
-//        allInstances.forEach(all->{
-//            System.err.println(all.getIp());    //ip
-//            System.err.println(all.getPort());  //端口
-//        });
+        getDocApi();
     }
 
-
-//    private final SwaggerUiConfigProperties configProperties;
-//
-//    private RouteLocator routeLocator;
-//
-//    public SpringDocAggregation(SwaggerUiConfigProperties configProperties, RouteLocator routeLocator) {
-//        this.configProperties = configProperties;
-//        this.routeLocator = routeLocator;
-//    }
-//
-//    @Scheduled(fixedDelay = 5)
-//    public void apis() {
-//        Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
-//        routeLocator.getRoutes()
-//            .filter(route -> route.getUri().getHost() != null)
-//            .filter(route -> Objects.equals(route.getUri().getScheme(), "lb"))
-//            .subscribe(route -> {
-//                Map<String, Object> metadata = route.getMetadata();
-//                if (metadata.containsKey(SWAGGER_ENABLE) && Objects.equals(metadata.get(SWAGGER_ENABLE),"true")) {
-//                    AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
-//                    swaggerUrl.setName(String.valueOf(metadata.get(RESOURCE_NAME)));
-//                    swaggerUrl.setUrl(String.format(API_URI, route.getUri().getHost()));
-//                    urls.add(swaggerUrl);
-//                }
-//            });
-//        configProperties.setUrls(urls);
-//    }
+    @Scheduled(cron = "0/5 * * * * ?")
+    public void getDocApi(){
+        Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
+        List<String> list = discoveryClient.getServices();
+        list.forEach(s -> {
+            List<ServiceInstance> serviceInstances =discoveryClient.getInstances(s);
+            serviceInstances.forEach(instance -> {
+                String swagger_enable = instance.getMetadata().get(SWAGGER_ENABLE);
+                if (StringUtils.hasText(swagger_enable) && Objects.equals("true",swagger_enable.toLowerCase())) {
+                    AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+                    swaggerUrl.setName(String.valueOf(instance.getMetadata().get(RESOURCE_NAME)));
+//                    swaggerUrl.setUrl("http://"+ instance.getHost()+":"+instance.getPort()+API_URI);
+                    swaggerUrl.setUrl("/"+s+API_URI);
+                    urls.add(swaggerUrl);
+                }
+            });
+        });
+        configProperties.setUrls(urls);
+    }
 }
