@@ -1,0 +1,31 @@
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'application'
+}
+archivesBaseName = 'yue-chip-api-doc'
+apply plugin: 'org.springframework.boot'
+apply from: this.rootProject.file('javaLibrary.gradle')
+apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
+bootJar {
+    enabled true
+}
+dependencies{
+    api platform(project(':dependencies'))
+    api project(':core')
+    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    api 'org.springframework.boot:spring-boot-starter-actuator'
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-netflix-ribbon"
+    }
+    api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+    api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
+
+    api 'org.reflections:reflections'
+}
+
+
+

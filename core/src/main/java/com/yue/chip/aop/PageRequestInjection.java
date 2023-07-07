@@ -27,7 +27,7 @@ import java.util.Objects;
  */
 @Aspect
 @Component
-@ConditionalOnClass(Servlet.class)
+@ConditionalOnClass({Servlet.class,Aspect.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class PageRequestInjection {
 

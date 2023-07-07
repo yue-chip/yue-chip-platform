@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 

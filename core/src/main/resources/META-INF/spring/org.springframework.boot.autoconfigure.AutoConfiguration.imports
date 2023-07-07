@@ -7,8 +7,8 @@ com.yue.chip.config.ValidationConfig
 com.yue.chip.config.ModelMapperConfiguration
 com.yue.chip.config.JPAQueryFactoryConfiguration
 com.yue.chip.config.MongoConfiguration
-com.yue.chip.config.SpringDocConfiguration
 com.yue.chip.config.RedisConfigurer
-com.yue.chip.core.persistence.JpaInterceptor
 com.yue.chip.config.DDDEntityScan
 com.yue.chip.config.LettuceConnectionValidConfig
+com.yue.chip.config.WebConfig
+com.yue.chip.config.SpringDocConfiguration

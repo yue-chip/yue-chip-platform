@@ -2,7 +2,11 @@ package com.yue.chip.security;
 
 import com.yue.chip.utils.CurrentUserUtil;
 import jakarta.annotation.Resource;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -13,7 +17,8 @@ import java.util.Objects;
  * @author Mr.Liu
  * @date 2023/6/7 下午3:29
  */
-@Service("aps")
+@Component("aps")
+@ConditionalOnClass({SecurityConfig.class, SecurityAutoConfiguration.class})
 public class AuthorityPermissionServiceImpl implements AuthorityPermission{
 
     @Resource

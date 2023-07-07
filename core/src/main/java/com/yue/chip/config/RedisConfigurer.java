@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
+import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -24,7 +25,7 @@ import java.time.Duration;
  * @date 2023/5/4 上午11:17
  */
 @Configuration
-@ConditionalOnClass( {RestTemplate.class} )
+@ConditionalOnClass( {RedisTemplate.class, RedisConnectionFactory.class} )
 public class RedisConfigurer {
     @Bean
     @Primary

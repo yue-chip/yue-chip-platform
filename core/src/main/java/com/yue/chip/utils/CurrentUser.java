@@ -3,6 +3,8 @@ package com.yue.chip.utils;
 import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.core.ICurrentUser;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -13,6 +15,7 @@ import java.util.Map;
  * @create: 2020-02-20 20:03
  */
 @Component("currentUser")
+@ConditionalOnClass({DubboComponentScan.class})
 public class CurrentUser {
 
     @DubboReference(cluster = DubboConstant.CLUSTER_FAILOVER, retries = DubboConstant.RETRIES)

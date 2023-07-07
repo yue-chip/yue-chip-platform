@@ -1,0 +1,23 @@
+server:
+  port: 8089
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  nacos:
+    group: YUE-CHIP-GROUP
+    host: 192.168.177.129:8848
+    namespace: cbce5ffe-31d2-4826-99ab-384241f16917
+  application:
+    name: api-doc
+  cloud:
+    nacos:
+      config:
+        server-addr: ${spring.nacos.host}
+        file-extension: yaml
+        namespace: ${spring.nacos.namespace}
+        group: ${spring.nacos.group}
+        extension-configs:
+      discovery:
+        server-addr: ${spring.nacos.host}
+        namespace: ${spring.nacos.namespace}
+        group: ${spring.nacos.group}
