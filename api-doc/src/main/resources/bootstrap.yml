@@ -21,14 +21,3 @@ spring:
         server-addr: ${spring.nacos.host}
         namespace: ${spring.nacos.namespace}
         group: ${spring.nacos.group}
-knife4j:
-  enable-aggregation: true
-  nacos:
-    enable: true
-    service-url: http://192.168.177.129:8848/nacos/
-    routes:
-      - name: upms
-        service-name: upms
-        group-name: ${spring.nacos.namespace}
-        namespace-id: ${spring.nacos.group}
-        location: /v3/api-docs

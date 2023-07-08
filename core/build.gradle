@@ -21,7 +21,7 @@ dependencies {
     compileOnly 'commons-beanutils:commons-beanutils'
     compileOnly 'com.alibaba.csp:sentinel-apache-dubbo-adapter'
     compileOnly 'com.alibaba.csp:sentinel-web-servlet'
-    compileOnly 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+    compileOnly 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     compileOnly 'io.minio:minio'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compileOnly 'org.apache.commons:commons-lang3'

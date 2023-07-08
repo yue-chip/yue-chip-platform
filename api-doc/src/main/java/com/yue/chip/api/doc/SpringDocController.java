@@ -1,5 +1,8 @@
 package com.yue.chip.api.doc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yue.chip.api.doc.config.SpringDocAggregation;
 import jakarta.annotation.Resource;
 import org.springframework.cloud.client.ServiceInstance;
@@ -30,12 +33,13 @@ public class SpringDocController {
     private RestTemplate restTemplate;
 
     @GetMapping("/{instanceName}/docs")
-    public String doc(@PathVariable String instanceName){
+    public String doc(@PathVariable String instanceName) {
         List<ServiceInstance> serviceInstances =discoveryClient.getInstances(instanceName);
         for (ServiceInstance serviceInstance : serviceInstances) {
-            String swagger_enable = serviceInstance.getMetadata().get(SpringDocAggregation.SWAGGER_ENABLE);
-            if (StringUtils.hasText(swagger_enable) && Objects.equals("true", swagger_enable.toLowerCase())) {
+            String swaggerEnable = serviceInstance.getMetadata().get(SpringDocAggregation.SWAGGER_ENABLE);
+            if (StringUtils.hasText(swaggerEnable) && Objects.equals("true", swaggerEnable.toLowerCase())) {
                 String response = restTemplate.getForObject("http://"+serviceInstance.getHost()+":"+serviceInstance.getPort()+"/v3/api-docs", String.class);
+                response = response.replaceAll("\"\\/","\"/"+instanceName+"/");
                 return response;
             }
         }

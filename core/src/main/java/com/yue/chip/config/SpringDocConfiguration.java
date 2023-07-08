@@ -3,11 +3,11 @@ package com.yue.chip.config;
 import com.yue.chip.core.YueChipPage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.SpecVersion;
 import lombok.Data;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springdoc.core.utils.SpringDocUtils;
-import org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration;
-import org.springdoc.webmvc.ui.SwaggerWebMvcConfigurer;
+import org.springdoc.webmvc.core.fn.SpringdocRouteBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -20,11 +20,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @ConditionalOnMissingClass({"org.springframework.cloud.gateway.config.GatewayAutoConfiguration"})
 @ConditionalOnWebApplication
-@ConditionalOnClass({WebMvcConfigurer.class, PageRequest.class, WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter.class, SwaggerWebMvcConfigurer.class})
+@ConditionalOnClass({WebMvcConfigurer.class, PageRequest.class, WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter.class, SwaggerUiConfigProperties.class})
 public class SpringDocConfiguration {
     @Bean
     public OpenAPI springOpenAPI() {
         OpenAPI openAPI = new OpenAPI();
+        openAPI.setSpecVersion(SpecVersion.V31);
         SpringDocUtils.getConfig().replaceWithClass(YueChipPage.class, Page.class);
         return openAPI;
     }
