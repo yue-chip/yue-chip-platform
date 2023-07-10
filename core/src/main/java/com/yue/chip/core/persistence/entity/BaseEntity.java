@@ -72,9 +72,9 @@ public abstract class BaseEntity implements Serializable {
     }
 
     @Id()
-    @GeneratedValue(generator = "snowFlakeId")
-    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
+//    @GeneratedValue(generator = "snowFlakeId")
+//    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
