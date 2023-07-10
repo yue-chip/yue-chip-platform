@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yue.chip.core.IEnum;
 import com.yue.chip.core.common.enums.EnumPersistenceBean;
+import com.yue.chip.core.common.enums.EnumValueBean;
 import org.reflections.Reflections;
 import org.springframework.util.StringUtils;
 
@@ -32,7 +33,7 @@ public class EnumUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         allClasses.forEach(t -> {
             try {
-                List<String> list = new ArrayList<String>();
+                List<EnumValueBean> list = new ArrayList<EnumValueBean>();
                 Field fieldCode = ReflectUtil.getField(t,"code");
                 Field fieldVersion = ReflectUtil.getField(t,"version");
                 String code = "";
@@ -46,11 +47,12 @@ public class EnumUtil {
                 if (StringUtils.hasText(code) && StringUtils.hasText(version)) {
                     IEnum inter[] = (IEnum[]) t.getMethod("values").invoke(null);
                     for (IEnum ienum : inter) {
-                        Map<String, Object> map = new HashMap<String, Object>();
-                        map.put("key", ienum.getKey());
-                        map.put("desc", ienum.getDesc());
-                        map.put("name", ienum.getName());
-                        list.add(objectMapper.writeValueAsString(map));
+                        EnumValueBean enumValueBean = EnumValueBean.builder()
+                                .key(ienum.getKey())
+                                .name(ienum.getName())
+                                .desc(ienum.getDesc())
+                                .build();
+                        list.add(enumValueBean);
                     }
                     returnList.add(EnumPersistenceBean.builder()
                             .value(objectMapper.writeValueAsString(list))
