@@ -11,7 +11,7 @@ DDD microservices architecture built with gradle
 upms工程->[frontend]的 [registerGateway.js]）
 
 # yue-chip-platform
-[core code] git clone https://github.com/yue-chip/yue-chip-common-business-module  
+[common-business-module code] git clone https://github.com/yue-chip/yue-chip-common-business-module  
 [frontend code]  --- git clone https://github.com/yue-chip/yue-chip-frontend
 
 # 修改 [gradle.properties](gradle.properties) 中的 maven 发布到私服的地址  不发布到私服不需要改
