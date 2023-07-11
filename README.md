@@ -7,8 +7,8 @@ DDD microservices architecture built with gradle
 # yue-chip-platform
 请拉取DDD的具体实现业务 https://github.com/yue-chip/yue-chip-common-business-module
 前端代码 https://github.com/yue-chip/yue-chip-frontend
-前端代码（前端模块代码与为微服务接口一一对应拆分 具体实现逻辑在yue-chip-frontend仓库下的gateway项目以及本项目
-upms工程->[frontend](upms%2Ffrontend)的 [registerGateway.js](upms%2Ffrontend%2FregisterGateway.js)）
+前端代码（前端模块代码与为微服务接口一一对应拆分 具体实现逻辑在yue-chip-frontend仓库下的gateway项目以及 https://github.com/yue-chip/yue-chip-common-business-module 仓库下面的
+upms工程->[frontend]的 [registerGateway.js]）
 
 # yue-chip-platform
 git pull https://github.com/yue-chip/yue-chip-common-business-module
