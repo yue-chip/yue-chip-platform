@@ -58,7 +58,6 @@ public abstract class BaseEntity implements Serializable {
 
     private Long updateUserId;
 
-
 //    @Schema(description = "版本号（修改需要传version,新增不需要传）")
 //    @Builder.Default
 //    private Long version = 0L;

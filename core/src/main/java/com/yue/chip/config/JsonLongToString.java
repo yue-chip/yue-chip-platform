@@ -28,7 +28,8 @@ public class JsonLongToString {
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         Jackson2ObjectMapperBuilderCustomizer customizer = jacksonObjectMapperBuilder ->
                 jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance)
-                        .serializerByType(Long.TYPE, ToStringSerializer.instance);
+                        .serializerByType(Long.TYPE, ToStringSerializer.instance)
+                ;
         return customizer;
     }
 }

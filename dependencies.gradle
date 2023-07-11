@@ -32,6 +32,10 @@ ext {
     skywalkingApmToolkitVersion = '8.14.0'
     querydslVersion = '5.0.0'
     multilevelCacheVersion = '3.0.0'
+    jmockdataVersion = '4.3.0'
+    mockitoVserion = '5.2.0'
+    javafakerVserion = '1.0.2'
+    podamVersion = '7.2.11.RELEASE'
 }
 
 dependencies {
@@ -55,6 +59,11 @@ dependencies {
         api "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
         api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter:${multilevelCacheVersion}"
 
+        api "uk.co.jemos.podam:podam:${podamVersion}"
+        api "com.github.javafaker:javafaker:${javafakerVserion}"
+        api "org.mockito:mockito-inline:${mockitoVserion}"
+        api "org.mockito:mockito-core:${mockitoVserion}"
+        api "com.github.jsonzou:jmockdata:${jmockdataVersion}"
         api "com.alibaba.nacos:nacos-api:${nacosVersion}"
         api "com.alibaba.nacos:nacos-client:${nacosVersion}"
         api "com.alibaba.nacos:nacos-common:${nacosVersion}"

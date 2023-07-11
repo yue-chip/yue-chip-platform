@@ -13,6 +13,11 @@ dependencies {
     api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
         exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-netflix-ribbon'
     }
+//    api "com.github.jsonzou:jmockdata"
+    api "uk.co.jemos.podam:podam"
+//    api "org.mockito:mockito-inline"
+//    api "org.mockito:mockito-core"
+//    api ('com.github.javafaker:javafaker') { exclude group: 'org.yaml'}
     api 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
 }

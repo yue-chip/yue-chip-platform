@@ -44,6 +44,7 @@ public abstract class AbstractEnumPersistence implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
+            Thread.sleep(2000);
             List<EnumPersistenceBean> list = EnumUtil.getAllEnumsInPackage(this.packageName);
             if (list.size() == 0){
                 return;
@@ -51,7 +52,6 @@ public abstract class AbstractEnumPersistence implements CommandLineRunner {
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(list),headers);
-            Thread.sleep(2000);
             ResponseEntity response = restTemplate.postForEntity(LB_URL+"/enum/persistence", request, Object.class);
         }catch (Exception exception){
             exception.printStackTrace();

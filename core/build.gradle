@@ -29,6 +29,7 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
     compileOnly 'com.querydsl:querydsl-jpa'
     compileOnly 'com.querydsl:querydsl-apt'
+    compileOnly "uk.co.jemos.podam:podam"
     api 'cn.hutool:hutool-all'
     api "org.mapstruct:mapstruct"
     api "org.mapstruct:mapstruct-processor"

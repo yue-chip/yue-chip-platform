@@ -65,6 +65,9 @@ public class PageResultData extends PageImpl implements IPageResultData, Seriali
 
     @JsonGetter
     public Object getData() {
+        if (Objects.nonNull(data)) {
+            return this.data;
+        }
         return this.getContent();
     }
 

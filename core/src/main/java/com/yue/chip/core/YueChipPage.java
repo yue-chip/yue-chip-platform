@@ -13,7 +13,7 @@ public class YueChipPage extends PageRequest  {
     private static final long serialVersionUID = -4541509938956089563L;
 
     public YueChipPage() {
-        this(1,30, Sort.unsorted());
+        this(0,30, Sort.unsorted());
     }
     public YueChipPage(int page, int size, Sort sort){
         super(page,size,sort);
