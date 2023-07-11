@@ -4,6 +4,12 @@
 # yue-chip-platform
 DDD microservices architecture built with gradle
 
+# yue-chip-platform
+请拉取DDD的具体实现业务 https://github.com/yue-chip/yue-chip-common-business-module
+
+# yue-chip-platform
+git pull https://github.com/yue-chip/yue-chip-common-business-module
+
 # 修改 [gradle.properties](gradle.properties) 中的 maven 发布到私服的地址  不发布到私服不需要改
 ```java 
 mavenRepository=http://192.168.8.213:32129/repository/maven-public/
