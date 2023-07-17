@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * swagger 网关api聚合 非通用个性化定制
+ */
 @Component
 public class SpringDocAggregation implements CommandLineRunner {
     public static final String API_URI = "/docs";

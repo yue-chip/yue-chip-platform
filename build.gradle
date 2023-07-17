@@ -2,7 +2,9 @@ apply from: this.rootProject.file('javaPlatformMvnPublish.gradle')
 
 allprojects {
     group = projectGroup
-    version = projectVersion
+//    version = projectVersion
+    //动态版本version主要用于构建不同环境jar如：开发，测试，预览，生产……等环境 gradle publish -PVERSION=1.0.0-TEST-SNAPSHOT 或者 gradle build -PVERSION=1.0.0-DEV-SNAPSHOT
+    version = project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion
     apply plugin: 'maven-publish'
     repositories {
         mavenLocal()

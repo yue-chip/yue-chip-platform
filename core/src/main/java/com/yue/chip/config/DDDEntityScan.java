@@ -1,14 +1,11 @@
 package com.yue.chip.config;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.yue.chip.annotation.YueChipDDDEntity;
 import com.yue.chip.utils.SpringContextUtil;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.beans.factory.annotation.ReferenceAnnotationBeanPostProcessor;
-import org.modelmapper.internal.bytebuddy.description.annotation.AnnotationDescription;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -55,13 +51,9 @@ public class DDDEntityScan implements CommandLineRunner {
                             try {
                                 SpringContextUtil.getBean(field.getType());
                             }catch (Exception e) {
-                                //获取 foo 这个代理实例所持有的 InvocationHandler
                                 InvocationHandler invocationHandler = Proxy.getInvocationHandler(dubboReference);
-                                // 获取 AnnotationInvocationHandler 的 memberValues 字段
                                 Field declaredField = invocationHandler.getClass().getDeclaredField("memberValues");
-                                // 因为这个字段事 private final 修饰，所以要打开权限
                                 declaredField.setAccessible(true);
-                                // 获取 memberValues
                                 Map<String,Object> attributes = (Map<String,Object>) declaredField.get(invocationHandler);
                                 processor.registerReferenceBean(field.getType().getSimpleName(),field.getType(),attributes,field);
                             }
