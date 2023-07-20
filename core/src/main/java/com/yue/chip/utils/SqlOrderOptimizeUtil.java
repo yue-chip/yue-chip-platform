@@ -6,6 +6,8 @@ import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.select.Select;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -14,6 +16,8 @@ import java.util.List;
  * @description
  * @date 2022/04/15 下午6:20
  */
+@Deprecated
+//性能慢 不建议使用
 public class SqlOrderOptimizeUtil {
 //    private static final String ORDER_BY = "(((order){1}|(ORDER){1})\\s*{1,}.*)";
 
@@ -55,7 +59,9 @@ public class SqlOrderOptimizeUtil {
     }
 
     public static void main(String agrs[]) throws JSQLParserException {
+        Long milliSecond = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         String sql = "select * from t_user where  1 = 1  and y=1 order   by 3333,3434,3434";
         System.out.println(SqlOrderOptimizeUtil.sqlReplace(sql));
+        System.out.println(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() - milliSecond);
     }
 }

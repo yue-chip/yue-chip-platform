@@ -140,14 +140,15 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 		if (jpql.indexOf("from")>-1){
 			jpql = " select count(*) " + jpqlTmp.substring(jpql.indexOf("from"));
 		}
-		jpql = SqlOrderOptimizeUtil.sqlReplace(jpql);
+//		jpql = SqlOrderOptimizeUtil.sqlReplace(jpql);
 		return getCountByJql(jpql,searchParameter);
 	}
 
 	private Long getCountByNativeSql(String sql,Map<String, Object> searchParameter) {
 		StringBuffer countSql = new StringBuffer();
 		countSql.append(" select count(1) from (");
-		countSql.append(replace(sql));
+//		countSql.append(replace(sql));
+		countSql.append(sql);
 		countSql.append(") tb");
 		Query query = entityManager.createNativeQuery(countSql.toString());
 		return getCount(query,searchParameter);

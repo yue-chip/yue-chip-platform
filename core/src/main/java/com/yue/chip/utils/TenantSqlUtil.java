@@ -5,7 +5,10 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.select.Select;
+import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -14,6 +17,8 @@ import java.util.List;
  * @description
  * @date 2022/04/15 下午6:20
  */
+@Deprecated
+//性能慢 不建议使用
 //加多祖户字段  数据库会租户字段在B树结构里不够分散  导致索引失效，数据量多的时候性能会慢  不建议使用，
 // 建议分表/分库，可采用ShardingSphere进行透明代理 根据租户字段把sql分发到不同库/表
 public class TenantSqlUtil {
@@ -47,7 +52,7 @@ public class TenantSqlUtil {
             for (Statement statement : list) {
                 if (statement instanceof Select) {
                     Long tenantId = CurrentUserUtil.getCurrentUserTenantId();
-                    sql.replace("#tenant_id#"," " + String.valueOf(tenantId) + " ");
+                    sql = StringUtils.replace(sql,"#tenant_id#"," " + String.valueOf(tenantId) + " ");
                     return sql;
                 }
             }
@@ -59,7 +64,9 @@ public class TenantSqlUtil {
     }
 
     public static void main(String agrs[]) throws JSQLParserException {
-        String sql = "select * from t_user where  1 = 1  and y=1 and tenant_id = ? order   by 3333,3434,3434";
+        Long milliSecond = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        String sql = "select * from t_user where  1 = 1  and y=1 and tenant_id = #tenant_id#  order   by 3333,3434,3434";
         System.out.println(TenantSqlUtil.sqlReplace(sql));
+        System.out.println(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() - milliSecond);
     }
 }

@@ -9,6 +9,7 @@ import org.hibernate.resource.jdbc.spi.StatementInspector;
  * @author: mr.liu
  * @create: 2020-10-20 16:04
  **/
+@Deprecated
 public class JpaSqlInterceptor implements StatementInspector {
 
     @SneakyThrows
@@ -16,7 +17,7 @@ public class JpaSqlInterceptor implements StatementInspector {
     public String inspect( String sql) {
 //        sql = SqlWhereOptimizeUtil.sqlReplace(sql);
 //        sql = SqlOrderOptimizeUtil.sqlReplace(sql);
-        sql = TenantSqlUtil.sqlReplace(sql);
+//        sql = TenantSqlUtil.sqlReplace(sql);
         return sql;
     }
 
