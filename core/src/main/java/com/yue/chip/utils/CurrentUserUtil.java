@@ -5,6 +5,8 @@ import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.exception.AuthorizationException;
 import com.yue.chip.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Builder;
+import lombok.Data;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

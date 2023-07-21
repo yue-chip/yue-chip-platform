@@ -2,6 +2,8 @@ package com.yue.chip.utils;
 
 import com.yue.chip.security.YueChipUserDetails;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +17,8 @@ public class YueChipRedisTokenStoreUtil {
 
 //    @Resource
     private static volatile RedisTemplate redisTemplate;
+
+    private static volatile UserDetailsService userDetailsService;
 
     public static void store(YueChipUserDetails yueChipUserDetails,String token) {
         renewal(yueChipUserDetails.getUsername(),yueChipUserDetails.getId(),token);
@@ -33,16 +37,13 @@ public class YueChipRedisTokenStoreUtil {
                 }
             }
         }
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_ID+token,userId,30, TimeUnit.MINUTES);
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_USERNAME+token,username,30, TimeUnit.MINUTES);
-    }
-
-    public static Long getUserId(String token) {
-        Object obj = getRedisTemplate().opsForValue().get(CurrentUserUtil.TOKEN_ID+token);
-        if (Objects.nonNull(obj)) {
-            return (Long)obj;
+        if (Objects.nonNull(userId)) {
+            YueChipUserDetails userDetails = (YueChipUserDetails) getUserDetailsService().loadUserByUsername(username);
+            if (Objects.nonNull(userDetails)) {
+                getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_ID + token, userDetails.getId(), 30, TimeUnit.MINUTES);
+            }
         }
-        return null;
+        getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_USERNAME+token,username,30, TimeUnit.MINUTES);
     }
 
     public static String getUsername(String token) {
@@ -60,6 +61,15 @@ public class YueChipRedisTokenStoreUtil {
             }
         }
         return redisTemplate;
+    }
+
+    private static UserDetailsService getUserDetailsService(){
+        if (Objects.isNull(userDetailsService)) {
+            synchronized (UserDetailsService.class) {
+                userDetailsService = (UserDetailsService) SpringContextUtil.getBean(UserDetailsService.class);
+            }
+        }
+        return userDetailsService;
     }
 
 }
