@@ -17,22 +17,18 @@ public class BusinessException extends  RuntimeException implements Serializable
 
 	public BusinessException(Exception e) {
 		super(e);
-		throw this;
 	}
 
 	public BusinessException(String message, Throwable cause) {
 		super(message, cause);
-		throw this;
 	}
 
 	public BusinessException(Throwable cause) {
 		super(cause);
-		throw this;
 	}
 
 	public BusinessException(String message) {
 		super(message);
-		throw this;
 	}
 
 	/**
@@ -40,6 +36,6 @@ public class BusinessException extends  RuntimeException implements Serializable
 	 * @param message
 	 */
 	public static void throwException(String message){
-		new BusinessException(message);
+		throw new BusinessException(message);
 	}
 }

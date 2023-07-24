@@ -23,6 +23,7 @@ public interface IEnum {
 
 	String getDesc();
 
+	@JsonValue
 	public Map<String, Object> jsonValue();
 
 }
