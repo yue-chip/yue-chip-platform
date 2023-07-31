@@ -1,0 +1,14 @@
+apply from: this.rootProject.file('javaPlatform.gradle')
+apply from: this.rootProject.file('javaPlatformMvnPublish.gradle')
+archivesBaseName = 'yue-chip-starter'
+dependencies {
+    constraints {
+        api "yue.chip:yue-chip-core:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-business-starter:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-interface-expose-impl-starter:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-interface-expose-starter:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-serve-starter:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-security:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-oauth2-resource-serve:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+    }
+}

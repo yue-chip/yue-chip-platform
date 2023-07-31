@@ -5,12 +5,12 @@ ext {
     nacosVersion = '2.2.3'
     springdocVserion= '2.1.0'
     seataVersion = '1.7.0'
-    dubboVersion = '3.2.2'
-    druidVersion = '1.2.15'
+    dubboVersion = '3.2.4'
+    druidVersion = '1.2.18'
     rocketmqVersion = '2.2.2'
     knife4jVersion = '4.1.0'
     lombokMapstructBinding = '0.2.0'
-    hutoolVserion = '5.8.10'
+    hutoolVserion = '5.8.20'
     commonsBeanutils = '1.9.4'
     sentinelVersion = '1.8.6'
     modelmapperVersion = '3.1.1'
@@ -18,7 +18,7 @@ ext {
     easyCaptchaVersion = '1.6.2'
     fastjsonVersion = '2.0.21'
     reflectionsVersion = '0.10.2'
-    minioVersion = '8.4.6'
+    minioVersion = '8.5.4'
     guavaVersion = '31.1-jre'
     okhttpVersion = '4.10.0'
     commonsIoVersion = '2.11.0'
@@ -29,13 +29,14 @@ ext {
     mariadbVersion = '3.1.2'
     redissonVersion = '3.20.1'
     guavaVersion = '31.1-jre'
-    skywalkingApmToolkitVersion = '8.14.0'
+    skywalkingApmToolkitVersion = '8.16.0'
     querydslVersion = '5.0.0'
     multilevelCacheVersion = '3.0.0'
     jmockdataVersion = '4.3.0'
     mockitoVserion = '5.2.0'
     javafakerVserion = '1.0.2'
     podamVersion = '7.2.11.RELEASE'
+    springStatemachineVersion = '3.2.1'
 }
 
 dependencies {
@@ -58,7 +59,10 @@ dependencies {
 //        api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVserion}"
         api "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
         api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter:${multilevelCacheVersion}"
+        api "org.springframework.statemachine:spring-statemachine-starter:${springStatemachineVersion}"
 
+        api "org.springframework.statemachine:spring-statemachine-data-redis:${springStatemachineVersion}"
+        api "org.springframework.statemachine:spring-statemachine-data-jpa:${springStatemachineVersion}"
         api "uk.co.jemos.podam:podam:${podamVersion}"
         api "com.github.javafaker:javafaker:${javafakerVserion}"
         api "org.mockito:mockito-inline:${mockitoVserion}"

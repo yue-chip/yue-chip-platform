@@ -8,13 +8,13 @@ publishing {
     }
     repositories {
         mavenLocal()
-//        maven {
-//            allowInsecureProtocol true
-//            url = mavenSnapshots
-//            credentials {
-//                username = mavenUsername
-//                password = mavenPassword
-//            }
-//        }
+        maven {
+            allowInsecureProtocol true
+            url = mavenSnapshots
+            credentials {
+                username = mavenUsername
+                password = mavenPassword
+            }
+        }
     }
 }

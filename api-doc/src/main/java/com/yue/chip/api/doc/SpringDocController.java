@@ -33,7 +33,7 @@ public class SpringDocController {
     private RestTemplate restTemplate;
 
     @GetMapping("/{instanceName}/docs")
-    public String doc(@PathVariable String instanceName) {
+    public String docs(@PathVariable String instanceName) {
         List<ServiceInstance> serviceInstances =discoveryClient.getInstances(instanceName);
         for (ServiceInstance serviceInstance : serviceInstances) {
             String swaggerEnable = serviceInstance.getMetadata().get(SpringDocAggregation.SWAGGER_ENABLE);
