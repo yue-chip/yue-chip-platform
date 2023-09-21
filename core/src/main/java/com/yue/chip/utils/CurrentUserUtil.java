@@ -85,7 +85,7 @@ public class CurrentUserUtil {
         }
         if (Objects.isNull(tenantId)) {
             Map<String, Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
-            if (Objects.nonNull(user) && user.containsKey(TENANT_ID) && Objects.nonNull(user.containsKey(TENANT_ID))) {
+            if (Objects.nonNull(user) && user.containsKey("tenantId") && Objects.nonNull(user.get("tenantId"))) {
                 tenantId = (Long) user.get("tenantId");
                 CurrentUserRedisUtil.setTenantId(username,getToken(),tenantId);
             }
