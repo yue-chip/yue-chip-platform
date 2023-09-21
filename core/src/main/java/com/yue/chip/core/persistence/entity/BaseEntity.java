@@ -62,11 +62,6 @@ public abstract class BaseEntity implements Serializable {
 //    @Builder.Default
 //    private Long version = 0L;
 
-//    @Schema(description = "租户id")
-//    @JsonIgnore
-//    @Builder.Default
-//    private Long tenantId = 10000L;
-
     public BaseEntity() {
     }
 
@@ -111,9 +106,5 @@ public abstract class BaseEntity implements Serializable {
 //    public Long getVersion() {
 //        return version;
 //    }
-//
-//    @Column(updatable = false)
-//    public Long getTenantId() {
-//        return tenantId;
-//    }
+
 }

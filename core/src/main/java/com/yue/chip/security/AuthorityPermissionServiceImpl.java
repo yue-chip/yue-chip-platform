@@ -1,5 +1,6 @@
 package com.yue.chip.security;
 
+import com.yue.chip.utils.CurrentUserRedisUtil;
 import com.yue.chip.utils.CurrentUserUtil;
 import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -27,19 +28,18 @@ public class AuthorityPermissionServiceImpl implements AuthorityPermission{
     @Override
     public boolean hasPermission(String... permissions) {
         String username = CurrentUserUtil.getCurrentUserUsername();
-        Object obj = redisTemplate.opsForValue().get(CurrentUserUtil.AUTHORITY+username);
-        if (Objects.nonNull(obj)) {
-            Collection<YueChipSimpleGrantedAuthority> list = (Collection<YueChipSimpleGrantedAuthority>) obj;
-            for (String code : permissions) {
-                YueChipSimpleGrantedAuthority grantedAuthority = new YueChipSimpleGrantedAuthority();
-                grantedAuthority.setAuthority(code);
-                if (list.contains(grantedAuthority)) {
-                    return true;
-                }
+        Collection<YueChipSimpleGrantedAuthority> list = CurrentUserRedisUtil.getAuthority(CurrentUserUtil.getToken(),username);
+        for (String code : permissions) {
+            YueChipSimpleGrantedAuthority grantedAuthority = new YueChipSimpleGrantedAuthority();
+            grantedAuthority.setAuthority(code);
+            if (list.contains(grantedAuthority)) {
+                return true;
             }
         }
         return false;
     }
+
+
 
 
 }

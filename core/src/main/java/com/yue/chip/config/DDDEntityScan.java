@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -24,7 +26,8 @@ import java.util.Set;
  * @author Mr.Liu
  * @date 2023/6/11 上午11:21
  */
-@Component()
+@Component
+@Order(Ordered.LOWEST_PRECEDENCE)
 @ConditionalOnWebApplication
 @ConditionalOnClass({Reflections.class})
 public class DDDEntityScan implements CommandLineRunner {

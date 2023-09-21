@@ -4,7 +4,9 @@ import com.yue.chip.core.PageResultData;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +22,10 @@ import org.springframework.stereotype.Component;
 public class PageConvert {
 
     @Around(value = "(execution(org.springframework.data.domain.Page com.yue.chip..*.expose..*.*(..)) " +
-            "|| execution(org.springframework.data.domain.PageImpl com.yue.chip..*.expose..*.*(..)) " +
-            "|| execution(org.springframework.data.domain.Page com.yue.chip..*.service..*.*(..))" +
-            "|| execution(org.springframework.data.domain.PageImpl com.yue.chip..*.service..*.*(..))" +
-            "&& execution(public * com.yue.chip..*.*(..))) ")
+            "            || execution(org.springframework.data.domain.PageImpl com.yue.chip..*.expose..*.*(..))" +
+            "            || execution(org.springframework.data.domain.Page com.yue.chip..*.service..*.*(..))" +
+            "            || execution(org.springframework.data.domain.PageImpl com.yue.chip..*.service..*.*(..))" +
+            "            && execution(public * com.yue.chip..*.*(..)))")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Object obj = pjp.proceed();
         if (obj instanceof Page){

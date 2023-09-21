@@ -2,8 +2,6 @@ package com.yue.chip.core.persistence.curd.impl;
 
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SelectRepository;
-import com.yue.chip.utils.SqlOrderOptimizeUtil;
-import com.yue.chip.utils.TenantSqlUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.hibernate.query.sql.internal.NativeQueryImpl;
@@ -140,14 +138,12 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 		if (jpql.indexOf("from")>-1){
 			jpql = " select count(*) " + jpqlTmp.substring(jpql.indexOf("from"));
 		}
-//		jpql = SqlOrderOptimizeUtil.sqlReplace(jpql);
 		return getCountByJql(jpql,searchParameter);
 	}
 
 	private Long getCountByNativeSql(String sql,Map<String, Object> searchParameter) {
 		StringBuffer countSql = new StringBuffer();
 		countSql.append(" select count(1) from (");
-//		countSql.append(replace(sql));
 		countSql.append(sql);
 		countSql.append(") tb");
 		Query query = entityManager.createNativeQuery(countSql.toString());
@@ -157,13 +153,6 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 	private Long getCountByJql(String jpql,Map<String, Object> searchParameter) {
 		Query query = entityManager.createQuery(jpql);
 		return getCount(query,searchParameter);
-	}
-
-	private String replace(String sqlOrJpql) {
-//		sqlOrJpql = SqlWhereOptimizeUtil.sqlReplace(sqlOrJpql);
-		sqlOrJpql = SqlOrderOptimizeUtil.sqlReplace(sqlOrJpql);
-		sqlOrJpql = TenantSqlUtil.sqlReplace(sqlOrJpql);
-		return sqlOrJpql;
 	}
 
 	private Long getCount(Query query,Map<String, Object> searchParameter) {

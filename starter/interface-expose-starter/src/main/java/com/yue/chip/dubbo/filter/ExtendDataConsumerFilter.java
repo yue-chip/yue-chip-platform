@@ -5,7 +5,7 @@ import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
 
 /**
- * @description: 传递其它信息（客户端ip地址，调用链标识码）
+ * @description: 传递其它信息（客户端ip地址，当前用户......）
  * @author: mr.liu
  * @create: 2020-10-10 14:07
  **/

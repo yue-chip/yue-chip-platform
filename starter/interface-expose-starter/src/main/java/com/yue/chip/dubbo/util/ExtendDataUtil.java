@@ -3,11 +3,15 @@ package com.yue.chip.dubbo.util;
 public class ExtendDataUtil {
     public static void setExtendData(){
         ClientRemoteAddressUtil.setClientRemoteAddress();
-        CurrentUserUtil.setCurrentUser();
+        CurrentUsernameUtil.setCurrentUser();
+        CurrentTenantUtil.setCurrentTenant();
+        CurrentUserIdUtil.setCurrentUserId();
     }
 
     public static void cleanThreadLocal(){
-        CurrentUserUtil.cleanThreadLocal();
+        CurrentUsernameUtil.cleanThreadLocal();
         ClientRemoteAddressUtil.cleanThreadLocal();
+        CurrentTenantUtil.cleanThreadLocal();
+        CurrentUserIdUtil.cleanThreadLocal();
     }
 }

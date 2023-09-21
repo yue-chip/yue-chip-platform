@@ -22,18 +22,24 @@ public class YueChipUserDetails extends User implements Serializable {
     @Setter
     private Long id;
 
+    @Getter
+    @Setter
+    private Long tenantId;
+
     public YueChipUserDetails() {
-        this(null,UUID.randomUUID().toString(),UUID.randomUUID().toString(), getGrantedAuthority());
+        this(null,UUID.randomUUID().toString(),UUID.randomUUID().toString(), null,getGrantedAuthority());
     }
 
-    public YueChipUserDetails(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public YueChipUserDetails(Long id, String username, String password,Long tenantId, Collection<? extends GrantedAuthority> authorities) {
         super(StringUtils.hasText(username)?username:UUID.randomUUID().toString(), StringUtils.hasText(password)?password:UUID.randomUUID().toString(), Objects.isNull(authorities)?getGrantedAuthority():authorities);
         this.id = id;
+        this.tenantId = tenantId;
     }
 
-    public YueChipUserDetails(Long id,String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public YueChipUserDetails(Long id,String username, String password,Long tenantId, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
+        this.tenantId = tenantId;
     }
 
     private static List<GrantedAuthority> getGrantedAuthority(){

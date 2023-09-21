@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
+import org.springframework.util.StringValueResolver;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -70,18 +71,26 @@ public class CurrentUserUtil {
 
     public static Long getCurrentUserTenantId(Boolean isMustLogin){
         String username = getUsername();
-        Object tenantId = null;
-        if (StringUtils.hasText(username)) {
-            tenantId = getRedisTemplate().opsForValue().get(TENANT_ID +  username);
-            return toLong(tenantId);
+        Long tenantId = null;
+        if (isHttpWebRequest()) {
+            if (StringUtils.hasText(username)) {
+                tenantId = CurrentUserRedisUtil.getTenantId(getToken(),username);
+            }
+        }else {
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_ID);
+            if (Objects.nonNull(obj)) {
+                tenantId = (Long) obj;
+                CurrentUserRedisUtil.setTenantId(username,getToken(),tenantId);
+            }
         }
-        Map<String,Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
-        if (Objects.nonNull(user) && user.containsKey(TENANT_ID) && Objects.nonNull(user.containsKey(TENANT_ID))) {
-            tenantId = user.get("tenantId");
-            getRedisTemplate().opsForValue().set(TENANT_ID+username,(Long)tenantId);
-            return toLong(tenantId);
+        if (Objects.isNull(tenantId)) {
+            Map<String, Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
+            if (Objects.nonNull(user) && user.containsKey(TENANT_ID) && Objects.nonNull(user.containsKey(TENANT_ID))) {
+                tenantId = (Long) user.get("tenantId");
+                CurrentUserRedisUtil.setTenantId(username,getToken(),tenantId);
+            }
         }
-        return null;
+        return tenantId;
     }
 
     public static Long getCurrentUserTenantId(){
@@ -155,18 +164,28 @@ public class CurrentUserUtil {
 
     public static Long getCurrentUserId(Boolean isMustLogin){
         String username = getUsername();
-        Object userId = null;
+        Long userId = null;
         if (StringUtils.hasText(username)) {
-            userId = getRedisTemplate().opsForValue().get(USER_ID +  username);
-            return toLong(userId);
+            userId = CurrentUserRedisUtil.getUserId(getToken(),username);
         }
-        Map<String,Object> currentUser = getCurrentUser(isMustLogin);
-        if(Objects.nonNull(currentUser) && currentUser.containsKey(ID)){
-            userId = currentUser.get(ID);
-            getRedisTemplate().opsForValue().set(USER_ID+username,(Long)userId);
-            return toLong(userId);
+
+        if (Objects.isNull(userId)) {
+            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USER_ID);
+            if (Objects.nonNull(obj)) {
+                userId = (Long) obj;
+                CurrentUserRedisUtil.setUserId(getToken(),username,userId);
+            }
         }
-        return null;
+//        if (Objects.nonNull(userId)) {
+//            return userId;
+//        }else {
+//            Map<String, Object> currentUser = getCurrentUser(isMustLogin);
+//            if (Objects.nonNull(currentUser) && currentUser.containsKey(ID)) {
+//                userId = (Long) currentUser.get(ID);
+//                CurrentUserRedisUtil.setUserId(getToken(), username, userId);
+//            }
+//        }
+        return userId;
     }
 
     /**
@@ -183,6 +202,22 @@ public class CurrentUserUtil {
         }
         return false;
     }
+
+    public static String getToken(){
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (Objects.nonNull(requestAttributes)) {
+            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            if (Objects.nonNull(request)) {
+                Object obj = request.getHeader("token");
+                if (Objects.nonNull(obj)) {
+                    return String.valueOf(obj);
+                }
+            }
+        }
+        return "";
+    }
+
+
 
     /**
      * @return
@@ -209,15 +244,6 @@ public class CurrentUserUtil {
         return redisTemplate;
     }
 
-    private static Long toLong(Object number) {
-        if (Objects.nonNull(number)) {
-            if (number instanceof Integer) {
-                return ((Integer) number).longValue();
-            }else if (number instanceof Long) {
-                return (Long) number;
-            }
-        }
-        return null;
-    }
+
 
 }

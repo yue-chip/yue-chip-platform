@@ -48,6 +48,16 @@ public class DubboConstant {
     public static final String USERNAME = "username";
 
     /**
+     * 当前用户租户ID
+     */
+    public static final String TENANT_ID = "tenantId";
+
+    /**
+     * 当前用户ID
+     */
+    public static final String USER_ID = "userId";
+
+    /**
      * 客户端远程IP地址
      */
     public static final String CLIENT_REMOTE_ADDRESS="client_remote_address";

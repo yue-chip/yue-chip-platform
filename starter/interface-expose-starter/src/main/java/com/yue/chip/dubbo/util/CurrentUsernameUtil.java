@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
-public class CurrentUserUtil {
+public class CurrentUsernameUtil {
 
     private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
@@ -17,9 +17,16 @@ public class CurrentUserUtil {
             if (StringUtils.hasText(username)){
                 threadLocal.set(username);
             }
-        }else {
-            username = threadLocal.get();
         }
+        if (!StringUtils.hasText(username)) {
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.USERNAME);
+            if (Objects.nonNull(obj)) {
+                username = String.valueOf(obj);
+                threadLocal.set(username);
+            }
+        }
+        username = threadLocal.get();
+
         return username;
     }
 

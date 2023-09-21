@@ -22,8 +22,9 @@ public class YueChipRedisTokenStoreUtil {
 
     public static void store(YueChipUserDetails yueChipUserDetails,String token) {
         renewal(yueChipUserDetails.getUsername(),yueChipUserDetails.getId(),token);
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.USER_ID+yueChipUserDetails.getUsername(),yueChipUserDetails.getId());
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.AUTHORITY+yueChipUserDetails.getUsername(),yueChipUserDetails.getAuthorities());
+        CurrentUserRedisUtil.setTenantId(token,yueChipUserDetails.getUsername(),yueChipUserDetails.getTenantId());
+        CurrentUserRedisUtil.setUserId(token,yueChipUserDetails.getUsername(),yueChipUserDetails.getId());
+        CurrentUserRedisUtil.setAuthority(token,yueChipUserDetails.getUsername(),yueChipUserDetails.getAuthorities());
     }
 
     public static void renewal(String username,Long userId, String token){
