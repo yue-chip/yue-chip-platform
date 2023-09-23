@@ -101,19 +101,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     }
 
     private String getTenantDatabaseName() {
-        Long tenantId = CurrentUserUtil.getCurrentUserTenantId(true);
-        if (Objects.isNull(tenantId)) {
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            if (Objects.nonNull(requestAttributes)) {
-                HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-                if (Objects.nonNull(request)) {
-                   Object obj = request.getParameter("tenantId");
-                   if (Objects.nonNull(obj) && StringUtils.hasText(String.valueOf(obj))) {
-                       tenantId = Long.valueOf(String.valueOf(obj));
-                   }
-                }
-            }
-        }
+        Long tenantId = TenantUtil.getTenantId();
         return getPrefixDataBase().concat(PREFIX_TENANT).concat(Objects.isNull(tenantId)?TENANT_ID:String.valueOf(tenantId));
     }
 }

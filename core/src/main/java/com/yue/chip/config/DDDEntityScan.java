@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.yue.chip.annotation.YueChipDDDEntity;
 import com.yue.chip.utils.SpringContextUtil;
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.beans.factory.annotation.ReferenceAnnotationBeanPostProcessor;
 import org.reflections.Reflections;
@@ -29,7 +30,8 @@ import java.util.Set;
 @Component
 @Order(Ordered.LOWEST_PRECEDENCE)
 @ConditionalOnWebApplication
-@ConditionalOnClass({Reflections.class})
+@ConditionalOnClass({Reflections.class, ReferenceAnnotationBeanPostProcessor.class})
+@Log4j2
 public class DDDEntityScan implements CommandLineRunner {
 
     private String packageName = "com.yue.chip";
@@ -37,6 +39,7 @@ public class DDDEntityScan implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
+            log.info("开始扫描DDDEntity");
             ReferenceAnnotationBeanPostProcessor processor = new ReferenceAnnotationBeanPostProcessor();
             processor.setApplicationContext(SpringContextUtil.getApplicationContext());
             Reflections reflections = new Reflections(packageName);
@@ -75,6 +78,7 @@ public class DDDEntityScan implements CommandLineRunner {
     private void setFieldValue(Class<?> classz,Field field){
         Object obj = SpringContextUtil.getBean(field.getType());
         if (Objects.nonNull(obj)) {
+            log.info("注入"+classz.getSimpleName()+"---"+field.getName());
             ReflectUtil.setFieldValue(classz,field,obj);
         }
     }

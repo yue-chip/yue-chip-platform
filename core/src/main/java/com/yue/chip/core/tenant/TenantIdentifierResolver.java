@@ -29,7 +29,7 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
     @Override
     public @UnknownKeyFor @NonNull @Initialized String resolveCurrentTenantIdentifier() {
         if (Objects.nonNull(SpringContextUtil.getApplicationContext())) {
-            Long tenantId = CurrentUserUtil.getCurrentUserTenantId(false);
+            Long tenantId = TenantUtil.getTenantId();
             if (Objects.nonNull(tenantId)) {
                 return PREFIX_TENANT.concat(String.valueOf(tenantId));
             }

@@ -13,8 +13,8 @@ import jakarta.annotation.Resource;
  */
 public abstract class BaseControllerImpl implements BaseController {
 
-    @Resource
-    private AuthorityPermission authorityPermission;
+//    @Resource
+//    private AuthorityPermission authorityPermission;
 
     /**
      * 获取当前登陆用户

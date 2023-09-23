@@ -1,12 +1,12 @@
 server:
-  port: 8089
+  port: 9999
 spring:
   main:
     allow-bean-definition-overriding: true
   nacos:
-    group: YUE-CHIP-GROUP
-    host: 192.168.177.129:8848
-    namespace: cbce5ffe-31d2-4826-99ab-384241f16917
+    group: XIAO-WEI-GROUP
+    host: 192.168.0.145:8848
+    namespace: 1706918c-e809-426a-b633-e351101ed09d
   application:
     name: api-doc
   cloud:

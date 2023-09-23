@@ -12,7 +12,9 @@ allprojects {
         mavenCentral()
     }
 }
-
 subprojects {
-
+    configurations.all() {
+        resolutionStrategy.force "org.reflections:reflections:0.9.12"
+    }
 }
+
