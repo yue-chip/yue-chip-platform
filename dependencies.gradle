@@ -2,7 +2,7 @@ ext {
     aliyunSpringBootVersion = '1.0.0'
     springCloudAlibabaVersion = '2022.0.0.0'
     springCloudVersion = '2022.0.4'
-    nacosVersion = '2.2.0'
+    nacosVersion = '2.2.3'
     springdocVserion= '2.2.0'
     seataVersion = '1.7.1'
     dubboVersion = '3.2.6'

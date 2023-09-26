@@ -5,7 +5,7 @@ spring:
     allow-bean-definition-overriding: true
   nacos:
     group: XIAO-WEI-GROUP
-    host: 192.168.0.145:8848
+    host: 192.168.11.145:8848
     namespace: 1706918c-e809-426a-b633-e351101ed09d
   application:
     name: api-doc

@@ -25,7 +25,7 @@ public class PageConvert {
             "            || execution(org.springframework.data.domain.PageImpl com.yue.chip..*.expose..*.*(..))" +
             "            || execution(org.springframework.data.domain.Page com.yue.chip..*.service..*.*(..))" +
             "            || execution(org.springframework.data.domain.PageImpl com.yue.chip..*.service..*.*(..))" +
-            "            && execution(public * com.yue.chip..*.*(..)))")
+            "            && ( execution(public * com.yue.chip..*.*(..))) || execution(public * com.xiaowei..*.*(..))) )")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Object obj = pjp.proceed();
         if (obj instanceof Page){

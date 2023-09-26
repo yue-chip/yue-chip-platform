@@ -29,7 +29,7 @@ public class TenantUtil {
             }
         }
         if (Objects.isNull(tenantId)) {
-            tenantId = CurrentUserUtil.getCurrentUserTenantId(true);
+            tenantId = CurrentUserUtil.getCurrentUserTenantId(false);
         }
         return tenantId;
     }

@@ -37,7 +37,7 @@ public class PageRequestInjection {
             "|| @annotation(org.springframework.web.bind.annotation.PutMapping)"+
             "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)"+
             "|| @annotation(org.springframework.web.bind.annotation.PatchMapping))" +
-            "&& execution(public * com.yue.chip..*.*(..)))" )
+            "&& ( execution(public * com.yue.chip..*.*(..))) || execution(public * com.xiaowei..*.*(..))) )" )
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Object invokeResult = null;
         Object[] args = pjp.getArgs();
