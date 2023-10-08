@@ -16,7 +16,7 @@ ext {
     modelmapperVersion = '3.1.1'
     commonsDbutilsVersion = '1.7'
     easyCaptchaVersion = '1.6.2'
-    fastjsonVersion = '2.0.21'
+    fastjsonVersion = '2.0.41'
 //    reflectionsVersion = '0.10.2' 无法扫描springboot打包的 jar文件
     reflectionsVersion = '0.9.12'
     minioVersion = '8.5.5'
@@ -111,6 +111,7 @@ dependencies {
         api "com.github.whvcse:easy-captcha:${easyCaptchaVersion}"
         api "com.alibaba.fastjson2:fastjson2:${fastjsonVersion}"
         api "com.alibaba:fastjson:${fastjsonVersion}"
+        api "com.alibaba.fastjson2:fastjson2-extension:${fastjsonVersion}"
         api "org.reflections:reflections:${reflectionsVersion}"
         api "io.minio:minio:${minioVersion}"
         api "com.google.guava:guava:${guavaVersion}"

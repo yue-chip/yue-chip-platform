@@ -1,5 +1,7 @@
 package com.yue.chip.utils;
 
+import com.yue.chip.exception.AuthorizationException;
+import com.yue.chip.exception.BusinessException;
 import com.yue.chip.security.YueChipUserDetails;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,25 +27,22 @@ public class YueChipRedisTokenStoreUtil {
         CurrentUserRedisUtil.setTenantId(token,yueChipUserDetails.getUsername(),yueChipUserDetails.getTenantId());
         CurrentUserRedisUtil.setUserId(token,yueChipUserDetails.getUsername(),yueChipUserDetails.getId());
         CurrentUserRedisUtil.setAuthority(token,yueChipUserDetails.getUsername(),yueChipUserDetails.getAuthorities());
+
     }
 
     public static void renewal(String username,Long userId, String token){
         if (Objects.isNull(userId)) {
-            Object obj =  getRedisTemplate().opsForValue().get(CurrentUserUtil.USER_ID+username);
-            if (Objects.nonNull(obj)) {
-                if (obj instanceof Integer) {
-                    userId = ((Integer) obj).longValue();
-                }else if (obj instanceof Long) {
-                    userId = (Long)obj;
-                }
-            }
+            userId =  CurrentUserRedisUtil.getUserId(token,username);
         }
-        if (Objects.nonNull(userId)) {
-            YueChipUserDetails userDetails = (YueChipUserDetails) getUserDetailsService().loadUserByUsername(username);
-            if (Objects.nonNull(userDetails)) {
-                getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_ID + token, userDetails.getId(), 30, TimeUnit.MINUTES);
-            }
+        if (Objects.isNull(userId)) {
+            AuthorizationException.throwException("登陆异常，请重新登陆");
         }
+//        if (Objects.nonNull(userId)) {
+//            YueChipUserDetails userDetails = (YueChipUserDetails) getUserDetailsService().loadUserByUsername(username);
+//            if (Objects.nonNull(userDetails)) {
+//                getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_ID + token, userDetails.getId(), 30, TimeUnit.MINUTES);
+//            }
+//        }
         getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_USERNAME+token,username,30, TimeUnit.MINUTES);
     }
 

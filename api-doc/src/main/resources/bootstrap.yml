@@ -4,14 +4,21 @@ spring:
   main:
     allow-bean-definition-overriding: true
   nacos:
-    group: XIAO-WEI-GROUP
-    host: 192.168.11.145:8848
-    namespace: 1706918c-e809-426a-b633-e351101ed09d
+#    group: XIAO-WEI-GROUP
+#    host: 192.168.2.145:8848
+#    namespace: 1706918c-e809-426a-b633-e351101ed09d
+    group: YUE-CHIP-GROUP
+    host: 192.168.177.129:8848
+    namespace: cbce5ffe-31d2-4826-99ab-384241f16917
+    username: nacos
+    password: nacos
   application:
     name: api-doc
   cloud:
     nacos:
       config:
+        username: ${spring.nacos.username}
+        password: ${spring.nacos.password}
         server-addr: ${spring.nacos.host}
         file-extension: yaml
         namespace: ${spring.nacos.namespace}
@@ -21,3 +28,5 @@ spring:
         server-addr: ${spring.nacos.host}
         namespace: ${spring.nacos.namespace}
         group: ${spring.nacos.group}
+        username: ${spring.nacos.username}
+        password: ${spring.nacos.password}
