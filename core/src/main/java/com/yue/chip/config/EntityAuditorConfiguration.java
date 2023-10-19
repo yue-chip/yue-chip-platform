@@ -30,7 +30,6 @@ public class EntityAuditorConfiguration  {
     class UserAuditor implements AuditorAware<Long> {
         @Override
         public Optional<Long> getCurrentAuditor() {
-//            Map<String,Object> user = CurrentUserUtil.getCurrentUser(false);
             Long userId = CurrentUserUtil.getCurrentUserId(false);
             return Optional.ofNullable(Objects.isNull(userId)?Long.MIN_VALUE:userId);
         }

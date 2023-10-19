@@ -53,7 +53,7 @@ public class ExceptionData {
             resultData.setMessage( "数据格式错误(请出入正确的json数据)");
         }else if (e instanceof BusinessException){
             resultData.setMessage(e.getMessage());
-        }else if (e instanceof AccessDeniedException){
+        }else if (e instanceof AccessDeniedException ){
             resultData.setMessage( "权限不足，不允许访问/登陆异常，请重新登陆");
             resultData.setStatus(ResultDataState.NO_PERMISSION.getKey());
         }else if (e instanceof ConstraintViolationException){
@@ -82,7 +82,7 @@ public class ExceptionData {
 //                    resultData.setStatus(ResultDataState.LOGIN_FAIL.getKey());
 //                }
 //            }else
-            if (e instanceof InsufficientAuthenticationException){
+            if (e instanceof InsufficientAuthenticationException || e instanceof AuthorizationException){
                 resultData.setMessage("登陆异常，请重新登陆");
                 resultData.setStatus(ResultDataState.LOGIN_FAIL.getKey());
             }

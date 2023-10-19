@@ -28,7 +28,7 @@ public class AuthorityPermissionServiceImpl implements AuthorityPermission{
     @Override
     public boolean hasPermission(String... permissions) {
         String username = CurrentUserUtil.getCurrentUserUsername();
-        Collection<YueChipSimpleGrantedAuthority> list = CurrentUserRedisUtil.getAuthority(CurrentUserUtil.getToken(),username);
+        Collection<YueChipSimpleGrantedAuthority> list = CurrentUserRedisUtil.getAuthority();
         for (String code : permissions) {
             YueChipSimpleGrantedAuthority grantedAuthority = new YueChipSimpleGrantedAuthority();
             grantedAuthority.setAuthority(code);

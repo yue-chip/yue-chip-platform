@@ -3,6 +3,7 @@ package com.yue.chip.utils;
 import com.yue.chip.security.YueChipSimpleGrantedAuthority;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,8 +22,10 @@ public class CurrentUserRedisUtil {
 
     private static volatile RedisTemplate redisTemplate;
 
-    public static Long getTenantId(String token,String username) {
-//        Object obj = getRedisTemplate().opsForValue().get(TENANT_ID +token+"_"+  username);
+    public static Long getTenantId(String token) {
+        if (!StringUtils.hasText(token)) {
+            return null;
+        }
         Object obj = getRedisTemplate().opsForValue().get(TENANT_ID +token);
         if (Objects.nonNull(obj)) {
             return toLong(obj);
@@ -30,13 +33,17 @@ public class CurrentUserRedisUtil {
         return null;
     }
 
-    public static void setTenantId(String token,String username,Long tenantId) {
-//        getRedisTemplate().opsForValue().set(TENANT_ID + token + "_" + username, tenantId,30, TimeUnit.DAYS);
+    public static void setTenantId(String token,Long tenantId) {
+        if (!StringUtils.hasText(token) || Objects.isNull(tenantId)) {
+            return;
+        }
         getRedisTemplate().opsForValue().set(TENANT_ID + token, tenantId,30, TimeUnit.DAYS);
     }
 
-    public static Long getUserId(String token,String username) {
-//        Object obj = getRedisTemplate().opsForValue().get(USER_ID +token+"_"+  username);
+    public static Long getUserId(String token) {
+        if (!StringUtils.hasText(token)) {
+            return null;
+        }
         Object obj = getRedisTemplate().opsForValue().get(USER_ID +token);
         if (Objects.nonNull(obj)) {
             return toLong(obj);
@@ -44,13 +51,14 @@ public class CurrentUserRedisUtil {
         return null;
     }
 
-    public static void setAuthority(String token,String username,Collection<GrantedAuthority> authorities) {
-//        getRedisTemplate().opsForValue().set(CurrentUserUtil.AUTHORITY+token+"_"+username,authorities,30, TimeUnit.DAYS);
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.AUTHORITY+token,authorities);
+    public static void setAuthority(String token,Collection<GrantedAuthority> authorities) {
+        if (!StringUtils.hasText(token)) {
+            return;
+        }
+        getRedisTemplate().opsForValue().set(CurrentUserUtil.AUTHORITY+token,authorities,30, TimeUnit.DAYS);
     }
 
-    public static Collection<YueChipSimpleGrantedAuthority> getAuthority(String token,String username) {
-//        Object obj = redisTemplate.opsForValue().get(CurrentUserUtil.AUTHORITY+CurrentUserUtil.getToken()+"_"+username);
+    public static Collection<YueChipSimpleGrantedAuthority> getAuthority() {
         Object obj = redisTemplate.opsForValue().get(CurrentUserUtil.AUTHORITY+CurrentUserUtil.getToken());
         if (Objects.nonNull(obj)) {
             Collection<YueChipSimpleGrantedAuthority> list = (Collection<YueChipSimpleGrantedAuthority>) obj;
@@ -59,8 +67,10 @@ public class CurrentUserRedisUtil {
         return Collections.EMPTY_LIST;
     }
 
-    public static void setUserId(String token,String username,Long userId) {
-//        getRedisTemplate().opsForValue().set(USER_ID+token+"_"+username,userId,30, TimeUnit.DAYS);
+    public static void setUserId(String token,Long userId) {
+        if (!StringUtils.hasText(token)) {
+            return;
+        }
         getRedisTemplate().opsForValue().set(USER_ID+token,userId,30, TimeUnit.DAYS);
     }
 

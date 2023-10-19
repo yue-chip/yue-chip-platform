@@ -11,6 +11,7 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -40,7 +41,6 @@ public class CurrentUserUtil {
     public static final String TENANT_ID = "tenant-id-";
     public static final String USER_ID = "user-id-";
     public static final String ID = "id";
-    public static final String TOKEN_ID = "token-id-";
     public static final String TOKEN_USERNAME = "token-username-";
     private static volatile RedisTemplate redisTemplate;
 
@@ -63,31 +63,28 @@ public class CurrentUserUtil {
         if(StringUtils.hasText(username)) {
             user = getCurrentUserBean().findUserToMap(username);
         }
-        if((Objects.isNull(user) || user.isEmpty() || user.size() ==0 || !user.containsKey("id")) && isMustLogin){
+        if((Objects.isNull(user) || user.isEmpty() || user.size() ==0 || !user.containsKey(ID)) && isMustLogin){
             AuthorizationException.throwException("登陆异常，请重新登陆");
         }
         return user;
     }
 
     public static Long getCurrentUserTenantId(Boolean isMustLogin){
-        String username = getUsername();
         Long tenantId = null;
         if (isHttpWebRequest()) {
-            if (StringUtils.hasText(username)) {
-                tenantId = CurrentUserRedisUtil.getTenantId(getToken(),username);
-            }
+            tenantId = CurrentUserRedisUtil.getTenantId(getToken());
         }else {
             Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_ID);
             if (Objects.nonNull(obj)) {
                 tenantId = (Long) obj;
-                CurrentUserRedisUtil.setTenantId(username,getToken(),tenantId);
+                CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
             }
         }
         if (Objects.isNull(tenantId)) {
             Map<String, Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
-            if (Objects.nonNull(user) && user.containsKey("tenantId") && Objects.nonNull(user.get("tenantId"))) {
-                tenantId = (Long) user.get("tenantId");
-                CurrentUserRedisUtil.setTenantId(username,getToken(),tenantId);
+            if (Objects.nonNull(user) && user.containsKey(DubboConstant.TENANT_ID) && Objects.nonNull(user.get(DubboConstant.TENANT_ID))) {
+                tenantId = (Long) user.get(DubboConstant.TENANT_ID);
+                CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
             }
         }
         return tenantId;
@@ -148,7 +145,12 @@ public class CurrentUserUtil {
         }else if (Objects.nonNull(authentication) && authentication instanceof AbstractAuthenticationToken) {
             username = (String) authentication.getPrincipal();
             if (!StringUtils.hasText(username)) {
-                BusinessException.throwException("登录异常");
+                AuthorizationException.throwException("登陆异常，请重新登陆");
+            }
+        }else if (Objects.nonNull(authentication) && authentication instanceof UsernamePasswordAuthenticationToken) {
+            username = (String) authentication.getPrincipal();
+            if (!StringUtils.hasText(username)) {
+                AuthorizationException.throwException("登陆异常，请重新登陆");
             }
         }
         return username;
@@ -163,28 +165,17 @@ public class CurrentUserUtil {
     }
 
     public static Long getCurrentUserId(Boolean isMustLogin){
-        String username = getUsername();
-        Long userId = null;
-        if (StringUtils.hasText(username)) {
-            userId = CurrentUserRedisUtil.getUserId(getToken(),username);
-        }
-
+        Long userId = CurrentUserRedisUtil.getUserId(getToken());
         if (Objects.isNull(userId)) {
             Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USER_ID);
             if (Objects.nonNull(obj)) {
                 userId = (Long) obj;
-                CurrentUserRedisUtil.setUserId(getToken(),username,userId);
+                CurrentUserRedisUtil.setUserId(getToken(),userId);
             }
         }
-//        if (Objects.nonNull(userId)) {
-//            return userId;
-//        }else {
-//            Map<String, Object> currentUser = getCurrentUser(isMustLogin);
-//            if (Objects.nonNull(currentUser) && currentUser.containsKey(ID)) {
-//                userId = (Long) currentUser.get(ID);
-//                CurrentUserRedisUtil.setUserId(getToken(), username, userId);
-//            }
-//        }
+        if (Objects.isNull(userId) && isMustLogin){
+            AuthorizationException.throwException("登陆异常，请重新登陆");
+        }
         return userId;
     }
 

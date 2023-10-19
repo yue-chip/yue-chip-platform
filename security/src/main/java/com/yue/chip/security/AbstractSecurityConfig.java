@@ -52,6 +52,7 @@ public abstract class AbstractSecurityConfig {
         authorizationIgnoreProperties.getIgnoreUrl().add("/favicon.ico");
         YueChipAuthenticationFilter yueChipAuthenticationFilter = new YueChipAuthenticationFilter();
         yueChipAuthenticationFilter.setAuthorizationIgnoreProperties(authorizationIgnoreProperties);
+        System.out.println(authorizationIgnoreProperties);
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> {
                     httpSecurityCsrfConfigurer.disable();
                 }).cors(httpSecurityCorsConfigurer -> {
@@ -72,14 +73,14 @@ public abstract class AbstractSecurityConfig {
                             HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper((HttpServletRequest) request) {
                                 @Override
                                 public String getHeader(String name) {
-                                    if(StringUtils.hasText(name) && authorizationToken.equals(name.toLowerCase()) ){
+                                    if(StringUtils.hasText(name) && (authorizationToken.equals(name.toLowerCase())  || Objects.equals("token",name.toLowerCase()))){
                                         return null;
                                     }
                                     return super.getHeader(name);
                                 }
                                 @Override
                                 public Enumeration<String> getHeaders(String name) {
-                                    if(StringUtils.hasText(name) && authorizationToken.equals(name.toLowerCase()) ){
+                                    if(StringUtils.hasText(name) && (authorizationToken.equals(name.toLowerCase())  || Objects.equals("token",name.toLowerCase()))){
                                         return new Enumeration() {
                                             @Override
                                             public boolean hasMoreElements() {

@@ -16,7 +16,7 @@ public class CurrentUserIdUtil {
     private static Long getCurrentUserId(){
         Long userId = null;
         if (Objects.isNull(threadLocal.get())) {
-            userId = com.yue.chip.utils.CurrentUserUtil.getCurrentUserId();
+            userId = com.yue.chip.utils.CurrentUserUtil.getCurrentUserId(false);
             if (Objects.nonNull(userId)){
                 threadLocal.set(userId);
             }

@@ -13,7 +13,7 @@ public class CurrentTenantUtil {
     private static Long getCurrentTenant(){
         Long tenantId = null;
         if (Objects.isNull(threadLocal.get())) {
-            tenantId = com.yue.chip.utils.CurrentUserUtil.getCurrentUserTenantId();
+            tenantId = com.yue.chip.utils.CurrentUserUtil.getCurrentUserTenantId(false);
             if (Objects.nonNull(tenantId)){
                 threadLocal.set(tenantId);
             }
