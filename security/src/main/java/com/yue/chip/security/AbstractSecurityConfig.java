@@ -52,7 +52,6 @@ public abstract class AbstractSecurityConfig {
         authorizationIgnoreProperties.getIgnoreUrl().add("/favicon.ico");
         YueChipAuthenticationFilter yueChipAuthenticationFilter = new YueChipAuthenticationFilter();
         yueChipAuthenticationFilter.setAuthorizationIgnoreProperties(authorizationIgnoreProperties);
-        System.out.println(authorizationIgnoreProperties);
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> {
                     httpSecurityCsrfConfigurer.disable();
                 }).cors(httpSecurityCorsConfigurer -> {

@@ -14,6 +14,7 @@ allprojects {
 }
 subprojects {
     configurations.all() {
+        resolutionStrategy.cacheChangingModulesFor 600, 'seconds'
         resolutionStrategy.force "org.reflections:reflections:0.9.12"
     }
 }

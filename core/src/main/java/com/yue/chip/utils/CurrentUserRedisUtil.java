@@ -37,7 +37,7 @@ public class CurrentUserRedisUtil {
         if (!StringUtils.hasText(token) || Objects.isNull(tenantId)) {
             return;
         }
-        getRedisTemplate().opsForValue().set(TENANT_ID + token, tenantId,30, TimeUnit.DAYS);
+        getRedisTemplate().opsForValue().set(TENANT_ID + token, tenantId,30, TimeUnit.MINUTES);
     }
 
     public static Long getUserId(String token) {
@@ -49,6 +49,13 @@ public class CurrentUserRedisUtil {
             return toLong(obj);
         }
         return null;
+    }
+
+    public static void setUserId(String token,Long userId) {
+        if (!StringUtils.hasText(token)) {
+            return;
+        }
+        getRedisTemplate().opsForValue().set(USER_ID+token,userId,30, TimeUnit.MINUTES);
     }
 
     public static void setAuthority(String token,Collection<GrantedAuthority> authorities) {
@@ -65,13 +72,6 @@ public class CurrentUserRedisUtil {
             return list;
         }
         return Collections.EMPTY_LIST;
-    }
-
-    public static void setUserId(String token,Long userId) {
-        if (!StringUtils.hasText(token)) {
-            return;
-        }
-        getRedisTemplate().opsForValue().set(USER_ID+token,userId,30, TimeUnit.DAYS);
     }
 
     private static RedisTemplate getRedisTemplate(){

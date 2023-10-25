@@ -25,7 +25,7 @@ public class YueChipLoadBalance extends AbstractLoadBalance {
 
     public static final String NAME = "lionLoadBalance";
 
-    private static volatile YueChipLoadBalanceMetadate yueChipLoadBalanceMetadate;
+    private static volatile YueChipLoadBalanceMetadata yueChipLoadBalanceMetadate;
 
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
@@ -37,7 +37,7 @@ public class YueChipLoadBalance extends AbstractLoadBalance {
                 }
             }
         }
-        String developmentIpRange = getLionLoadBalanceMetadate().getDevelopmentIpRange();
+        String developmentIpRange = getLionLoadBalanceMetadata().getDevelopmentIpRange();
         String[] ips = null;
         if (Objects.nonNull(developmentIpRange) && developmentIpRange.indexOf("-")>-1) {
             ips = developmentIpRange.split("-");
@@ -75,11 +75,11 @@ public class YueChipLoadBalance extends AbstractLoadBalance {
     }
 
 
-    private YueChipLoadBalanceMetadate getLionLoadBalanceMetadate(){
+    private YueChipLoadBalanceMetadata getLionLoadBalanceMetadata(){
         synchronized (YueChipLoadBalance.class){
             if (Objects.isNull(yueChipLoadBalanceMetadate)){
                 synchronized (YueChipLoadBalance.class) {
-                    yueChipLoadBalanceMetadate = (YueChipLoadBalanceMetadate) SpringContextUtil.getBean("lionLoadBalanceMetadate");
+                    yueChipLoadBalanceMetadate = (YueChipLoadBalanceMetadata) SpringContextUtil.getBean("yueChipLoadBalanceMetadata");
                 }
             }
         }

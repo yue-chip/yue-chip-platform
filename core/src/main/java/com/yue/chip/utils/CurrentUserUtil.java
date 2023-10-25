@@ -60,11 +60,11 @@ public class CurrentUserUtil {
             RpcContext rpcContext = RpcContext.getServiceContext();
             username = String.valueOf(rpcContext.getObjectAttachments().get(DubboConstant.USERNAME));
         }
+        if(!StringUtils.hasText(username) && isMustLogin){
+            AuthorizationException.throwException("登陆异常，请重新登陆");
+        }
         if(StringUtils.hasText(username)) {
             user = getCurrentUserBean().findUserToMap(username);
-        }
-        if((Objects.isNull(user) || user.isEmpty() || user.size() ==0 || !user.containsKey(ID)) && isMustLogin){
-            AuthorizationException.throwException("登陆异常，请重新登陆");
         }
         return user;
     }
@@ -80,30 +80,18 @@ public class CurrentUserUtil {
                 CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
             }
         }
-        if (Objects.isNull(tenantId)) {
-            Map<String, Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
-            if (Objects.nonNull(user) && user.containsKey(DubboConstant.TENANT_ID) && Objects.nonNull(user.get(DubboConstant.TENANT_ID))) {
-                tenantId = (Long) user.get(DubboConstant.TENANT_ID);
-                CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
-            }
-        }
+//        if (Objects.isNull(tenantId)) {
+//            Map<String, Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
+//            if (Objects.nonNull(user) && user.containsKey(DubboConstant.TENANT_ID) && Objects.nonNull(user.get(DubboConstant.TENANT_ID))) {
+//                tenantId = (Long) user.get(DubboConstant.TENANT_ID);
+//                CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
+//            }
+//        }
         return tenantId;
     }
 
     public static Long getCurrentUserTenantId(){
         return getCurrentUserTenantId(true);
-    }
-
-    /**
-     * 获取当前用户姓名
-     * @return
-     */
-    private static String getCurrentUserName(){
-        Map<String,Object> currentUser = getCurrentUser();
-        if(currentUser.containsKey(NAME)){
-            return String.valueOf(currentUser.get(NAME));
-        }
-        return "";
     }
 
     /**

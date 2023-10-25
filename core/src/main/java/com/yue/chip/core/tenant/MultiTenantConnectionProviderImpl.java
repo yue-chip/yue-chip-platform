@@ -102,6 +102,9 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     private String getTenantDatabaseName() {
         Long tenantId = TenantUtil.getTenantId();
-        return getPrefixDataBase().concat(PREFIX_TENANT).concat(Objects.isNull(tenantId)?TENANT_ID:String.valueOf(tenantId));
+        if (Objects.isNull(tenantId)) {
+            return getPrefixDataBase();
+        }
+        return getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantId));
     }
 }

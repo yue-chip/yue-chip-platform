@@ -19,7 +19,7 @@ public class CurrentTenantUtil {
             }
         }
         if (Objects.isNull(tenantId)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.USERNAME);
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_ID);
             if (Objects.nonNull(obj)) {
                 tenantId = Long.valueOf(String.valueOf(obj));
                 threadLocal.set(tenantId);
