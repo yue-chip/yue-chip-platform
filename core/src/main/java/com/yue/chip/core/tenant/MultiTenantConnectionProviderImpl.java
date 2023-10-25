@@ -1,8 +1,10 @@
 package com.yue.chip.core.tenant;
 
+import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.CurrentUserUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +32,7 @@ import static com.yue.chip.core.tenant.TenantConstant.TENANT_ID;
  */
 @Component
 @ConditionalOnProperty(prefix = "spring",name = "jpa.hibernate.multiTenant",havingValue = "enabled")
+@Slf4j
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
 
 
@@ -54,13 +57,18 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     @Override
     public Connection getConnection(String tenantIdentifier) throws SQLException {
         Connection connection = getAnyConnection();
-        connection.createStatement().execute("USE " + getTenantDatabaseName());
+        try {
+            connection.createStatement().execute("USE " + getTenantDatabaseName());
+        }catch (Exception e){
+            e.printStackTrace();
+            BusinessException.throwException("该租户不存在");
+        }
         return connection;
     }
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-        connection.createStatement().execute("USE " + getPrefixDataBase().concat(tenantIdentifier));
+        connection.createStatement().execute("USE " + getTenantDatabaseName());
         connection.close();
     }
 
@@ -102,9 +110,13 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     private String getTenantDatabaseName() {
         Long tenantId = TenantUtil.getTenantId();
+        String databaseName = "";
         if (Objects.isNull(tenantId)) {
-            return getPrefixDataBase();
+            databaseName = getPrefixDataBase();
+        }else {
+            databaseName = getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantId));
         }
-        return getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantId));
+        log.info("切换数据库：".concat(databaseName));
+        return databaseName;
     }
 }

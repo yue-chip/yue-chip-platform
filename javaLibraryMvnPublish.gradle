@@ -8,7 +8,7 @@ publishing {
         mavenJava(MavenPublication){
             artifactId = project.archivesBaseName
             from components.java
-            artifact sourcesJar
+//            artifact sourcesJar
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -20,7 +20,7 @@ publishing {
         }
     }
     repositories {
-        mavenLocal()
+//        mavenLocal()
         maven {
             allowInsecureProtocol true
             url = mavenSnapshots
