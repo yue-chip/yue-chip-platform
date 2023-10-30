@@ -35,7 +35,7 @@ public class YueChipAuthenticationFilter extends GenericFilterBean implements In
         if (StringUtils.hasText(username) && !authorizationIgnoreProperties.getIgnoreUrl().contains(url)) {
             UsernamePasswordAuthenticationToken yueChipAuthenticationToken = new UsernamePasswordAuthenticationToken(username,"", Collections.EMPTY_LIST);
             SecurityContextHolder.getContext().setAuthentication(yueChipAuthenticationToken);
-            YueChipRedisTokenStoreUtil.renewal(username,null,token);
+            YueChipRedisTokenStoreUtil.renewal(token);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

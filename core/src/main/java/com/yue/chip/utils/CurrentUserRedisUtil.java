@@ -22,6 +22,8 @@ public class CurrentUserRedisUtil {
 
     private static volatile RedisTemplate redisTemplate;
 
+    public static final int timeout = 60*24*30;
+
     public static Long getTenantId(String token) {
         if (!StringUtils.hasText(token)) {
             return null;
@@ -37,7 +39,53 @@ public class CurrentUserRedisUtil {
         if (!StringUtils.hasText(token) || Objects.isNull(tenantId)) {
             return;
         }
-        getRedisTemplate().opsForValue().set(TENANT_ID + token, tenantId,30, TimeUnit.MINUTES);
+        getRedisTemplate().opsForValue().set(TENANT_ID + token, tenantId,timeout, TimeUnit.MINUTES);
+    }
+
+    public static void deleteTenantId(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().delete(TENANT_ID + token);
+    }
+
+    public static void expireTenantId(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().expire(TENANT_ID + token, timeout, TimeUnit.MINUTES);
+    }
+
+    public static Long getUsername(String token) {
+        if (!StringUtils.hasText(token)) {
+            return null;
+        }
+        Object obj = getRedisTemplate().opsForValue().get(CurrentUserUtil.TOKEN_USERNAME +token);
+        if (Objects.nonNull(obj)) {
+            return toLong(obj);
+        }
+        return null;
+    }
+
+    public static void setUsername(String token,String username) {
+        if (!StringUtils.hasText(token) || !StringUtils.hasText(username)) {
+            return;
+        }
+        getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_USERNAME+token,username,timeout, TimeUnit.MINUTES);
+    }
+
+    public static void deleteUsername(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().delete(CurrentUserUtil.TOKEN_USERNAME + token);
+    }
+
+    public static void expireUsername(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().expire(CurrentUserUtil.TOKEN_USERNAME + token, timeout, TimeUnit.MINUTES);
     }
 
     public static Long getUserId(String token) {
@@ -55,14 +103,35 @@ public class CurrentUserRedisUtil {
         if (!StringUtils.hasText(token)) {
             return;
         }
-        getRedisTemplate().opsForValue().set(USER_ID+token,userId,30, TimeUnit.MINUTES);
+        getRedisTemplate().opsForValue().set(USER_ID+token,userId,timeout, TimeUnit.MINUTES);
+    }
+
+    public static void deleteUserId(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().delete(USER_ID + token);
+    }
+
+    public static void expireUserId(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().expire(USER_ID + token, timeout, TimeUnit.MINUTES);
     }
 
     public static void setAuthority(String token,Collection<GrantedAuthority> authorities) {
         if (!StringUtils.hasText(token)) {
             return;
         }
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.AUTHORITY+token,authorities,30, TimeUnit.DAYS);
+        getRedisTemplate().opsForValue().set(CurrentUserUtil.AUTHORITY+token,authorities,timeout, TimeUnit.DAYS);
+    }
+
+    public static void deleteAuthority(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().delete(CurrentUserUtil.AUTHORITY + token);
     }
 
     public static Collection<YueChipSimpleGrantedAuthority> getAuthority() {

@@ -18,24 +18,28 @@ public class YueChipRedisTokenStoreUtil {
 
     private static volatile RedisTemplate redisTemplate;
 
-
     public static void store(YueChipUserDetails yueChipUserDetails,String token) {
-        renewal(yueChipUserDetails.getUsername(),yueChipUserDetails.getId(),token);
+        CurrentUserRedisUtil.setUsername(token,yueChipUserDetails.getUsername());
         CurrentUserRedisUtil.setTenantId(token,yueChipUserDetails.getTenantId());
         CurrentUserRedisUtil.setUserId(token,yueChipUserDetails.getId());
         CurrentUserRedisUtil.setAuthority(token,yueChipUserDetails.getAuthorities());
     }
 
-    public static void renewal(String username,Long userId, String token){
-        if (Objects.isNull(userId)) {
-            userId =  CurrentUserRedisUtil.getUserId(token);
-        }
+    public static void clean(String token) {
+        CurrentUserRedisUtil.deleteTenantId(token);
+        CurrentUserRedisUtil.deleteAuthority(token);
+        CurrentUserRedisUtil.deleteUserId(token);
+        CurrentUserRedisUtil.deleteUsername(token);
+    }
+
+    public static void renewal(String token){
+        Long userId =  CurrentUserRedisUtil.getUserId(token);
         if (Objects.isNull(userId)) {
             AuthorizationException.throwException("登陆异常，请重新登陆");
         }
-        CurrentUserRedisUtil.setTenantId(token,CurrentUserRedisUtil.getTenantId(token));
-        CurrentUserRedisUtil.setUserId(token,userId);
-        getRedisTemplate().opsForValue().set(CurrentUserUtil.TOKEN_USERNAME+token,username,30, TimeUnit.MINUTES);
+        CurrentUserRedisUtil.expireTenantId(token);
+        CurrentUserRedisUtil.expireUserId(token);
+        CurrentUserRedisUtil.expireUsername(token);
     }
 
     public static String getUsername(String token) {

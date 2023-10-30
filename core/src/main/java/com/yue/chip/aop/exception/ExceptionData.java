@@ -10,6 +10,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.transaction.CannotCreateTransactionException;
@@ -45,7 +46,7 @@ public class ExceptionData {
     }
 
     private static void handle(final Throwable e,final ResultData resultData) throws Throwable{
-        if (e instanceof InternalAuthenticationServiceException){
+        if (e instanceof InternalAuthenticationServiceException || e instanceof AuthenticationServiceException){
             resultData.setMessage( "用户名/密码错误");
         }else if (e instanceof IllegalArgumentException){
             resultData.setMessage( e.getMessage());
