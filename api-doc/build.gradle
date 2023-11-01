@@ -23,6 +23,12 @@ dependencies{
     }
 //    api 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testCompileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
 
 

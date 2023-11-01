@@ -30,12 +30,14 @@ dependencies {
     compileOnly 'com.querydsl:querydsl-jpa'
     compileOnly 'com.querydsl:querydsl-apt'
     compileOnly "uk.co.jemos.podam:podam"
+    compileOnly "com.aliyun:dysmsapi20170525"
+    compileOnly "com.tencentcloudapi:tencentcloud-sdk-java-sms"
+    compileOnly "org.mapstruct:mapstruct"
+    compileOnly "org.mapstruct:mapstruct-processor"
+    compileOnly "org.mapstruct:mapstruct-jdk8"
+    compileOnly "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok-mapstruct-binding"
     api 'cn.hutool:hutool-all'
-    api "org.mapstruct:mapstruct"
-    api "org.mapstruct:mapstruct-processor"
-    api "org.mapstruct:mapstruct-jdk8"
-    api "org.projectlombok:lombok"
-    api "org.projectlombok:lombok-mapstruct-binding"
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"
     api 'org.apache.skywalking:apm-toolkit-micrometer-1.10'
@@ -43,5 +45,6 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testCompileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

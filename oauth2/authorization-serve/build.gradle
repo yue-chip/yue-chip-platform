@@ -45,9 +45,15 @@ dependencies {
     }
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
     api 'com.google.guava:guava'
+    compileOnly "org.mapstruct:mapstruct"
+    compileOnly "org.mapstruct:mapstruct-processor"
+    compileOnly "org.mapstruct:mapstruct-jdk8"
+    compileOnly "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok-mapstruct-binding"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testCompileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

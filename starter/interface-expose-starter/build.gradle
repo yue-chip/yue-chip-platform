@@ -17,4 +17,15 @@ dependencies {
     api 'org.apache.dubbo:dubbo-metrics-api'
     api 'org.apache.skywalking:apm-toolkit-micrometer-1.10'
     implementation 'org.springframework.security:spring-security-oauth2-authorization-server'
+    compileOnly "org.mapstruct:mapstruct"
+    compileOnly "org.mapstruct:mapstruct-processor"
+    compileOnly "org.mapstruct:mapstruct-jdk8"
+    compileOnly "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok-mapstruct-binding"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testCompileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

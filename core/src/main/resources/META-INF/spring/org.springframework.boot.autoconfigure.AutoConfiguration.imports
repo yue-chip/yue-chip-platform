@@ -13,3 +13,5 @@ com.yue.chip.config.LettuceConnectionValidConfig
 com.yue.chip.config.WebConfig
 com.yue.chip.config.SpringDocConfiguration
 com.yue.chip.config.EnumConverter
+com.yue.chip.config.AliyunSmsClient
+com.yue.chip.config.TencentSmsClient

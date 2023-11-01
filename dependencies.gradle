@@ -38,6 +38,8 @@ ext {
     javafakerVserion = '1.0.2'
     podamVersion = '7.2.11.RELEASE'
     springStatemachineVersion = '3.2.1'
+    dysmsapiVervion = '2.0.24'
+    tencentcloudSmsVersion = '3.1.893'
 }
 
 dependencies {
@@ -123,6 +125,8 @@ dependencies {
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
         api "com.google.guava:guava:${guavaVersion}"
+        api "com.aliyun:dysmsapi20170525:${dysmsapiVervion}"
+        api "com.tencentcloudapi:tencentcloud-sdk-java-sms:${tencentcloudSmsVersion}"
         api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
         api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVersion}" ,classifier:'jakarta'
     }

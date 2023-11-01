@@ -20,4 +20,15 @@ dependencies {
 //    api ('com.github.javafaker:javafaker') { exclude group: 'org.yaml'}
     api 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    compileOnly "org.mapstruct:mapstruct"
+    compileOnly "org.mapstruct:mapstruct-processor"
+    compileOnly "org.mapstruct:mapstruct-jdk8"
+    compileOnly "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok-mapstruct-binding"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testCompileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

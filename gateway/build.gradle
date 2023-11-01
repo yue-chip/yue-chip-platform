@@ -42,6 +42,12 @@ dependencies{
     api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
         exclude group: "org.springframework.cloud", module: "spring-cloud-starter-netflix-ribbon"
     }
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testCompileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor"org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
 
 
