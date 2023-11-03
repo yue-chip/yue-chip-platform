@@ -20,10 +20,10 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass( {SmsClient.class} )
 public class TencentSmsClient {
 
-    @Value("${sms.provider.tencent.secretKey}")
+    @Value("${sms.secretKey}")
     private String secretKey;
 
-    @Value("${sms.provider.tencent.secretId}")
+    @Value("${sms.secretId}")
     private String secretId;
 
     @Bean

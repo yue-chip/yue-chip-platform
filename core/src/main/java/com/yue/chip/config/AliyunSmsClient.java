@@ -19,10 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass( {Client.class} )
 public class AliyunSmsClient {
 
-    @Value("${sms.provider.aliyun.accessKey}")
+    @Value("${sms.accessKey}")
     private String accessKey;
 
-    @Value("${sms.provider.aliyun.accessKeySecret}")
+    @Value("${sms.accessKeySecret}")
     private String accessKeySecret;
 
     @Bean
