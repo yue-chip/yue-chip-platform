@@ -134,6 +134,13 @@ public class CurrentUserRedisUtil {
         getRedisTemplate().delete(CurrentUserUtil.AUTHORITY + token);
     }
 
+    public static void expireAuthority(String token) {
+        if (!StringUtils.hasText(token) ) {
+            return;
+        }
+        getRedisTemplate().expire(CurrentUserUtil.AUTHORITY + token, timeout, TimeUnit.MINUTES);
+    }
+
     public static Collection<YueChipSimpleGrantedAuthority> getAuthority() {
         Object obj = redisTemplate.opsForValue().get(CurrentUserUtil.AUTHORITY+CurrentUserUtil.getToken());
         if (Objects.nonNull(obj)) {

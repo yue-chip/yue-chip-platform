@@ -40,6 +40,7 @@ public class YueChipRedisTokenStoreUtil {
         CurrentUserRedisUtil.expireTenantId(token);
         CurrentUserRedisUtil.expireUserId(token);
         CurrentUserRedisUtil.expireUsername(token);
+        CurrentUserRedisUtil.expireAuthority(token);
     }
 
     public static String getUsername(String token) {
