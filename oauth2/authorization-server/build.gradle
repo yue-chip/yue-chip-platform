@@ -3,7 +3,7 @@ plugins {
     id 'application'
     id 'org.graalvm.buildtools.native' version "${nativeVersion}"
 }
-archivesBaseName = 'yue-chip-oauth2-authorization-serve'
+archivesBaseName = 'yue-chip-oauth2-authorization-server'
 apply plugin: 'org.springframework.boot'
 apply from: this.rootProject.file('javaLibrary.gradle')
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')

@@ -1,5 +1,5 @@
 apply from: this.rootProject.file('javaLibrary.gradle')
-archivesBaseName = 'yue-chip-oauth2-resource-serve'
+archivesBaseName = 'yue-chip-oauth2-resource-server'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))

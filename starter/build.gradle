@@ -9,6 +9,6 @@ dependencies {
         api "yue.chip:yue-chip-interface-expose-starter:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
         api "yue.chip:yue-chip-serve-starter:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
         api "yue.chip:yue-chip-security:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
-        api "yue.chip:yue-chip-oauth2-resource-serve:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
+        api "yue.chip:yue-chip-oauth2-resource-server:${project.hasProperty('VERSION') ? String.valueOf(VERSION) : projectVersion}"
     }
 }

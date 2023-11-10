@@ -2,7 +2,7 @@ rootProject.name = 'yue-chip-platform'
 include ':core',
         ':gateway',
         ':oauth2:authorization-server',
-        ':oauth2:resource-serve',
+        ':oauth2:resource-server',
         ':starter',
         ':starter:business-starter',
         ':starter:interface-expose-impl-starter',
