@@ -37,6 +37,7 @@ dependencies {
     compileOnly "org.mapstruct:mapstruct-jdk8"
     compileOnly "org.projectlombok:lombok"
     compileOnly "org.projectlombok:lombok-mapstruct-binding"
+    compileOnly "org.springframework.kafka:spring-kafka"
     api 'cn.hutool:hutool-all'
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"
