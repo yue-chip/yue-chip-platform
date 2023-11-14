@@ -31,13 +31,14 @@ import java.util.Objects;
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class PageRequestInjection {
 
-    @Around(value = "(@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+    @Around(value = "( @annotation(org.springframework.web.bind.annotation.RequestMapping) " +
             "|| @annotation(org.springframework.web.bind.annotation.GetMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.PutMapping)"+
             "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)"+
-            "|| @annotation(org.springframework.web.bind.annotation.PatchMapping))" +
-            "&& ( execution(public * com.yue.chip..*.*(..))) || execution(public * com.xiao.wei..*.*(..))) )" )
+            "|| @annotation(org.springframework.web.bind.annotation.PatchMapping) )" +
+            "&& ( execution(public * com.yue.chip..*.*(..)) " +
+            "|| execution(public * com.xiao.wei..*.*(..)) )" )
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Object invokeResult = null;
         Object[] args = pjp.getArgs();

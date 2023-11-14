@@ -21,11 +21,11 @@ import org.springframework.stereotype.Component;
 @ConditionalOnClass(Page.class)
 public class PageConvert {
 
-    @Around(value = "(execution(org.springframework.data.domain.Page com.yue.chip..*.expose..*.*(..)) " +
-            "            || execution(org.springframework.data.domain.PageImpl com.yue.chip..*.expose..*.*(..))" +
-            "            || execution(org.springframework.data.domain.Page com.yue.chip..*.service..*.*(..))" +
-            "            || execution(org.springframework.data.domain.PageImpl com.yue.chip..*.service..*.*(..))" +
-            "            && ( execution(public * com.yue.chip..*.*(..))) || execution(public * com.xiao.wei..*.*(..))) )")
+    @Around(value = "(execution(org.springframework.data.domain.Page com..*.expose..*.*(..)) " +
+            "            || execution(org.springframework.data.domain.PageImpl com..*.expose..*.*(..))" +
+            "            || execution(org.springframework.data.domain.Page com..*.service..*.*(..))" +
+            "            || execution(org.springframework.data.domain.PageImpl com..*.service..*.*(..)) )" +
+            "            && ( execution(public * com.yue.chip..*.*(..)) || execution(public * com.xiao.wei..*.*(..)) )")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Object obj = pjp.proceed();
         if (obj instanceof Page){
