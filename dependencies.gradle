@@ -39,6 +39,7 @@ ext {
     podamVersion = '7.2.11.RELEASE'
     springStatemachineVersion = '3.2.1'
     dysmsapiVervion = '2.0.24'
+    dyvmsapiVervion = '2.1.4'
     tencentcloudSmsVersion = '3.1.893'
     kafkaVersion = '3.0.12'
 }
@@ -127,6 +128,7 @@ dependencies {
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
         api "com.google.guava:guava:${guavaVersion}"
         api "com.aliyun:dysmsapi20170525:${dysmsapiVervion}"
+        api "com.aliyun:dyvmsapi20170525:${dyvmsapiVervion}"
         api "org.springframework.kafka:spring-kafka:${kafkaVersion}"
         api "com.tencentcloudapi:tencentcloud-sdk-java-sms:${tencentcloudSmsVersion}"
         api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
