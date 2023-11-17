@@ -1,9 +1,6 @@
 package com.yue.chip.config;
 
 import com.aliyun.dyvmsapi20170525.Client;
-import com.aliyun.dyvmsapi20170525.models.SingleCallByTtsRequest;
-import com.aliyun.dyvmsapi20170525.models.SingleCallByTtsResponse;
-import com.aliyun.dyvmsapi20170525.models.SingleCallByTtsResponseBody;
 import com.aliyun.teaopenapi.models.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
