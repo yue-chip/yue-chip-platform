@@ -10,6 +10,7 @@ import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -51,7 +52,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public void releaseAnyConnection(Connection connection) throws SQLException {
-        connection.close();
+        DataSourceUtils.releaseConnection(connection,dataSource);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
         connection.createStatement().execute("USE " + getTenantDatabaseName());
-        connection.close();
+        DataSourceUtils.releaseConnection(connection,dataSource);
     }
 
     @Override

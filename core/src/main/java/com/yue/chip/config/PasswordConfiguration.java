@@ -25,6 +25,6 @@ public class PasswordConfiguration {
     }
 
     public static void main(String args[]) {
-        System.out.println(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(SecureUtil.md5("123456")));
+        System.out.println(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(SecureUtil.md5("admin")));
     }
 }
