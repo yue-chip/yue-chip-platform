@@ -47,7 +47,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-        return dataSource.getConnection();
+        return DataSourceUtils.getConnection(dataSource);
     }
 
     @Override
