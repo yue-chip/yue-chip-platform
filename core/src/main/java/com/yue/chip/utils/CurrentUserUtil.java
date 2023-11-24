@@ -47,6 +47,8 @@ public class CurrentUserUtil {
     public static Map<String,Object> getCurrentUser(){
         return getCurrentUser(true);
     }
+
+    public static ThreadLocal<Long> currentTenantId = new ThreadLocal<>();
     /**
      * 获取当前登陆用户
      * @return
@@ -71,6 +73,11 @@ public class CurrentUserUtil {
 
     public static Long getCurrentUserTenantId(Boolean isMustLogin){
         Long tenantId = null;
+
+        if (Objects.nonNull(getCurrentTenantId())) {
+            return getCurrentTenantId();
+        }
+
         if (isHttpWebRequest()) {
             tenantId = CurrentUserRedisUtil.getTenantId(getToken());
         }else {
@@ -223,6 +230,15 @@ public class CurrentUserUtil {
         return redisTemplate;
     }
 
+    public static Long getCurrentTenantId() {
+        return CurrentUserUtil.currentTenantId.get();
+    }
 
+    public static void setCurrentTenantId(Long currentTenantId) {
+        CurrentUserUtil.currentTenantId.set(currentTenantId);
+    }
 
+    public static void cleanCurrentTenantId() {
+        CurrentUserUtil.currentTenantId.remove();
+    }
 }
