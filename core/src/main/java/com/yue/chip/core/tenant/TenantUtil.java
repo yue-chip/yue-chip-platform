@@ -22,11 +22,14 @@ public class TenantUtil {
         if (Objects.nonNull(requestAttributes)) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
 //            if (Objects.nonNull(request) && Objects.equals(request.getRequestURI(),"/login1")) {
-            if (Objects.nonNull(request)) {
-                Object obj = request.getParameter("tenantId");
-                if (Objects.nonNull(obj) && StringUtils.hasText(String.valueOf(obj))) {
-                    tenantId = Long.valueOf(String.valueOf(obj));
-                }
+//                String remoteHost = request.getRemoteHost();
+
+                if (Objects.nonNull(request)) {
+                    Object obj = request.getParameter("tenantId");
+                    if (Objects.nonNull(obj) && StringUtils.hasText(String.valueOf(obj))) {
+                        tenantId = Long.valueOf(String.valueOf(obj));
+                    }
+//                }
             }
         }
         if (Objects.isNull(tenantId)) {

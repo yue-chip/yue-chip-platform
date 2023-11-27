@@ -117,7 +117,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
         }else {
             databaseName = getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantId));
         }
-        log.info("切换数据库：".concat(databaseName));
+//        log.info("切换数据库：".concat(databaseName));
         return databaseName;
     }
 }
