@@ -1,9 +1,7 @@
 package com.yue.chip.core.tenant;
 
 import com.yue.chip.exception.BusinessException;
-import com.yue.chip.utils.CurrentUserUtil;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -13,9 +11,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomi
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -24,7 +19,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
-import static com.yue.chip.core.tenant.TenantConstant.TENANT_ID;
 
 /**
  * @author Mr.Liu
@@ -110,14 +104,14 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     }
 
     private String getTenantDatabaseName() {
-        Long tenantId = TenantUtil.getTenantId();
+        Long tenantNumber = TenantUtil.getTenantNumber();
         String databaseName = "";
-        if (Objects.isNull(tenantId)) {
+        if (Objects.isNull(tenantNumber)) {
             databaseName = getPrefixDataBase();
         }else {
-            databaseName = getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantId));
+            databaseName = getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantNumber));
         }
-//        log.info("切换数据库：".concat(databaseName));
+        log.info("切换数据库：".concat(databaseName));
         return databaseName;
     }
 }

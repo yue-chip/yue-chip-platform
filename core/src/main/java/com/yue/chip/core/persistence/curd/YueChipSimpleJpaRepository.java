@@ -105,6 +105,26 @@ public abstract class YueChipSimpleJpaRepository<T extends BaseEntity> extends S
 	}
 
 	@Override
+	public Page<?> findNavigator(String jpql) {
+		return selectRepository.findNavigator(jpql);
+	}
+
+	@Override
+	public Page<?> findNavigator(String jpql, Map<String, Object> searchParameter) {
+		return selectRepository.findNavigator(jpql, searchParameter);
+	}
+
+	@Override
+	public Page<?> findNavigatorByNativeSql(String sql) {
+		return selectRepository.findNavigatorByNativeSql(sql);
+	}
+
+	@Override
+	public Page<?> findNavigatorByNativeSql(String sql, Map<String, Object> searchParameter, Class<?> returnType) {
+		return selectRepository.findNavigatorByNativeSql(sql,searchParameter,returnType);
+	}
+
+	@Override
 	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public int update(String jpql) {
 		return updateRepository.update(jpql);

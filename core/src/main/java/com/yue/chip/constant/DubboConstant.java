@@ -50,7 +50,7 @@ public class DubboConstant {
     /**
      * 当前用户租户ID
      */
-    public static final String TENANT_ID = "tenantId";
+    public static final String TENANT_NUMBER = "tenantNumber";
 
     /**
      * 当前用户ID

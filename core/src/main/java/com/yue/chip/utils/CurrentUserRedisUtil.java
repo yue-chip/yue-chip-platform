@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.yue.chip.utils.CurrentUserUtil.TENANT_ID;
+import static com.yue.chip.utils.CurrentUserUtil.TENANT_NUMBER;
 import static com.yue.chip.utils.CurrentUserUtil.USER_ID;
 
 /**
@@ -24,36 +24,36 @@ public class CurrentUserRedisUtil {
 
     public static final int timeout = 60*24*30;
 
-    public static Long getTenantId(String token) {
+    public static Long getTenantNumber(String token) {
         if (!StringUtils.hasText(token)) {
             return null;
         }
-        Object obj = getRedisTemplate().opsForValue().get(TENANT_ID +token);
+        Object obj = getRedisTemplate().opsForValue().get(TENANT_NUMBER +token);
         if (Objects.nonNull(obj)) {
             return toLong(obj);
         }
         return null;
     }
 
-    public static void setTenantId(String token,Long tenantId) {
-        if (!StringUtils.hasText(token) || Objects.isNull(tenantId)) {
+    public static void setTenantNumber(String token, Long tenantNumber) {
+        if (!StringUtils.hasText(token) || Objects.isNull(tenantNumber)) {
             return;
         }
-        getRedisTemplate().opsForValue().set(TENANT_ID + token, tenantId,timeout, TimeUnit.MINUTES);
+        getRedisTemplate().opsForValue().set(TENANT_NUMBER + token, tenantNumber,timeout, TimeUnit.MINUTES);
     }
 
-    public static void deleteTenantId(String token) {
+    public static void deleteTenantNumber(String token) {
         if (!StringUtils.hasText(token) ) {
             return;
         }
-        getRedisTemplate().delete(TENANT_ID + token);
+        getRedisTemplate().delete(TENANT_NUMBER + token);
     }
 
-    public static void expireTenantId(String token) {
+    public static void expireTenantNumber(String token) {
         if (!StringUtils.hasText(token) ) {
             return;
         }
-        getRedisTemplate().expire(TENANT_ID + token, timeout, TimeUnit.MINUTES);
+        getRedisTemplate().expire(TENANT_NUMBER + token, timeout, TimeUnit.MINUTES);
     }
 
     public static Long getUsername(String token) {

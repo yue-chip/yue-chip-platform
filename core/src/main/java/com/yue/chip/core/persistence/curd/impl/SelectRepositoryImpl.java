@@ -1,7 +1,9 @@
 package com.yue.chip.core.persistence.curd.impl;
 
+import com.yue.chip.core.YueChipPage;
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SelectRepository;
+import com.yue.chip.utils.YueChipPageUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.hibernate.query.sql.internal.NativeQueryImpl;
@@ -93,6 +95,26 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 		Long total = getCountByNativeSql(sql, searchParameter);
 		Page page = new PageImpl(list,pageable,total);
 		return page;
+	}
+
+	@Override
+	public Page<?> findNavigator(String jpql) {
+		return findNavigator(YueChipPageUtil.instance(),jpql);
+	}
+
+	@Override
+	public Page<?> findNavigator(String jpql, Map<String, Object> searchParameter) {
+		return findNavigator(YueChipPageUtil.instance(),jpql,searchParameter);
+	}
+
+	@Override
+	public Page<?> findNavigatorByNativeSql(String sql) {
+		return findNavigatorByNativeSql(YueChipPageUtil.instance(),sql);
+	}
+
+	@Override
+	public Page<?> findNavigatorByNativeSql(String sql, Map<String, Object> searchParameter, Class<?> returnType) {
+		return findNavigatorByNativeSql(YueChipPageUtil.instance(),sql,searchParameter,returnType);
 	}
 
 	/**

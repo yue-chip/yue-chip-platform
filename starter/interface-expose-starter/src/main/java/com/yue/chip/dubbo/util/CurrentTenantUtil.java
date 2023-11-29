@@ -2,7 +2,6 @@ package com.yue.chip.dubbo.util;
 
 import com.yue.chip.constant.DubboConstant;
 import org.apache.dubbo.rpc.RpcContext;
-import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -11,31 +10,31 @@ public class CurrentTenantUtil {
     private static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
 
     private static Long getCurrentTenant(){
-        Long tenantId = null;
+        Long tenantNumber = null;
         if (Objects.isNull(threadLocal.get())) {
-            tenantId = com.yue.chip.utils.CurrentUserUtil.getCurrentUserTenantId(false);
-            if (Objects.nonNull(tenantId)){
-                threadLocal.set(tenantId);
+            tenantNumber = com.yue.chip.utils.CurrentUserUtil.getCurrentUserTenantNumber(false);
+            if (Objects.nonNull(tenantNumber)){
+                threadLocal.set(tenantNumber);
             }
         }
-        if (Objects.isNull(tenantId)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_ID);
+        if (Objects.isNull(tenantNumber)) {
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
             if (Objects.nonNull(obj)) {
-                tenantId = Long.valueOf(String.valueOf(obj));
-                threadLocal.set(tenantId);
+                tenantNumber = Long.valueOf(String.valueOf(obj));
+                threadLocal.set(tenantNumber);
             }
         }
-        tenantId = threadLocal.get();
-        return tenantId;
+        tenantNumber = threadLocal.get();
+        return tenantNumber;
     }
 
     /**
      * 设置当前登录用户
      */
     public static void setCurrentTenant(){
-        Long tenantId = getCurrentTenant();
-        if (Objects.nonNull(tenantId)) {
-            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.TENANT_ID,tenantId);
+        Long tenantNumber = getCurrentTenant();
+        if (Objects.nonNull(tenantNumber)) {
+            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.TENANT_NUMBER,tenantNumber);
         }
     }
 

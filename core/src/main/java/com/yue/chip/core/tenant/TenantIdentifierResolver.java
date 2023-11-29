@@ -1,6 +1,5 @@
 package com.yue.chip.core.tenant;
 
-import com.yue.chip.utils.CurrentUserUtil;
 import com.yue.chip.utils.SpringContextUtil;
 import org.checkerframework.checker.initialization.qual.Initialized;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -29,9 +28,9 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
     @Override
     public @UnknownKeyFor @NonNull @Initialized String resolveCurrentTenantIdentifier() {
         if (Objects.nonNull(SpringContextUtil.getApplicationContext())) {
-            Long tenantId = TenantUtil.getTenantId();
-            if (Objects.nonNull(tenantId)) {
-                return PREFIX_TENANT.concat(String.valueOf(tenantId));
+            Long tenantNumber = TenantUtil.getTenantNumber();
+            if (Objects.nonNull(tenantNumber)) {
+                return PREFIX_TENANT.concat(String.valueOf(tenantNumber));
             }
         }
         return PREFIX_TENANT.concat(TENANT_ID);

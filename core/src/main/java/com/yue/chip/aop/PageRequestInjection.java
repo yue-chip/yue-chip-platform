@@ -2,6 +2,7 @@ package com.yue.chip.aop;
 
 import com.yue.chip.constant.GlobalConstant;
 import com.yue.chip.core.YueChipPage;
+import com.yue.chip.utils.YueChipPageUtil;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -45,50 +46,11 @@ public class PageRequestInjection {
         for (int i =0; i< args.length; i++){
             Object arg = args[i];
             if(arg instanceof PageRequest || arg instanceof YueChipPage){
-                args[i] = new YueChipPage(getPage(),getSize(),Sort.unsorted());
+                args[i] = YueChipPageUtil.instance();
             }
         }
         return pjp.proceed(args);
     }
 
-    /**
-     * 获取当前页码
-     * @return
-     */
-    private Integer getPage(){
-        HttpServletRequest request = getHttpServletRequest();
-        if (Objects.isNull(request)){
-            return 0;
-        }
-        String pageNumber = request.getParameter(GlobalConstant.PAGE_NUMBER);
-        if (NumberUtils.isDigits(pageNumber)) {
-            return Integer.valueOf(pageNumber)-1;
-        }
-        return 0;
-    }
 
-    /**
-     * 获取分页大小
-     * @return
-     */
-    private int getSize(){
-        HttpServletRequest request = getHttpServletRequest();
-        if (Objects.isNull(request)){
-            return 30;
-        }
-        String pageSize = request.getParameter(GlobalConstant.PAGE_SIZE);
-        if (NumberUtils.isDigits(pageSize)) {
-            return Integer.valueOf(pageSize);
-        }
-        return 30;
-    }
-
-    private HttpServletRequest getHttpServletRequest(){
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if(Objects.isNull(requestAttributes)){
-            return null;
-        }
-        HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
-        return request;
-    }
 }

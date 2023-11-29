@@ -3,14 +3,10 @@ package com.yue.chip.utils;
 
 import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.exception.AuthorizationException;
-import com.yue.chip.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Builder;
-import lombok.Data;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +14,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
-import org.springframework.util.StringValueResolver;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -38,7 +33,7 @@ public class CurrentUserUtil {
     private static volatile CurrentUser currentUser;
     private static final String NAME = "name";
     public static final String AUTHORITY = "authority-";
-    public static final String TENANT_ID = "tenant-id-";
+    public static final String TENANT_NUMBER = "tenant-number-";
     public static final String USER_ID = "user-id-";
     public static final String ID = "id";
     public static final String TOKEN_USERNAME = "token-username-";
@@ -48,7 +43,7 @@ public class CurrentUserUtil {
         return getCurrentUser(true);
     }
 
-    public static ThreadLocal<Long> currentTenantId = new ThreadLocal<>();
+    public static ThreadLocal<Long> currentTenantNumber = new ThreadLocal<>();
     /**
      * 获取当前登陆用户
      * @return
@@ -71,34 +66,34 @@ public class CurrentUserUtil {
         return user;
     }
 
-    public static Long getCurrentUserTenantId(Boolean isMustLogin){
-        Long tenantId = null;
+    public static Long getCurrentUserTenantNumber(Boolean isMustLogin){
+        Long tenantNumber = null;
 
-        if (Objects.nonNull(getCurrentTenantId())) {
-            return getCurrentTenantId();
+        if (Objects.nonNull(getCurrentTenantNumber())) {
+            return getCurrentTenantNumber();
         }
 
         if (isHttpWebRequest()) {
-            tenantId = CurrentUserRedisUtil.getTenantId(getToken());
+            tenantNumber = CurrentUserRedisUtil.getTenantNumber(getToken());
         }else {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_ID);
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
             if (Objects.nonNull(obj)) {
-                tenantId = (Long) obj;
-                CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
+                tenantNumber = (Long) obj;
+                CurrentUserRedisUtil.setTenantNumber(getToken(),tenantNumber);
             }
         }
-//        if (Objects.isNull(tenantId)) {
+//        if (Objects.isNull(tenantNumber)) {
 //            Map<String, Object> user = CurrentUserUtil.getCurrentUser(isMustLogin);
-//            if (Objects.nonNull(user) && user.containsKey(DubboConstant.TENANT_ID) && Objects.nonNull(user.get(DubboConstant.TENANT_ID))) {
-//                tenantId = (Long) user.get(DubboConstant.TENANT_ID);
-//                CurrentUserRedisUtil.setTenantId(getToken(),tenantId);
+//            if (Objects.nonNull(user) && user.containsKey(DubboConstant.TENANT_NUMBER) && Objects.nonNull(user.get(DubboConstant.TENANT_NUMBER))) {
+//                tenantNumber = (Long) user.get(DubboConstant.TENANT_NUMBER);
+//                CurrentUserRedisUtil.setTenantNumber(getToken(),tenantNumber);
 //            }
 //        }
-        return tenantId;
+        return tenantNumber;
     }
 
-    public static Long getCurrentUserTenantId(){
-        return getCurrentUserTenantId(true);
+    public static Long getCurrentUserTenantNumber(){
+        return getCurrentUserTenantNumber(true);
     }
 
     /**
@@ -230,15 +225,15 @@ public class CurrentUserUtil {
         return redisTemplate;
     }
 
-    public static Long getCurrentTenantId() {
-        return CurrentUserUtil.currentTenantId.get();
+    public static Long getCurrentTenantNumber() {
+        return CurrentUserUtil.currentTenantNumber.get();
     }
 
-    public static void setCurrentTenantId(Long currentTenantId) {
-        CurrentUserUtil.currentTenantId.set(currentTenantId);
+    public static void setCurrentTenantNumber(Long currentTenantNumber) {
+        CurrentUserUtil.currentTenantNumber.set(currentTenantNumber);
     }
 
-    public static void cleanCurrentTenantId() {
-        CurrentUserUtil.currentTenantId.remove();
+    public static void cleanCurrentTenantNumber() {
+        CurrentUserUtil.currentTenantNumber.remove();
     }
 }
