@@ -37,11 +37,11 @@ public class TenantUtil {
                         tenantNumber = Long.valueOf(String.valueOf(obj));
                     }else {
                         String remoteHost = request.getRemoteHost();
-                        Object objTenantNumber = getRedisTemplate().opsForValue().get(TENANT_REMOTE_HOST);
+                        Object objTenantNumber = getRedisTemplate().opsForValue().get(TENANT_REMOTE_HOST.concat(remoteHost));
                         if (Objects.nonNull(objTenantNumber)) {
                             tenantNumber = (Long) objTenantNumber;
                         }else {
-                            Boolean b = getRedisTemplate().hasKey(TENANT_REMOTE_HOST);
+                            Boolean b = getRedisTemplate().hasKey(TENANT_REMOTE_HOST.concat(remoteHost));
                             if (!b) {
                                 throw new AuthenticationServiceException("租户不可用");
                             }
