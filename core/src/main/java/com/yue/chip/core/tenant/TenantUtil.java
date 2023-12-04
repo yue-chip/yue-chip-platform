@@ -1,9 +1,11 @@
 package com.yue.chip.core.tenant;
 
+import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.CurrentUserUtil;
 import com.yue.chip.utils.SpringContextUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,7 +27,7 @@ public class TenantUtil {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-            if (Objects.nonNull(request) && Objects.equals(request.getRequestURI(),"/login1")) {
+            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/login"))) {
                 if (Objects.nonNull(request)) {
                     Object obj = request.getParameter("tenantId");
                     if (Objects.isNull(obj)) {
@@ -38,6 +40,11 @@ public class TenantUtil {
                         Object objTenantNumber = getRedisTemplate().opsForValue().get(TENANT_REMOTE_HOST);
                         if (Objects.nonNull(objTenantNumber)) {
                             tenantNumber = (Long) objTenantNumber;
+                        }else {
+                            Boolean b = getRedisTemplate().hasKey(TENANT_REMOTE_HOST);
+                            if (!b) {
+                                throw new AuthenticationServiceException("租户不可用");
+                            }
                         }
                     }
                 }
