@@ -48,7 +48,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     public Connection getConnection(String tenantIdentifier) throws SQLException {
         Connection connection = getAnyConnection();
         try {
-            connection.createStatement().execute("USE " + getTenantDatabaseName());
+            connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
         }catch (Exception e){
             e.printStackTrace();
             BusinessException.throwException("该租户不存在");
@@ -58,7 +58,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-        connection.createStatement().execute("USE " + getTenantDatabaseName());
+        connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
         DataSourceUtils.releaseConnection(connection,dataSource);
     }
 
@@ -84,14 +84,6 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     }
 
     private String getTenantDatabaseName() {
-        Long tenantNumber = TenantUtil.getTenantNumber();
-        String databaseName = "";
-        if (Objects.isNull(tenantNumber)) {
-            databaseName = TenantDatabaseUtil.getPrefixDataBase();
-        }else {
-            databaseName = TenantDatabaseUtil.getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantNumber));
-        }
-        log.info("切换数据库：".concat(databaseName));
-        return databaseName;
+        return TenantDatabaseUtil.tenantDatabaseName(TenantUtil.getTenantNumber());
     }
 }
