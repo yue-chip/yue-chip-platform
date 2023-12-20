@@ -1,6 +1,7 @@
 package com.yue.chip.core.tenant;
 
 import com.yue.chip.exception.BusinessException;
+import com.yue.chip.utils.TenantDatabaseUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
@@ -30,14 +31,8 @@ import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
 @Slf4j
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
 
-
-    @Value(value = "${spring.datasource.url}")
-    private String jdbcUrl;
-
     @Resource
     private DataSource dataSource;
-
-    private String prefixDatabase;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
@@ -88,28 +83,13 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
         hibernateProperties.put("hibernate.multiTenancy", "schema");
     }
 
-    private String getPrefixDataBase(){
-        if (!StringUtils.hasText(prefixDatabase)) {
-            synchronized (this) {
-                if (StringUtils.hasText(jdbcUrl)) {
-                    if (jdbcUrl.indexOf("?")>-1) {
-                        prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1, jdbcUrl.indexOf("?"));
-                    }else {
-                        prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1);
-                    }
-                }
-            }
-        }
-        return prefixDatabase;
-    }
-
     private String getTenantDatabaseName() {
         Long tenantNumber = TenantUtil.getTenantNumber();
         String databaseName = "";
         if (Objects.isNull(tenantNumber)) {
-            databaseName = getPrefixDataBase();
+            databaseName = TenantDatabaseUtil.getPrefixDataBase();
         }else {
-            databaseName = getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantNumber));
+            databaseName = TenantDatabaseUtil.getPrefixDataBase().concat(PREFIX_TENANT).concat(String.valueOf(tenantNumber));
         }
         log.info("切换数据库：".concat(databaseName));
         return databaseName;

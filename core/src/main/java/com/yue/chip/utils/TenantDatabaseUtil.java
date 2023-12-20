@@ -1,6 +1,11 @@
 package com.yue.chip.utils;
 
 import com.yue.chip.core.tenant.TenantUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -12,6 +17,8 @@ import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
  * @date 2023/11/11 上午10:16
  */
 public class TenantDatabaseUtil {
+    private static Logger log = LoggerFactory.getLogger(TenantDatabaseUtil.class);
+    private static String prefixDatabase;
 
     public static String tenantDatabaseName(String dataBaseName,Long tenantNumber) {
         String databaseName = "";
@@ -20,6 +27,28 @@ public class TenantDatabaseUtil {
         }else {
             databaseName = dataBaseName.concat(PREFIX_TENANT).concat(String.valueOf(tenantNumber));
         }
+        log.info("切换数据：".concat(databaseName));
         return databaseName;
+    }
+
+    public static String tenantDatabaseName(Long tenantNumber) {
+        String databaseName = getPrefixDataBase();
+        return tenantDatabaseName(databaseName,tenantNumber);
+    }
+
+    public static String getPrefixDataBase(){
+        if (!StringUtils.hasText(prefixDatabase)) {
+            synchronized (TenantDatabaseUtil.class) {
+                String jdbcUrl = ((Environment)SpringContextUtil.getBean(Environment.class)).getProperty("spring.datasource.url");
+                if (StringUtils.hasText(jdbcUrl)) {
+                    if (jdbcUrl.indexOf("?")>-1) {
+                        prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1, jdbcUrl.indexOf("?"));
+                    }else {
+                        prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1);
+                    }
+                }
+            }
+        }
+        return prefixDatabase;
     }
 }
