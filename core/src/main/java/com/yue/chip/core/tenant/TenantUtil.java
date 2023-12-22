@@ -27,7 +27,7 @@ public class TenantUtil {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/login"))) {
+            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/weixin/login"))) {
                 if (Objects.nonNull(request)) {
                     Object obj = request.getParameter("tenantId");
                     if (Objects.isNull(obj)) {
