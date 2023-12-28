@@ -1,14 +1,18 @@
 package com.yue.chip.core.tenant;
 
+import com.alibaba.druid.support.hibernate.DruidConnectionProvider;
 import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.TenantDatabaseUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
-import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
-import org.springframework.beans.factory.annotation.Value;
+import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -17,9 +21,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.Objects;
-
-import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
 
 /**
  * @author Mr.Liu
@@ -29,51 +30,18 @@ import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
 @Component
 @ConditionalOnProperty(prefix = "spring",name = "jpa.hibernate.multiTenant",havingValue = "enabled")
 @Slf4j
-public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
+public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnectionProvider implements HibernatePropertiesCustomizer {
 
     @Resource
     private DataSource dataSource;
 
     @Override
-    public Connection getAnyConnection() throws SQLException {
-        return DataSourceUtils.getConnection(dataSource);
+    protected ConnectionProvider getAnyConnectionProvider() {
+        return null;
     }
 
     @Override
-    public void releaseAnyConnection(Connection connection) throws SQLException {
-        DataSourceUtils.releaseConnection(connection,dataSource);
-    }
-
-    @Override
-    public Connection getConnection(String tenantIdentifier) throws SQLException {
-        Connection connection = getAnyConnection();
-        try {
-            connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
-        }catch (Exception e){
-            e.printStackTrace();
-            BusinessException.throwException("该租户不存在");
-        }
-        return connection;
-    }
-
-    @Override
-    public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-        connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
-        DataSourceUtils.releaseConnection(connection,dataSource);
-    }
-
-    @Override
-    public boolean supportsAggressiveRelease() {
-        return true;
-    }
-
-    @Override
-    public boolean isUnwrappableAs(Class<?> unwrapType) {
-        return false;
-    }
-
-    @Override
-    public <T> T unwrap(Class<T> unwrapType) {
+    protected ConnectionProvider selectConnectionProvider(Object tenantIdentifier) {
         return null;
     }
 
@@ -83,7 +51,41 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
         hibernateProperties.put("hibernate.multiTenancy", "schema");
     }
 
+    @Override
+    public Connection getAnyConnection() throws SQLException {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try {
+            String tenantDataBaseName = getTenantDatabaseName();
+            if (StringUtils.hasText(tenantDataBaseName)) {
+                connection.createStatement().execute("USE `".concat(getTenantDatabaseName()).concat("`"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            BusinessException.throwException("该租户不存在");
+        }
+        return connection;
+    }
+
+    @Override
+    public Connection getConnection(Object tenantIdentifier) throws SQLException {
+        return getAnyConnection();
+    }
+
+    @Override
+    public void releaseAnyConnection(Connection connection) throws SQLException {
+        DataSourceUtils.releaseConnection(connection,dataSource);
+    }
+
+    @Override
+    public void releaseConnection(Object tenantIdentifier, Connection connection) throws SQLException {
+        releaseAnyConnection( connection);
+    }
+
     private String getTenantDatabaseName() {
-        return TenantDatabaseUtil.tenantDatabaseName(TenantUtil.getTenantNumber());
+        try {
+            return TenantDatabaseUtil.tenantDatabaseName(TenantUtil.getTenantNumber());
+        } catch (Exception e) {
+        }
+        return "";
     }
 }

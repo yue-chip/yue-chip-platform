@@ -11,6 +11,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,7 +29,7 @@ public class TenantUtil {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/weixin/login"))) {
+            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/weixin/login"))|| Objects.equals(request.getRequestURI(),"/weixin/login1")) {
                 if (Objects.nonNull(request)) {
                     Object obj = request.getParameter("tenantId");
                     if (Objects.isNull(obj)) {
@@ -36,11 +38,12 @@ public class TenantUtil {
                     if (Objects.nonNull(obj) && StringUtils.hasText(String.valueOf(obj))) {
                         tenantNumber = Long.valueOf(String.valueOf(obj));
                     }else {
-                        String remoteHost = request.getRemoteHost();
+                        String remoteHost = request.getHeader("x-forwarded-host");
                         Object objTenantNumber = getRedisTemplate().opsForValue().get(TENANT_REMOTE_HOST.concat(remoteHost));
-                        if (Objects.nonNull(objTenantNumber)) {
-                            tenantNumber = (Long) objTenantNumber;
-                        }else {
+                        if (Objects.nonNull(objTenantNumber) && StringUtils.hasText(String.valueOf(objTenantNumber))) {
+                            tenantNumber = Long.valueOf(String.valueOf(objTenantNumber));
+                        }
+                        if (Objects.isNull(tenantNumber)){
                             Boolean b = getRedisTemplate().hasKey(TENANT_REMOTE_HOST.concat(remoteHost));
                             if (!b) {
                                 throw new AuthenticationServiceException("租户不可用");
