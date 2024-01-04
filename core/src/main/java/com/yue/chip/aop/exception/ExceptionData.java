@@ -48,7 +48,7 @@ public class ExceptionData {
     private static void handle(final Throwable e,final ResultData resultData) throws Throwable{
         if (e instanceof InternalAuthenticationServiceException || e instanceof AuthenticationServiceException){
             resultData.setStatus(ResultDataState.LOGIN_FAIL.getKey());
-            resultData.setMessage( "用户名/密码错误");
+            resultData.setMessage( e.getMessage());
         }else if (e instanceof IllegalArgumentException){
             resultData.setMessage( e.getMessage());
         }else if (e instanceof HttpMessageNotReadableException){

@@ -6,7 +6,7 @@ ext {
     springdocVserion= '2.3.0'
     seataVersion = '2.0.0'
     dubboVersion = '3.2.10'
-    druidVersion = '1.2.19'
+    druidVersion = '1.2.21'
     rocketmqVersion = '2.2.3'
     knife4jVersion = '4.4.0'
     lombokMapstructBinding = '0.2.0'
@@ -42,6 +42,8 @@ ext {
     dyvmsapiVervion = '2.1.4'
     tencentcloudSmsVersion = '3.1.893'
     kafkaVersion = '3.0.12'
+    Dm8JdbcDriver18Version = '8.1.1.49'
+    DmDialectForHibernateVersion = '8.1.3.62'
 }
 
 dependencies {
@@ -133,6 +135,8 @@ dependencies {
         api "com.tencentcloudapi:tencentcloud-sdk-java-sms:${tencentcloudSmsVersion}"
         api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
         api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVersion}" ,classifier:'jakarta'
+        api "com.dameng:Dm8JdbcDriver18:${Dm8JdbcDriver18Version}"
+        api "com.dameng:DmDialect-for-hibernate5.6:${DmDialectForHibernateVersion}"
     }
 }
 //configurations.all {

@@ -1,6 +1,5 @@
 package com.yue.chip.core.tenant;
 
-import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.CurrentUserUtil;
 import com.yue.chip.utils.SpringContextUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +10,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
