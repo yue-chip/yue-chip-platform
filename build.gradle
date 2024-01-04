@@ -16,6 +16,10 @@ subprojects {
     configurations.all() {
         resolutionStrategy.cacheChangingModulesFor 10, 'seconds'
         resolutionStrategy.force "org.reflections:reflections:0.9.12"
+        resolutionStrategy.force "org.springframework:spring-boot-dependencies:2.7.18"
+        resolutionStrategy.force "org.springframework:spring-boot:2.7.18"
+        resolutionStrategy.force "org.springframework:spring-boot-autoconfigure:2.7.18"
+        resolutionStrategy.force "org.springframework:spring-boot-starter-logging:2.7.18"
     }
 }
 

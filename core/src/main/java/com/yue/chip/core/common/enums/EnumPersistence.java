@@ -1,7 +1,7 @@
 package com.yue.chip.core.common.enums;
 
 import com.yue.chip.core.AbstractEnumPersistence;
-import jakarta.persistence.AttributeConverter;
+import javax.persistence.AttributeConverter;
 import org.reflections.Reflections;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;

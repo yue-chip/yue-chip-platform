@@ -2,7 +2,7 @@ package com.yue.chip.security;
 
 import com.yue.chip.utils.CurrentUserRedisUtil;
 import com.yue.chip.utils.CurrentUserUtil;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;

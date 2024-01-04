@@ -1,9 +1,8 @@
 package com.yue.chip.resource;
 
-import com.yue.chip.security.YueChipAuthenticationEntryPoint;
+import com.yue.chip.security.AbstractSecurityConfig;
+import com.yue.chip.security.AuthorizationIgnoreConfiguration;
 import com.yue.chip.security.filter.YueChipAuthenticationFilter;
-import jakarta.servlet.Filter;
-import jakarta.servlet.Servlet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -15,11 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import com.yue.chip.security.AbstractSecurityConfig;
-import com.yue.chip.security.AuthorizationIgnoreConfiguration;
 
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
 import java.util.List;
 
 @Configuration(proxyBeanMethods = true)
@@ -34,7 +32,7 @@ public class ResourceServerConfig extends AbstractSecurityConfig {
 
 
     public ResourceServerConfig() {
-        setRemoveTonkeFilterBeforeClass(BearerTokenAuthenticationFilter.class);
+//        setRemoveTonkeFilterBeforeClass(BearerTokenAuthenticationFilter.class);
         setAuthorizationToken("authorization");
     }
 
@@ -49,10 +47,10 @@ public class ResourceServerConfig extends AbstractSecurityConfig {
         List<Filter> filterList = securityFilterChain.getFilters();
         filterList.remove(YueChipAuthenticationFilter.class);
         filterList.forEach(filter -> {
-            if (filter instanceof BearerTokenAuthenticationFilter) {
-                BearerTokenAuthenticationFilter bearerTokenAuthenticationFilter = (BearerTokenAuthenticationFilter) filter;
-                bearerTokenAuthenticationFilter.setAuthenticationEntryPoint(new YueChipAuthenticationEntryPoint());
-            }
+//            if (filter instanceof BearerTokenAuthenticationFilter) {
+//                BearerTokenAuthenticationFilter bearerTokenAuthenticationFilter = (BearerTokenAuthenticationFilter) filter;
+//                bearerTokenAuthenticationFilter.setAuthenticationEntryPoint(new YueChipAuthenticationEntryPoint());
+//            }
         });
         return securityFilterChain;
     }

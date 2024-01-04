@@ -3,7 +3,6 @@ package com.yue.chip.utils;
 
 import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.exception.AuthorizationException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -18,6 +17,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.Map;
@@ -176,7 +176,7 @@ public class CurrentUserUtil {
     private static boolean isHttpWebRequest(){
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
-            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            HttpServletRequest request = (HttpServletRequest) ((ServletRequestAttributes) requestAttributes).getRequest();
             if (Objects.nonNull(request)) {
                 return true;
             }
@@ -187,7 +187,7 @@ public class CurrentUserUtil {
     public static String getToken(){
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
-            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            HttpServletRequest request = (HttpServletRequest) ((ServletRequestAttributes) requestAttributes).getRequest();
             if (Objects.nonNull(request)) {
                 Object obj = request.getHeader("token");
                 if (Objects.nonNull(obj)) {

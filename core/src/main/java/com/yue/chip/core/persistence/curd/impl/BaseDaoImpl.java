@@ -2,7 +2,7 @@ package com.yue.chip.core.persistence.curd.impl;
 
 import com.yue.chip.core.persistence.curd.YueChipSimpleJpaRepository;
 import com.yue.chip.core.persistence.entity.BaseEntity;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.hibernate.jdbc.ReturningWork;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.repository.NoRepositoryBean;

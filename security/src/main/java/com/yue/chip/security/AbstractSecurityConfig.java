@@ -1,25 +1,21 @@
 package com.yue.chip.security;
 
 import com.yue.chip.security.filter.YueChipAuthenticationFilter;
+import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
 import com.yue.chip.security.properties.OauthClientScopeProperties;
-import jakarta.annotation.Resource;
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
 import lombok.Setter;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.StringUtils;
-import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
 
+import javax.annotation.Resource;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -58,7 +54,7 @@ public abstract class AbstractSecurityConfig {
                     httpSecurityCorsConfigurer.disable();
                 }).authorizeHttpRequests(authorize -> {
                     String[] urls = authorizationIgnoreProperties.getIgnoreUrl().toArray(new String[]{});
-                    authorize.requestMatchers(urls).permitAll().anyRequest().fullyAuthenticated();
+                    authorize.mvcMatchers(urls).permitAll().anyRequest().authenticated();
                 }).exceptionHandling(exception -> {
                     exception.authenticationEntryPoint(authenticationEntryPoint);
                 })
@@ -99,8 +95,8 @@ public abstract class AbstractSecurityConfig {
                             chain.doFilter(request, response);
                         }
                     }
-                }, Objects.nonNull(removeTonkeFilterBeforeClass)? removeTonkeFilterBeforeClass : AnonymousAuthenticationFilter.class)
-                .addFilterBefore(yueChipAuthenticationFilter, AuthorizationFilter.class)
+                }, (Objects.nonNull(removeTonkeFilterBeforeClass)? removeTonkeFilterBeforeClass : (Class<? extends Filter>) AnonymousAuthenticationFilter.class))
+                .addFilterBefore((Filter) yueChipAuthenticationFilter, (Class<? extends Filter>) AuthorizationFilter.class)
                 .sessionManagement(sessionManagementConfigurer -> {
                     sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 });

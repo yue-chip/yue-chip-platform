@@ -8,7 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.yue.chip.core.persistence.JpaInterceptor;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;

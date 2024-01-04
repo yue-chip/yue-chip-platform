@@ -5,21 +5,19 @@ import com.yue.chip.core.persistence.curd.impl.SaveRepositoryImpl;
 import com.yue.chip.core.persistence.curd.impl.SelectRepositoryImpl;
 import com.yue.chip.core.persistence.curd.impl.UpdateRepositoryImpl;
 import com.yue.chip.core.persistence.entity.BaseEntity;
-import com.yue.chip.utils.id.SnowflakeUtil;
-import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 
@@ -59,7 +57,8 @@ public abstract class YueChipSimpleJpaRepository<T extends BaseEntity> extends S
 
 	@Override
 	public Session getSession() {
-		return entityManager.unwrap(Session.class);
+		Session session = (Session) entityManager.getDelegate();
+		return session;
 	}
 
 	@Override

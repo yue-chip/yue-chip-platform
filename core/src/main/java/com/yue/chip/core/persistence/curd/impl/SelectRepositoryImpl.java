@@ -1,19 +1,16 @@
 package com.yue.chip.core.persistence.curd.impl;
 
-import com.yue.chip.core.YueChipPage;
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SelectRepository;
 import com.yue.chip.utils.YueChipPageUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import org.hibernate.query.sql.internal.NativeQueryImpl;
-import org.hibernate.transform.Transformers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -138,8 +135,10 @@ public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 		if (Objects.nonNull(returnType) && !Objects.equals(returnType,Map.class) && !Objects.equals(returnType,HashMap.class)) {
 			query = entityManager.createNativeQuery(sql, returnType);
 		}else if (Objects.isNull(returnType) || Objects.equals(returnType,Map.class) || Objects.equals(returnType,HashMap.class)){
-			query = entityManager.createNativeQuery(sql);
-			query = query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+//			query = entityManager.createNativeQuery(sql);
+//			NativeQueryImplementor nativeQueryImplementor = query.unwrap(NativeQueryImpl.class)
+//					.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+//			query = (Query) nativeQueryImplementor;
 		}
 		query = RepositoryParameter.setParameter(query, searchParameter);
 		query.setFirstResult(lionPage.getPageNumber() * lionPage.getPageSize());

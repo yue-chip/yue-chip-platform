@@ -2,7 +2,7 @@ package com.yue.chip.security;
 
 import cn.hutool.core.util.ReUtil;
 import com.yue.chip.annotation.AuthorizationIgnore;
-import jakarta.annotation.Resource;
+import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,8 +12,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
 
+import javax.annotation.Resource;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;

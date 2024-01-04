@@ -1,6 +1,6 @@
 package com.yue.chip.security;
 
-import jakarta.servlet.Servlet;
+import javax.servlet.Servlet;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;

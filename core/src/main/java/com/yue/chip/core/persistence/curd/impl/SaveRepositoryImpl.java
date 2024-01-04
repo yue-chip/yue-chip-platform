@@ -2,8 +2,8 @@ package com.yue.chip.core.persistence.curd.impl;
 
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.SaveRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;

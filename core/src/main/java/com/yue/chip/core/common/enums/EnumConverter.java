@@ -1,7 +1,7 @@
 package com.yue.chip.core.common.enums;
 
 import com.yue.chip.core.IEnum;
-import jakarta.persistence.AttributeConverter;
+import javax.persistence.AttributeConverter;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;

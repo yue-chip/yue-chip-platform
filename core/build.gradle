@@ -40,6 +40,9 @@ dependencies {
     compileOnly "org.projectlombok:lombok-mapstruct-binding"
     compileOnly "org.springframework.kafka:spring-kafka"
     compileOnly "com.alibaba:druid-spring-boot-starter"
+    compileOnly 'javax.persistence:persistence-api:1.0.2'
+    compileOnly 'javax.persistence:javax.persistence-api:2.2'
+    compileOnly 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
     api 'cn.hutool:hutool-all'
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"

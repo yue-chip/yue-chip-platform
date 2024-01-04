@@ -3,7 +3,7 @@ package com.yue.chip.core;
 import com.yue.chip.core.persistence.curd.BaseDao;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import com.yue.chip.utils.SpringContextUtil;
-import jakarta.persistence.MappedSuperclass;
+import javax.persistence.MappedSuperclass;
 import jakarta.transaction.Synchronization;
 import lombok.AllArgsConstructor;
 import lombok.Data;

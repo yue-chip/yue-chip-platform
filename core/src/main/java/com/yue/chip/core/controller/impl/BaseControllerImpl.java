@@ -4,7 +4,7 @@ package com.yue.chip.core.controller.impl;
 import com.yue.chip.core.controller.BaseController;
 import com.yue.chip.security.AuthorityPermission;
 import com.yue.chip.utils.CurrentUserUtil;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 /**
  * @description:

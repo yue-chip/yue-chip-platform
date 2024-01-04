@@ -1,6 +1,6 @@
 package com.yue.chip.api.doc.config;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.boot.CommandLineRunner;

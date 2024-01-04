@@ -1,7 +1,7 @@
 package com.yue.chip.core.persistence;
 
 import com.yue.chip.core.persistence.curd.impl.BaseDaoImpl;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;

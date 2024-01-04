@@ -2,13 +2,13 @@ package com.yue.chip.utils;
 
 import com.yue.chip.constant.GlobalConstant;
 import com.yue.chip.core.YueChipPage;
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 public class YueChipPageUtil {
@@ -54,7 +54,7 @@ public class YueChipPageUtil {
         if(Objects.isNull(requestAttributes)){
             return null;
         }
-        HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
+        HttpServletRequest request = (HttpServletRequest) ((ServletRequestAttributes)requestAttributes).getRequest();
         return request;
     }
 }

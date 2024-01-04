@@ -10,9 +10,6 @@ import com.yue.chip.authorization.password.OAuth2PasswordCredentialsAuthenticati
 import com.yue.chip.authorization.password.OAuth2PasswordCredentialsAuthenticationProvider;
 import com.yue.chip.core.ResultData;
 import com.yue.chip.core.common.enums.ResultDataState;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -56,6 +53,9 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyPair;
@@ -87,7 +87,7 @@ public class AuthorizationServerConfig {
         oAuth2AuthorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint -> {
             authorizationEndpoint.errorResponseHandler((request, response, exception) -> {
                 ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
-                responseWrite(response,resultData);
+                responseWrite((HttpServletResponse) response,resultData);
             });
         });
         oAuth2AuthorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> {
@@ -99,7 +99,7 @@ public class AuthorizationServerConfig {
             )));
             tokenEndpoint.errorResponseHandler((request, response, exception) -> {
                 ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
-                responseWrite(response,resultData);
+                responseWrite((HttpServletResponse) response,resultData);
             });
             tokenEndpoint.accessTokenResponseHandler((request, response, authentication) -> {
                 OAuth2AccessTokenAuthenticationToken token = (OAuth2AccessTokenAuthenticationToken)authentication;
@@ -110,23 +110,23 @@ public class AuthorizationServerConfig {
                         .expires_in(ChronoUnit.SECONDS.between(token.getAccessToken().getIssuedAt(), token.getAccessToken().getExpiresAt()))
                         .build();
                 ResultData resultData = ResultData.builder().data(accessToken).build();
-                responseWrite(response,resultData);
+                responseWrite((HttpServletResponse) response,resultData);
             });
         });
         oAuth2AuthorizationServerConfigurer.clientAuthentication(authenticationConfigurer -> {
             authenticationConfigurer.errorResponseHandler((request, response, exception) -> {
                 ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
-                responseWrite(response,resultData);
+                responseWrite((HttpServletResponse) response,resultData);
             });
         });
         oAuth2AuthorizationServerConfigurer.tokenRevocationEndpoint(authenticationConfigurer -> {
             authenticationConfigurer.errorResponseHandler((request, response, exception) -> {
                 ResultData resultData = ResultData.builder().status(ResultDataState.ERROR.getKey()).message(exception.getMessage()).build();
-                responseWrite(response,resultData);
+                responseWrite((HttpServletResponse) response,resultData);
             });
             authenticationConfigurer.revocationResponseHandler((request, response, authentication) -> {
                 ResultData resultData = ResultData.builder().build();
-                responseWrite(response,resultData);
+                responseWrite((HttpServletResponse) response,resultData);
             });
         });
         http.sessionManagement(sessionManagementConfigurer -> {
@@ -226,7 +226,7 @@ public class AuthorizationServerConfig {
     }
 
     private void responseWrite(HttpServletResponse response,ResultData resultData) throws IOException {
-        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse((jakarta.servlet.http.HttpServletResponse) response);
         httpResponse.setStatusCode(HttpStatus.OK);
         responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
     }

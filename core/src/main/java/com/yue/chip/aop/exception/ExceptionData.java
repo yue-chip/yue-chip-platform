@@ -4,7 +4,7 @@ import com.yue.chip.core.ResultData;
 import com.yue.chip.core.common.enums.ResultDataState;
 import com.yue.chip.exception.AuthorizationException;
 import com.yue.chip.exception.BusinessException;
-import jakarta.persistence.Id;
+import javax.persistence.Id;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;

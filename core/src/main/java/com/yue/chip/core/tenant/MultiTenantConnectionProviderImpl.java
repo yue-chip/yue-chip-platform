@@ -1,21 +1,15 @@
 package com.yue.chip.core.tenant;
 
-import com.alibaba.druid.support.hibernate.DruidConnectionProvider;
 import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.TenantDatabaseUtil;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
-import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -30,18 +24,52 @@ import java.util.Map;
 @Component
 @ConditionalOnProperty(prefix = "spring",name = "jpa.hibernate.multiTenant",havingValue = "enabled")
 @Slf4j
-public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnectionProvider implements HibernatePropertiesCustomizer {
+public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
 
     @Resource
     private DataSource dataSource;
 
     @Override
-    protected ConnectionProvider getAnyConnectionProvider() {
-        return null;
+    public Connection getAnyConnection() throws SQLException {
+        return DataSourceUtils.getConnection(dataSource);
     }
 
     @Override
-    protected ConnectionProvider selectConnectionProvider(Object tenantIdentifier) {
+    public void releaseAnyConnection(Connection connection) throws SQLException {
+        DataSourceUtils.releaseConnection(connection,dataSource);
+    }
+
+    @Override
+    public Connection getConnection(String tenantIdentifier) throws SQLException {
+        Connection connection = getAnyConnection();
+        try {
+            connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
+        }catch (Exception e){
+            e.printStackTrace();
+            BusinessException.throwException("该租户不存在");
+        }
+        return connection;
+    }
+
+    @Override
+    public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
+        connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
+        DataSourceUtils.releaseConnection(connection,dataSource);
+    }
+
+    @Override
+    public boolean supportsAggressiveRelease() {
+        return true;
+    }
+
+
+    @Override
+    public boolean isUnwrappableAs(Class unwrapType) {
+        return false;
+    }
+
+    @Override
+    public <T> T unwrap(Class<T> unwrapType) {
         return null;
     }
 
@@ -51,41 +79,7 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
         hibernateProperties.put("hibernate.multiTenancy", "schema");
     }
 
-    @Override
-    public Connection getAnyConnection() throws SQLException {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try {
-            String tenantDataBaseName = getTenantDatabaseName();
-            if (StringUtils.hasText(tenantDataBaseName)) {
-                connection.createStatement().execute("USE `".concat(getTenantDatabaseName()).concat("`"));
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            BusinessException.throwException("该租户不存在");
-        }
-        return connection;
-    }
-
-    @Override
-    public Connection getConnection(Object tenantIdentifier) throws SQLException {
-        return getAnyConnection();
-    }
-
-    @Override
-    public void releaseAnyConnection(Connection connection) throws SQLException {
-        DataSourceUtils.releaseConnection(connection,dataSource);
-    }
-
-    @Override
-    public void releaseConnection(Object tenantIdentifier, Connection connection) throws SQLException {
-        releaseAnyConnection( connection);
-    }
-
     private String getTenantDatabaseName() {
-        try {
-            return TenantDatabaseUtil.tenantDatabaseName(TenantUtil.getTenantNumber());
-        } catch (Exception e) {
-        }
-        return "";
+        return TenantDatabaseUtil.tenantDatabaseName(TenantUtil.getTenantNumber());
     }
 }

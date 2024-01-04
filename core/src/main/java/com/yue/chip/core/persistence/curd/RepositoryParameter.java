@@ -1,6 +1,6 @@
 package com.yue.chip.core.persistence.curd;
 
-import jakarta.persistence.Query;
+import javax.persistence.Query;
 import java.util.Map;
 
 

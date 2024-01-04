@@ -5,18 +5,15 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.UpdateRepository;
 import com.yue.chip.core.persistence.entity.BaseEntity;
-import com.yue.chip.exception.BusinessException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -40,9 +37,6 @@ public class UpdateRepositoryImpl<T>  implements UpdateRepository<T> {
 		this.simpleJpaRepository = simpleJpaRepository;
 	}
 
-	private Session getSession() {
-		return entityManager.unwrap(Session.class);
-	}
 	
 	@Override
 	@Transactional(rollbackFor = Throwable.class)

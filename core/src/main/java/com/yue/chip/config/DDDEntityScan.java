@@ -3,7 +3,7 @@ package com.yue.chip.config;
 import cn.hutool.core.util.ReflectUtil;
 import com.yue.chip.annotation.YueChipDDDEntity;
 import com.yue.chip.utils.SpringContextUtil;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.beans.factory.annotation.ReferenceAnnotationBeanPostProcessor;

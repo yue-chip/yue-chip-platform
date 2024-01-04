@@ -1,9 +1,7 @@
 package com.yue.chip.core.tenant;
 
-import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.CurrentUserUtil;
 import com.yue.chip.utils.SpringContextUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.util.StringUtils;
@@ -11,8 +9,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -28,7 +25,7 @@ public class TenantUtil {
         Long tenantNumber = null;
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
-            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            HttpServletRequest request = (HttpServletRequest) ((ServletRequestAttributes) requestAttributes).getRequest();
             if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/weixin/login"))|| Objects.equals(request.getRequestURI(),"/weixin/login1")) {
                 if (Objects.nonNull(request)) {
                     Object obj = request.getParameter("tenantId");
