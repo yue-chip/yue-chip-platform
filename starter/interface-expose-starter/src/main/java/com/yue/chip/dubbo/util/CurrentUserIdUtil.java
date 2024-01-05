@@ -22,7 +22,7 @@ public class CurrentUserIdUtil {
             }
         }
         if (Objects.isNull(userId)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.USER_ID);
+            Object obj = RpcContext.getServerContext().getObjectAttachment(DubboConstant.USER_ID);
             if (Objects.nonNull(obj)) {
                 userId = Long.valueOf(String.valueOf(obj));
                 threadLocal.set(userId);
@@ -38,7 +38,7 @@ public class CurrentUserIdUtil {
     public static void setCurrentUserId(){
         Long userId = getCurrentUserId();
         if (Objects.nonNull(userId)) {
-            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.USER_ID,userId);
+            RpcContext.getServerContext().setObjectAttachment(DubboConstant.USER_ID,userId);
         }
     }
 

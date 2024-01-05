@@ -9,25 +9,28 @@ dependencies {
     api 'org.apache.commons:commons-pool2'
     api 'jakarta.platform:jakarta.jakartaee-api'
     api 'org.hibernate.validator:hibernate-validator'
-    api ('io.seata:seata-spring-boot-starter') {
-        exclude group: "com.alibaba", module: "druid"
-        exclude group: "org.apache.dubbo", module: "dubbo"
-        exclude group: "com.alibaba", module: "fastjson"
-    }
+//    api ('io.seata:seata-spring-boot-starter') {
+//        exclude group: "com.alibaba", module: "druid"
+//        exclude group: "org.apache.dubbo", module: "dubbo"
+//        exclude group: "com.alibaba", module: "fastjson"
+//    }
     api 'org.apache.dubbo:dubbo-spring-boot-starter'
     api "com.mysql:mysql-connector-j"
     api "org.mariadb.jdbc:mariadb-java-client"
-    api "com.alibaba:druid-spring-boot-starter"
+    api ("com.alibaba:druid-spring-boot-starter"){
+        exclude(group: 'org.springframework.boot', module: 'spring-boot-configuration-processor')
+        exclude(group: 'org.springframework.boot', module: ' spring-boot-autoconfigure')
+    }
     api "org.mapstruct:mapstruct"
     api "org.mapstruct:mapstruct-processor"
     api "org.mapstruct:mapstruct-jdk8"
     api "org.modelmapper:modelmapper"
     api 'commons-dbutils:commons-dbutils'
-    api 'org.springdoc:springdoc-openapi-starter-webmvc-api:'
+//    api 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     api 'com.github.jsqlparser:jsqlparser'
 //    api 'com.querydsl:querydsl-jpa'
 //    api 'com.querydsl:querydsl-apt'
-    api "org.redisson:redisson-spring-boot-starter"
+//    api "org.redisson:redisson-spring-boot-starter"
 //    api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter"
     compileOnly "org.mapstruct:mapstruct"
     compileOnly "org.mapstruct:mapstruct-processor"

@@ -9,17 +9,12 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 
@@ -54,7 +49,7 @@ public class CurrentUserUtil {
         if(isHttpWebRequest()){
             username = getUsername();
         }else {
-            RpcContext rpcContext = RpcContext.getServiceContext();
+            RpcContext rpcContext = RpcContext.getServerContext();
             username = String.valueOf(rpcContext.getObjectAttachments().get(DubboConstant.USERNAME));
         }
         if(!StringUtils.hasText(username) && isMustLogin){
@@ -76,7 +71,7 @@ public class CurrentUserUtil {
         if (isHttpWebRequest()) {
             tenantNumber = CurrentUserRedisUtil.getTenantNumber(getToken());
         }else {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
+            Object obj = RpcContext.getServerContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
             if (Objects.nonNull(obj)) {
                 tenantNumber = (Long) obj;
                 CurrentUserRedisUtil.setTenantNumber(getToken(),tenantNumber);
@@ -104,7 +99,7 @@ public class CurrentUserUtil {
         if(isHttpWebRequest()){
             return getUsername();
         }else{
-            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USERNAME);
+            Object obj = RpcContext.getServerContext().getObjectAttachments().get(DubboConstant.USERNAME);
             if (Objects.nonNull(obj)) {
                 String username = String.valueOf(obj);
                 return username;
@@ -120,19 +115,20 @@ public class CurrentUserUtil {
     private static String getUsername(){
         String username = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
-            Jwt principal = (Jwt) authentication.getPrincipal();
-            if (Objects.nonNull(principal)) {
-                Object obj = principal.getClaims().get(OAuth2ParameterNames.USERNAME);
-                if (Objects.nonNull(obj)) {
-                    try {
-                        username = new String(Base64.getDecoder().decode((String) obj), "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }else if (Objects.nonNull(authentication) && authentication instanceof AbstractAuthenticationToken) {
+//        if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
+//            Jwt principal = (Jwt) authentication.getPrincipal();
+//            if (Objects.nonNull(principal)) {
+//                Object obj = principal.getClaims().get(OAuth2ParameterNames.USERNAME);
+//                if (Objects.nonNull(obj)) {
+//                    try {
+//                        username = new String(Base64.getDecoder().decode((String) obj), "utf-8");
+//                    } catch (UnsupportedEncodingException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//            }
+//        }else
+        if (Objects.nonNull(authentication) && authentication instanceof AbstractAuthenticationToken) {
             username = (String) authentication.getPrincipal();
             if (!StringUtils.hasText(username)) {
                 AuthorizationException.throwException("登陆异常，请重新登陆");
@@ -157,7 +153,7 @@ public class CurrentUserUtil {
     public static Long getCurrentUserId(Boolean isMustLogin){
         Long userId = CurrentUserRedisUtil.getUserId(getToken());
         if (Objects.isNull(userId)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USER_ID);
+            Object obj = RpcContext.getServerContext().getObjectAttachments().get(DubboConstant.USER_ID);
             if (Objects.nonNull(obj)) {
                 userId = (Long) obj;
                 CurrentUserRedisUtil.setUserId(getToken(),userId);

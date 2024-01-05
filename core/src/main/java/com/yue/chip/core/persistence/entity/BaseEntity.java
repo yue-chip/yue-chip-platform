@@ -7,11 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.yue.chip.core.persistence.JpaInterceptor;
-import io.swagger.v3.oas.annotations.media.Schema;
-import javax.persistence.*;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -19,6 +16,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -36,7 +34,7 @@ public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -90000050L;
 
-    @Schema(description = "ID")
+    //@Schema(description = "ID")
     private Long id;
 
 //    @JsonIgnore
@@ -47,21 +45,21 @@ public abstract class BaseEntity implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(description = "创建时间")
+    //@Schema(description = "创建时间")
     private LocalDateTime createDateTime;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(description = "最后修改时间")
+    //@Schema(description = "最后修改时间")
     private LocalDateTime updateDateTime;
 
     private Long createUserId;
 
     private Long updateUserId;
 
-//    @Schema(description = "版本号（修改需要传version,新增不需要传）")
+//    //@Schema(description = "版本号（修改需要传version,新增不需要传）")
 //    @Builder.Default
 //    private Long version = 0L;
 
@@ -82,25 +80,25 @@ public abstract class BaseEntity implements Serializable {
 //    }
 
     @CreatedDate
-    @Column(name = "create_date_time", updatable = false, columnDefinition = "datetime DEFAULT NOW() COMMENT '创建时间'")
+    @Column(name = "create_date_time", updatable = false)
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }
 
     @LastModifiedDate
-    @Column(name = "update_date_time",insertable = false, columnDefinition = "datetime COMMENT '修改时间'")
+    @Column(name = "update_date_time",insertable = false)
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
     @CreatedBy
-    @Column( updatable = false, columnDefinition = "bigint DEFAULT -9223372036854775808 COMMENT '创建人'")
+    @Column( updatable = false)
     public Long getCreateUserId() {
         return createUserId;
     }
 
     @LastModifiedBy
-    @Column(insertable = false, columnDefinition = "bigint DEFAULT -9223372036854775808 COMMENT '修改人'")
+    @Column(insertable = false)
     public Long getUpdateUserId() {
         return updateUserId;
     }

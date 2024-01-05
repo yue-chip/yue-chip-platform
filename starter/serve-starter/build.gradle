@@ -18,7 +18,7 @@ dependencies {
 //    api "org.mockito:mockito-inline"
 //    api "org.mockito:mockito-core"
 //    api ('com.github.javafaker:javafaker') { exclude group: 'org.yaml'}
-    api 'org.springdoc:springdoc-openapi-starter-webmvc-api'
+//    api 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
     compileOnly "org.mapstruct:mapstruct"
     compileOnly "org.mapstruct:mapstruct-processor"

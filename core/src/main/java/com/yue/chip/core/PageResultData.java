@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yue.chip.constant.ResultDataConstant;
 import com.yue.chip.core.common.enums.ResultDataState;
-import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.media.Schem
 import lombok.*;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 import org.springframework.data.domain.*;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Schema()
+//@Schema()
 @Builder
 public class PageResultData extends PageImpl implements IPageResultData, Serializable {
 

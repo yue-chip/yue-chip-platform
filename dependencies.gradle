@@ -1,12 +1,12 @@
 ext {
     aliyunSpringBootVersion = '1.0.0'
-    springCloudAlibabaVersion = '2021.1'
+    springCloudAlibabaVersion = '2021.0.1.0'
     springCloudVersion = '2021.0.9'
     nacosVersion = '2.2.3'
     springdocVserion= '2.3.0'
     seataVersion = '2.0.0'
     dubboVersion = '3.2.10'
-    druidVersion = '1.2.19'
+    druidVersion = '1.2.12'
     rocketmqVersion = '2.2.3'
     knife4jVersion = '4.4.0'
     lombokMapstructBinding = '0.2.0'
@@ -24,7 +24,7 @@ ext {
     okhttpVersion = '4.12.0'
     commonsIoVersion = '2.15.1'
     jsqlparserVersion = '4.7'
-    oauth2AuthorizationServerVersion = '1.2.1'
+    oauth2AuthorizationServerVersion = '0.4.5'
     jakartaeeVersion = '10.0.0'
     mysqlConnectorJVersion = '8.2.0'
     mariadbVersion = '3.3.2'
@@ -46,28 +46,35 @@ ext {
 
 dependencies {
     api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
-    api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
-    api platform("com.alibaba.cloud:aliyun-spring-boot-dependencies:${aliyunSpringBootVersion}")
-    api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}")
+    api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter"
+    }
+    api platform("com.alibaba.cloud:aliyun-spring-boot-dependencies:${aliyunSpringBootVersion}"){
+        exclude group: "org.springframework.boot", module: "spring-boot-starter"
+        exclude group: "org.springframework.cloud", module: "spring-boot-starter"
+    }
+    api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"){
+        exclude group: "org.springframework.boot", module: "spring-boot-starter"
+    }
 
     constraints {
-        api ("io.seata:seata-spring-boot-starter:${seataVersion}")
+//        api ("io.seata:seata-spring-boot-starter:${seataVersion}")
         api "org.apache.dubbo:dubbo-spring-boot-starter:${dubboVersion}"
-        api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
-        api "org.apache.rocketmq:rocketmq-spring-boot-starter:${rocketmqVersion}"
+        api ("com.alibaba:druid-spring-boot-starter:${druidVersion}")
+//        api "org.apache.rocketmq:rocketmq-spring-boot-starter:${rocketmqVersion}"
 //        api "com.github.xiaoymin:knife4j-openapi3-ui:${knife4jVersion}"
-        api "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:${knife4jVersion}"
+//        api "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:${knife4jVersion}"
 //        api "com.github.xiaoymin:knife4j-gateway-spring-boot-starter:${knife4jVersion}"
 //        api "com.github.xiaoymin:knife4j-aggregation-spring-boot-starter:${knife4jVersion}"
-        api "org.springdoc:springdoc-openapi-starter-webmvc-api:${springdocVserion}"
+//        api "org.springdoc:springdoc-openapi-starter-webmvc-api:${springdocVserion}"
 //        api "org.springdoc:springdoc-openapi-starter-webflux-ui:${springdocVserion}"
 //        api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVserion}"
-        api "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
-        api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter:${multilevelCacheVersion}"
+//        api "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
+//        api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter:${multilevelCacheVersion}"
         api "org.springframework.statemachine:spring-statemachine-starter:${springStatemachineVersion}"
 
-        api "org.springframework.statemachine:spring-statemachine-data-redis:${springStatemachineVersion}"
-        api "org.springframework.statemachine:spring-statemachine-data-jpa:${springStatemachineVersion}"
+//        api "org.springframework.statemachine:spring-statemachine-data-redis:${springStatemachineVersion}"
+//        api "org.springframework.statemachine:spring-statemachine-data-jpa:${springStatemachineVersion}"
         api "uk.co.jemos.podam:podam:${podamVersion}"
         api "com.github.javafaker:javafaker:${javafakerVserion}"
         api "org.mockito:mockito-inline:${mockitoVserion}"
@@ -82,31 +89,31 @@ dependencies {
         api "commons-beanutils:commons-beanutils:${commonsBeanutils}"
         api "org.apache.dubbo:dubbo-registry-nacos:${dubboVersion}"
         api "org.apache.dubbo:dubbo-rpc-dubbo:${dubboVersion}"
-        api "org.apache.dubbo:dubbo-rpc-triple:${dubboVersion}"
-        api "org.apache.dubbo:dubbo-metrics-api:${dubboVersion}"
+//        api "org.apache.dubbo:dubbo-rpc-triple:${dubboVersion}"
+//        api "org.apache.dubbo:dubbo-metrics-api:${dubboVersion}"
         api "org.apache.skywalking:apm-toolkit-micrometer-1.10:${skywalkingApmToolkitVersion}"
         api "org.apache.skywalking:apm-toolkit-trace:${skywalkingApmToolkitVersion}"
         api "org.apache.skywalking:apm-toolkit-logback-1.x:${skywalkingApmToolkitVersion}"
-        api "com.alibaba.csp:sentinel-core:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-parameter-flow-control:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-datasource-extension:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-datasource-apollo:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-datasource-zookeeper:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-datasource-nacos:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-datasource-redis:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-datasource-consul:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-web-servlet:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-zuul-adapter:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-transport-simple-http:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-annotation-aspectj:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-dubbo-adapter:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-apache-dubbo-adapter:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-reactor-adapter:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-cluster-server-default:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-cluster-client-default:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-spring-webflux-adapter:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-api-gateway-adapter-common:${sentinelVersion}"
-        api "com.alibaba.csp:sentinel-spring-webmvc-adapter:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-core:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-parameter-flow-control:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-datasource-extension:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-datasource-apollo:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-datasource-zookeeper:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-datasource-nacos:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-datasource-redis:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-datasource-consul:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-web-servlet:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-zuul-adapter:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-transport-simple-http:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-annotation-aspectj:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-dubbo-adapter:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-apache-dubbo-adapter:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-reactor-adapter:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-cluster-server-default:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-cluster-client-default:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-spring-webflux-adapter:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-api-gateway-adapter-common:${sentinelVersion}"
+//        api "com.alibaba.csp:sentinel-spring-webmvc-adapter:${sentinelVersion}"
         api "org.modelmapper:modelmapper:${modelmapperVersion}"
         api "org.mapstruct:mapstruct:${mapstructVersion}"
         api "org.mapstruct:mapstruct-processor:${mapstructVersion}"
@@ -122,14 +129,14 @@ dependencies {
         api "com.squareup.okhttp3:okhttp:${okhttpVersion}"
         api "commons-io:commons-io:${commonsIoVersion}"
         api "com.github.jsqlparser:jsqlparser:${jsqlparserVersion}"
-        api "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
+//        api "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
         api "jakarta.platform:jakarta.jakartaee-api:${jakartaeeVersion}"
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
         api "com.google.guava:guava:${guavaVersion}"
         api "com.aliyun:dysmsapi20170525:${dysmsapiVervion}"
         api "com.aliyun:dyvmsapi20170525:${dyvmsapiVervion}"
-        api "org.springframework.kafka:spring-kafka:${kafkaVersion}"
+//        api "org.springframework.kafka:spring-kafka:${kafkaVersion}"
         api "com.tencentcloudapi:tencentcloud-sdk-java-sms:${tencentcloudSmsVersion}"
         api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
         api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVersion}" ,classifier:'jakarta'

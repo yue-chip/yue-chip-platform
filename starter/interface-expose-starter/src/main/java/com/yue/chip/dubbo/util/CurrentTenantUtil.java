@@ -18,7 +18,7 @@ public class CurrentTenantUtil {
             }
         }
         if (Objects.isNull(tenantNumber)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
+            Object obj = RpcContext.getServerContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
             if (Objects.nonNull(obj)) {
                 tenantNumber = Long.valueOf(String.valueOf(obj));
                 threadLocal.set(tenantNumber);
@@ -34,7 +34,7 @@ public class CurrentTenantUtil {
     public static void setCurrentTenant(){
         Long tenantNumber = getCurrentTenant();
         if (Objects.nonNull(tenantNumber)) {
-            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.TENANT_NUMBER,tenantNumber);
+            RpcContext.getServerContext().setObjectAttachment(DubboConstant.TENANT_NUMBER,tenantNumber);
         }
     }
 

@@ -19,7 +19,7 @@ public class CurrentUsernameUtil {
             }
         }
         if (!StringUtils.hasText(username)) {
-            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.USERNAME);
+            Object obj = RpcContext.getServerContext().getObjectAttachment(DubboConstant.USERNAME);
             if (Objects.nonNull(obj)) {
                 username = String.valueOf(obj);
                 threadLocal.set(username);
@@ -36,7 +36,7 @@ public class CurrentUsernameUtil {
     public static void setCurrentUser(){
         String username = getCurrentUser();
         if (StringUtils.hasText(username)) {
-            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.USERNAME,username);
+            RpcContext.getServerContext().setObjectAttachment(DubboConstant.USERNAME,username);
         }
     }
 

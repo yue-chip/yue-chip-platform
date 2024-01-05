@@ -3,7 +3,6 @@ package com.yue.chip.config;
 import cn.hutool.core.util.ReflectUtil;
 import com.yue.chip.annotation.YueChipDDDEntity;
 import com.yue.chip.utils.SpringContextUtil;
-import javax.annotation.Resource;
 import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.beans.factory.annotation.ReferenceAnnotationBeanPostProcessor;
@@ -21,6 +20,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -38,6 +38,7 @@ import java.util.Set;
 @ConditionalOnClass({Reflections.class, ReferenceAnnotationBeanPostProcessor.class})
 @Log4j2
 public class DDDEntityScan implements CommandLineRunner {
+
 
     private String[] packageNames = {"com.yue.chip"};
     @Override

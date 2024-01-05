@@ -1,8 +1,6 @@
 package com.yue.chip.config;
 
 import com.yue.chip.utils.MessageI18nUtil;
-import jakarta.validation.Validator;
-import jakarta.validation.executable.ExecutableValidator;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -21,6 +19,9 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+
+import javax.validation.Validator;
+import javax.validation.executable.ExecutableValidator;
 
 @Configuration
 @ConditionalOnClass({ResourceBundleMessageSource.class, ExecutableValidator.class})

@@ -15,13 +15,13 @@ dependencies {
     compileOnly 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
     compileOnly 'org.apache.dubbo:dubbo-spring-boot-starter'
     compileOnly 'org.modelmapper:modelmapper'
-    compileOnly 'org.springframework.security:spring-security-oauth2-authorization-server'
+//    compileOnly 'org.springframework.security:spring-security-oauth2-authorization-server'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
     compileOnly 'jakarta.platform:jakarta.jakartaee-api'
     compileOnly 'commons-beanutils:commons-beanutils'
     compileOnly 'com.alibaba.csp:sentinel-apache-dubbo-adapter'
     compileOnly 'com.alibaba.csp:sentinel-web-servlet'
-    compileOnly 'org.springdoc:springdoc-openapi-starter-webmvc-api'
+//    compileOnly 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     compileOnly 'io.minio:minio'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compileOnly 'org.apache.commons:commons-lang3'
@@ -38,11 +38,16 @@ dependencies {
     compileOnly "org.mapstruct:mapstruct-jdk8"
     compileOnly "org.projectlombok:lombok"
     compileOnly "org.projectlombok:lombok-mapstruct-binding"
-    compileOnly "org.springframework.kafka:spring-kafka"
-    compileOnly "com.alibaba:druid-spring-boot-starter"
+//    compileOnly "org.springframework.kafka:spring-kafka"
+    compileOnly ("com.alibaba:druid-spring-boot-starter") {
+        exclude(group: 'org.springframework.boot', module: 'spring-boot-configuration-processor')
+        exclude(group: 'org.springframework.boot', module: ' spring-boot-autoconfigure')
+    }
     compileOnly 'javax.persistence:persistence-api:1.0.2'
     compileOnly 'javax.persistence:javax.persistence-api:2.2'
     compileOnly 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
+    compileOnly 'org.springframework.boot:spring-boot-starter-security'
+
     api 'cn.hutool:hutool-all'
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"

@@ -1,6 +1,6 @@
 package com.yue.chip.core.common.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.media.Schem
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -10,9 +10,9 @@ import lombok.Data;
  * @date 2021/3/23上午11:37
  */
 @Data
-@Schema
+//@Schema
 public class DeleteDto {
-    @Schema(description = "id")
+    //@Schema(description = "id")
     @NotNull(message = "id不能未空")
     private Long id;
 }

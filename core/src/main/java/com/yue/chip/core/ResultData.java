@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.yue.chip.constant.ResultDataConstant;
 import com.yue.chip.core.common.enums.ResultDataState;
-import io.swagger.v3.oas.annotations.media.Schema;
+////import io.swagger.v3.oas.annotations.media.Schem
 import lombok.Builder;
 import lombok.Data;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
@@ -21,7 +21,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
 @Data
-@Schema()
+////@Schema()
 @Builder
 public class ResultData implements Serializable, IResultData {
 
