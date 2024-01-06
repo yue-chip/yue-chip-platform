@@ -1,9 +1,7 @@
 package com.yue.chip.utils;
 
-import com.yue.chip.core.tenant.TenantUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
@@ -19,6 +17,8 @@ import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
 public class TenantDatabaseUtil {
     private static Logger log = LoggerFactory.getLogger(TenantDatabaseUtil.class);
     private static String prefixDatabase;
+
+    private static String databasePlatform;
 
     public static String tenantDatabaseName(String dataBaseName,Long tenantNumber) {
         String databaseName = "";
@@ -50,5 +50,36 @@ public class TenantDatabaseUtil {
             }
         }
         return prefixDatabase;
+    }
+
+    private static String getDatabasePlatform(){
+        if (StringUtils.hasText(databasePlatform)) {
+            return databasePlatform;
+        }
+        synchronized (TenantDatabaseUtil.class) {
+            if (!StringUtils.hasText(databasePlatform)) {
+                databasePlatform = ((Environment) SpringContextUtil.getBean(Environment.class)).getProperty("spring.jpa.database-platform");
+                if (!StringUtils.hasText(databasePlatform)) {
+                    databasePlatform = "org.hibernate.dialect.MySQL8Dialect";
+                }
+            }
+        }
+        return databasePlatform;
+    }
+
+    public static String getDatabaseScript(){
+        String databaseScript = "USE ";
+        switch (databasePlatform) {
+            case "org.hibernate.dialect.MySQL8Dialect" :
+                databaseScript = "USE ";
+                break;
+            case "org.hibernate.dialect.DmDialect" :
+                databaseScript = "SET SCHEMA ";
+                break;
+            default :
+                databaseScript = "USE ";
+                break;
+        }
+        return databaseScript;
     }
 }
