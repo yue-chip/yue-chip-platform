@@ -68,6 +68,7 @@ public class TenantDatabaseUtil {
     }
 
     public static String getDatabaseScript(){
+        getDatabasePlatform();
         String databaseScript = "USE ";
         switch (databasePlatform) {
             case "org.hibernate.dialect.MySQL8Dialect" :
