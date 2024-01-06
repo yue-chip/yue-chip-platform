@@ -2,7 +2,6 @@ package com.yue.chip.core.tenant;
 
 import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.TenantDatabaseUtil;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -11,6 +10,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomi
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     public Connection getConnection(String tenantIdentifier) throws SQLException {
         Connection connection = getAnyConnection();
         try {
-            connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
+            connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat( getTenantDatabaseName()).concat(""));
         }catch (Exception e){
             e.printStackTrace();
             BusinessException.throwException("该租户不存在");
@@ -53,7 +53,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-        connection.createStatement().execute("USE `".concat( getTenantDatabaseName()).concat("`"));
+        connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat( getTenantDatabaseName()).concat(""));
         DataSourceUtils.releaseConnection(connection,dataSource);
     }
 
