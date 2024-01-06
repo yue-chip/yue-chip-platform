@@ -53,7 +53,7 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
         try {
             String tenantDataBaseName = getTenantDatabaseName();
             if (StringUtils.hasText(tenantDataBaseName)) {
-                connection.createStatement().execute("USE `".concat(getTenantDatabaseName()).concat("`"));
+                connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat(getTenantDatabaseName()));
             }
         }catch (Exception e){
             e.printStackTrace();
