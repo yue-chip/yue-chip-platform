@@ -1,6 +1,6 @@
 package com.yue.chip.authorization.password;
 
-import jakarta.security.enterprise.identitystore.openid.RefreshToken;
+import javax.security.enterprise.identitystore.openid.RefreshToken;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -226,7 +226,7 @@ public class AuthorizationServerConfig {
     }
 
     private void responseWrite(HttpServletResponse response,ResultData resultData) throws IOException {
-        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse((jakarta.servlet.http.HttpServletResponse) response);
+        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse((javax.servlet.http.HttpServletResponse) response);
         httpResponse.setStatusCode(HttpStatus.OK);
         responseConverter.write(resultData, MediaType.APPLICATION_JSON_UTF8,httpResponse);
     }

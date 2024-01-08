@@ -59,7 +59,7 @@ public class OAuth2PasswordCredentialsAuthenticationConverter implements Authent
     }
 
     @Override
-    public Authentication convert(jakarta.servlet.http.HttpServletRequest request) {
+    public Authentication convert(javax.servlet.http.HttpServletRequest request) {
         return null;
     }
 }

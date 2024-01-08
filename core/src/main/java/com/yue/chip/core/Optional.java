@@ -144,8 +144,12 @@ public class Optional<T> implements Serializable {
             return true;
         }
 
-        return obj instanceof Optional<?> other
-                && Objects.equals(value, other.value);
+        if (!(obj instanceof java.util.Optional)) {
+            return false;
+        }
+
+        Optional<?> other = (Optional<?>) obj;
+        return Objects.equals(value, other.value);
     }
 
     @Override
