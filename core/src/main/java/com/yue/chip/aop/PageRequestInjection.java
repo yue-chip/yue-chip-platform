@@ -41,7 +41,6 @@ public class PageRequestInjection {
             "&& ( execution(public * com.yue.chip..*.*(..)) " +
             "|| execution(public * com.xiao.wei..*.*(..)) )" )
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        Object invokeResult = null;
         Object[] args = pjp.getArgs();
         for (int i =0; i< args.length; i++){
             Object arg = args[i];
