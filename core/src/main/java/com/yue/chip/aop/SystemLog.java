@@ -1,8 +1,6 @@
 package com.yue.chip.aop;
 
 import com.yue.chip.core.SystemLogService;
-import jakarta.annotation.Resource;
-import jakarta.servlet.Servlet;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +10,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import javax.servlet.Servlet;
 import java.lang.reflect.Method;
 
 /**

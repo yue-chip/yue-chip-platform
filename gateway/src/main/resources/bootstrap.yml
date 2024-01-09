@@ -1,7 +1,19 @@
 server:
   port: 9990
+  tongweb:
+    #最大工作线程
+    max-threads: 2000
+    #最大连接数
+    max-connections: 10000
+    #最大等待队列
+    accept-count: 2000
+    #授权
+    license:
+      type: file
+      path: classpath:license-hw.dat
 spring:
   main:
+    web-application-type: reactive
     allow-bean-definition-overriding: true
   nacos:
     group: XIAO-WEI-GROUP

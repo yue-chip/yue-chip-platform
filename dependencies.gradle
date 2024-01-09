@@ -42,19 +42,22 @@ ext {
     dyvmsapiVervion = '2.1.4'
     tencentcloudSmsVersion = '3.1.893'
     kafkaVersion = '3.0.12'
+    tongwebVersion = '7.0.E.6_P2'
 }
 
 dependencies {
     api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    api platform("com.tongweb:tongweb-embed-dependencies:${tongwebVersion}")
+
     api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter"
+//        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
     api platform("com.alibaba.cloud:aliyun-spring-boot-dependencies:${aliyunSpringBootVersion}"){
-        exclude group: "org.springframework.boot", module: "spring-boot-starter"
-        exclude group: "org.springframework.cloud", module: "spring-boot-starter"
+//        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+//        exclude group: "org.springframework.cloud", module: "spring-boot-starter-tomcat"
     }
     api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"){
-        exclude group: "org.springframework.boot", module: "spring-boot-starter"
+//        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
 
     constraints {
@@ -140,6 +143,7 @@ dependencies {
         api "com.tencentcloudapi:tencentcloud-sdk-java-sms:${tencentcloudSmsVersion}"
         api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
         api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVersion}" ,classifier:'jakarta'
+
     }
 }
 //configurations.all {
