@@ -70,6 +70,7 @@ public abstract class BaseEntity implements Serializable {
 //    @GeneratedValue(generator = "snowFlakeId")
 //    @GenericGenerator(name = "snowFlakeId", strategy = "com.yue.chip.utils.id.YueChipIdGenerator")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "ID")
     public Long getId() {
         return id;
     }
@@ -80,25 +81,25 @@ public abstract class BaseEntity implements Serializable {
 //    }
 
     @CreatedDate
-    @Column(name = "create_date_time", updatable = false)
+    @Column(name = "CREATE_DATE_TIME", updatable = false)
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }
 
     @LastModifiedDate
-    @Column(name = "update_date_time",insertable = false)
+    @Column(name = "UPDATE_DATE_TIME",insertable = false)
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
     @CreatedBy
-    @Column( updatable = false)
+    @Column( updatable = false,name= "CREATE_USER_ID")
     public Long getCreateUserId() {
         return createUserId;
     }
 
     @LastModifiedBy
-    @Column(insertable = false)
+    @Column(insertable = false,name = "UPDATE_USER_ID")
     public Long getUpdateUserId() {
         return updateUserId;
     }

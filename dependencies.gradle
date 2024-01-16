@@ -143,6 +143,7 @@ dependencies {
         api "com.tencentcloudapi:tencentcloud-sdk-java-sms:${tencentcloudSmsVersion}"
         api group: 'com.querydsl', name: 'querydsl-jpa', version: "${querydslVersion}"
         api group: 'com.querydsl', name: 'querydsl-apt', version: "${querydslVersion}" ,classifier:'jakarta'
+        api("com.tongtech.rds:javaclient:1.3.0")
 
     }
 }

@@ -7,7 +7,7 @@ package com.yue.chip.core.tenant;
  */
 public class TenantConstant {
 
-    public final static String PREFIX_TENANT = "_tenant_";
+    public final static String PREFIX_TENANT = "_TENANT_";
 
     public static final String TENANT_ID = "default";
 }
