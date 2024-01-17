@@ -10,7 +10,8 @@ import java.io.Serializable;
 public class AuthorizationException extends  RuntimeException implements Serializable {
 
     private static final long serialVersionUID = 7670720348542447805L;
-
+    public AuthorizationException() {
+    }
     public AuthorizationException(Exception e) {
         super(e);
         throw this;
