@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 public class SelectRepositoryImpl<T> implements SelectRepository<T> {
 
-	private final Integer maxResults = 50000;
+	private final Integer maxResults = 99999999;
 
 	private EntityManager entityManager;
 
