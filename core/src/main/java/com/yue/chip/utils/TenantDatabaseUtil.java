@@ -75,7 +75,8 @@ public class TenantDatabaseUtil {
                 databaseScript = "USE ";
                 break;
             case "org.hibernate.dialect.DmDialect" :
-                databaseScript = "SET SCHEMA ";
+//                databaseScript = "SET SCHEMA ";
+                databaseScript = "ALTER SESSION SET CURRENT_SCHEMA=";
                 break;
             default :
                 databaseScript = "USE ";

@@ -49,7 +49,7 @@ public class CurrentUserUtil {
         if(isHttpWebRequest()){
             username = getUsername();
         }else {
-            RpcContext rpcContext = RpcContext.getServerContext();
+            RpcContext rpcContext = RpcContext.getServiceContext();
             username = String.valueOf(rpcContext.getObjectAttachments().get(DubboConstant.USERNAME));
         }
         if(!StringUtils.hasText(username) && isMustLogin){
@@ -71,7 +71,7 @@ public class CurrentUserUtil {
         if (isHttpWebRequest()) {
             tenantNumber = CurrentUserRedisUtil.getTenantNumber(getToken());
         }else {
-            Object obj = RpcContext.getServerContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TENANT_NUMBER);
             if (Objects.nonNull(obj)) {
                 tenantNumber = (Long) obj;
                 CurrentUserRedisUtil.setTenantNumber(getToken(),tenantNumber);
@@ -99,7 +99,7 @@ public class CurrentUserUtil {
         if(isHttpWebRequest()){
             return getUsername();
         }else{
-            Object obj = RpcContext.getServerContext().getObjectAttachments().get(DubboConstant.USERNAME);
+            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USERNAME);
             if (Objects.nonNull(obj)) {
                 String username = String.valueOf(obj);
                 return username;
@@ -153,7 +153,7 @@ public class CurrentUserUtil {
     public static Long getCurrentUserId(Boolean isMustLogin){
         Long userId = CurrentUserRedisUtil.getUserId(getToken());
         if (Objects.isNull(userId)) {
-            Object obj = RpcContext.getServerContext().getObjectAttachments().get(DubboConstant.USER_ID);
+            Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USER_ID);
             if (Objects.nonNull(obj)) {
                 userId = (Long) obj;
                 CurrentUserRedisUtil.setUserId(getToken(),userId);

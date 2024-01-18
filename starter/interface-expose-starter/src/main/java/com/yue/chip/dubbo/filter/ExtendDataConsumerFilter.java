@@ -15,7 +15,7 @@ public class ExtendDataConsumerFilter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         ExtendDataUtil.setExtendData();
         Result result = invoker.invoke(invocation);
-        RpcContext.getServerContext().clearAttachments();
+        RpcContext.getServiceContext().clearAttachments();
         ExtendDataUtil.cleanThreadLocal();
         return result;
     }

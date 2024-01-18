@@ -42,18 +42,16 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     @Override
     public Connection getConnection(String tenantIdentifier) throws SQLException {
         Connection connection = getAnyConnection();
-        try {
-            connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat( getTenantDatabaseName()).concat(""));
-        }catch (Exception e){
-            e.printStackTrace();
-            BusinessException.throwException("该租户不存在");
+        Boolean b = connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat( getTenantDatabaseName()).concat(";"));
+        if (!b) {
+            BusinessException.throwException("切换数据库失败");
         }
         return connection;
     }
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-        connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat( getTenantDatabaseName()).concat(""));
+        connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat( getTenantDatabaseName()).concat(";"));
         DataSourceUtils.releaseConnection(connection,dataSource);
     }
 
