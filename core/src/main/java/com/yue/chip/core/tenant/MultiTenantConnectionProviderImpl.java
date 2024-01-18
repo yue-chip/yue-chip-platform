@@ -50,14 +50,13 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
     @Override
     public Connection getAnyConnection() throws SQLException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try {
-            String tenantDataBaseName = getTenantDatabaseName();
-            if (StringUtils.hasText(tenantDataBaseName)) {
+        String tenantDataBaseName = getTenantDatabaseName();
+        if (StringUtils.hasText(tenantDataBaseName)) {
+            try {
                 connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript().concat(getTenantDatabaseName()));
+            }catch (Exception exception){
+                BusinessException.throwException("切换数据库失败");
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            BusinessException.throwException("该租户不存在");
         }
         return connection;
     }
