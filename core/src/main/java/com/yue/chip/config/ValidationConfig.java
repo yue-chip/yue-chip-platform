@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.boot.validation.MessageInterpolatorFactory;
@@ -26,6 +27,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 @ConditionalOnClass({ResourceBundleMessageSource.class, ExecutableValidator.class})
 @AutoConfigureAfter(MessageSourceAutoConfiguration.class)
 @AutoConfigureBefore(ValidationAutoConfiguration.class)
+@ConditionalOnWebApplication
 public class ValidationConfig {
 
     @Bean

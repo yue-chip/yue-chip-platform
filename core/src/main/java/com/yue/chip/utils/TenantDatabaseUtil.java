@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
-import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
+import static com.yue.chip.core.tenant.jpa.TenantConstant.PREFIX_TENANT;
 
 /**
  * @author Mr.Liu
@@ -27,7 +27,7 @@ public class TenantDatabaseUtil {
         }else {
             databaseName = dataBaseName.concat(PREFIX_TENANT).concat(String.valueOf(tenantNumber));
         }
-        log.info("切换数据：".concat(databaseName));
+//        log.info("切换数据：".concat(databaseName));
         return databaseName;
     }
 

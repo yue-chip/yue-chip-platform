@@ -11,7 +11,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -82,25 +83,30 @@ public abstract class BaseEntity implements Serializable {
 //    }
 
     @CreatedDate
-    @Column(name = "create_date_time", updatable = false, columnDefinition = "datetime DEFAULT NOW() COMMENT '创建时间'")
+    @Column(updatable = false,columnDefinition = "datetime")
+    @Comment("创建时间")
+    @ColumnDefault("NOW()")
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }
 
     @LastModifiedDate
-    @Column(name = "update_date_time",insertable = false, columnDefinition = "datetime COMMENT '修改时间'")
+    @Column(insertable = false,columnDefinition = "datetime")
+    @Comment("修改时间")
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
     @CreatedBy
-    @Column( updatable = false, columnDefinition = "bigint DEFAULT -9223372036854775808 COMMENT '创建人'")
+    @Column(updatable = false)
+    @Comment("创建人")
     public Long getCreateUserId() {
         return createUserId;
     }
 
     @LastModifiedBy
-    @Column(insertable = false, columnDefinition = "bigint DEFAULT -9223372036854775808 COMMENT '修改人'")
+    @Column(insertable = false)
+    @Comment("修改人")
     public Long getUpdateUserId() {
         return updateUserId;
     }

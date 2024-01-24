@@ -3,10 +3,10 @@ archivesBaseName = 'yue-chip-interface-expose-starter'
 apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
-    api ('io.seata:seata-spring-boot-starter') {
-        exclude group: "com.alibaba", module: "druid"
-        exclude group: "org.apache.dubbo", module: "dubbo"
-    }
+//    api ('io.seata:seata-spring-boot-starter') {
+//        exclude group: "com.alibaba", module: "druid"
+//        exclude group: "org.apache.dubbo", module: "dubbo"
+//    }
     api 'org.apache.dubbo:dubbo-rpc-dubbo'
     api 'org.apache.dubbo:dubbo-rpc-triple'
     api 'org.apache.dubbo:dubbo-spring-boot-starter'

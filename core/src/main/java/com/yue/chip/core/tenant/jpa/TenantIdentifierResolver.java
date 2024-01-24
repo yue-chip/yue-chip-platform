@@ -1,4 +1,4 @@
-package com.yue.chip.core.tenant;
+package com.yue.chip.core.tenant.jpa;
 
 import com.yue.chip.utils.SpringContextUtil;
 import org.checkerframework.checker.initialization.qual.Initialized;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.yue.chip.core.tenant.TenantConstant.PREFIX_TENANT;
-import static com.yue.chip.core.tenant.TenantConstant.TENANT_ID;
+import static com.yue.chip.core.tenant.jpa.TenantConstant.PREFIX_TENANT;
+import static com.yue.chip.core.tenant.jpa.TenantConstant.TENANT_ID;
 import static org.hibernate.cfg.AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER;
 
 /**

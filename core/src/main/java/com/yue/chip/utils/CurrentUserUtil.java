@@ -225,7 +225,7 @@ public class CurrentUserUtil {
         return redisTemplate;
     }
 
-    public static Long getCurrentTenantNumber() {
+    private static Long getCurrentTenantNumber() {
         return CurrentUserUtil.currentTenantNumber.get();
     }
 
