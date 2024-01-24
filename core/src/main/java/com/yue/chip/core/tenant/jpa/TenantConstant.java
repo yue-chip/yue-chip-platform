@@ -1,4 +1,4 @@
-package com.yue.chip.core.tenant;
+package com.yue.chip.core.tenant.jpa;
 
 /**
  * @author Mr.Liu

@@ -1,4 +1,4 @@
-package com.yue.chip.core.tenant;
+package com.yue.chip.core.tenant.jpa;
 
 import com.yue.chip.exception.BusinessException;
 import com.yue.chip.utils.TenantDatabaseUtil;

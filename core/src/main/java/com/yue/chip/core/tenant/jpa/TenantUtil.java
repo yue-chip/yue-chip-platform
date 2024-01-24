@@ -1,4 +1,4 @@
-package com.yue.chip.core.tenant;
+package com.yue.chip.core.tenant.jpa;
 
 import com.yue.chip.utils.CurrentUserUtil;
 import com.yue.chip.utils.SpringContextUtil;
