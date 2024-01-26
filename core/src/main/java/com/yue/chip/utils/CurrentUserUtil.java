@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
@@ -32,6 +31,7 @@ public class CurrentUserUtil {
 
     private static volatile CurrentUser currentUser;
     private static final String NAME = "name";
+    public static final String TOKEN = "token";
     public static final String AUTHORITY = "authority-";
     public static final String TENANT_NUMBER = "tenant-number-";
     public static final String USER_ID = "user-id-";
@@ -123,21 +123,12 @@ public class CurrentUserUtil {
         if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
             Jwt principal = (Jwt) authentication.getPrincipal();
             if (Objects.nonNull(principal)) {
-                Object obj = principal.getClaims().get(OAuth2ParameterNames.USERNAME);
-                if (Objects.nonNull(obj)) {
-                    try {
-                        username = new String(Base64.getDecoder().decode((String) obj), "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
+                String jti = String.valueOf(principal.getClaims().get("jti"));
+                if (StringUtils.hasText(jti)) {
+                    username = YueChipRedisTokenStoreUtil.getUsername(jti);
                 }
             }
-        }else if (Objects.nonNull(authentication) && authentication instanceof AbstractAuthenticationToken) {
-            username = (String) authentication.getPrincipal();
-            if (!StringUtils.hasText(username)) {
-                AuthorizationException.throwException("登陆异常，请重新登陆");
-            }
-        }else if (Objects.nonNull(authentication) && authentication instanceof UsernamePasswordAuthenticationToken) {
+        }else if (Objects.nonNull(authentication) && ( authentication instanceof AbstractAuthenticationToken || authentication instanceof UsernamePasswordAuthenticationToken)) {
             username = (String) authentication.getPrincipal();
             if (!StringUtils.hasText(username)) {
                 AuthorizationException.throwException("登陆异常，请重新登陆");
@@ -185,6 +176,21 @@ public class CurrentUserUtil {
     }
 
     public static String getToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
+            Jwt principal = (Jwt) authentication.getPrincipal();
+            if (Objects.nonNull(principal)) {
+                Object obj = principal.getClaims().get(TOKEN);
+                if (Objects.nonNull(obj)) {
+                    try {
+                        String token = new String(Base64.getDecoder().decode((String) obj), "utf-8");
+                        return token;
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
