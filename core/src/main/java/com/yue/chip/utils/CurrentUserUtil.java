@@ -27,6 +27,7 @@ public class CurrentUserUtil {
 
     private static volatile CurrentUser currentUser;
     private static final String NAME = "name";
+    public static final String TOKEN = "token";
     public static final String AUTHORITY = "authority-";
     public static final String TENANT_NUMBER = "tenant-number-";
     public static final String USER_ID = "user-id-";

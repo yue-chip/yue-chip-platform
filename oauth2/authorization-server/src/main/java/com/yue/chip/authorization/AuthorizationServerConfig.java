@@ -11,7 +11,6 @@ import com.yue.chip.authorization.password.OAuth2PasswordCredentialsAuthenticati
 import com.yue.chip.core.ResultData;
 import com.yue.chip.core.common.enums.ResultDataState;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +29,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
@@ -43,27 +40,22 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.text.ParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.Base64;
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
@@ -152,22 +144,14 @@ public class AuthorizationServerConfig {
         return securityFilterChain;
     }
 
-    @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer(HttpServletRequest request) {
-        return context -> {
-            JwtClaimsSet.Builder claims = context.getClaims();
-            String username = request.getParameter(OAuth2ParameterNames.USERNAME);
-            try {
-                if (StringUtils.hasText(username)) {
-                    claims.claim("username", Base64.getEncoder().encodeToString(username.getBytes("utf-8")));
-                }
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-//            claims.claim("authorities",new String[]{"test"});
-        };
-    }
-
+//    @Bean
+//    public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
+//        return context -> {
+//            JwtClaimsSet.Builder claims = context.getClaims();
+//            claims.claim(OAuth2ParameterNames.USERNAME, new StringBuffer(""));
+//            claims.claim(CurrentUserUtil.TOKEN,new StringBuffer(""));
+//        };
+//    }
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
 //        KeyPair keyPair = generateRsaKey();

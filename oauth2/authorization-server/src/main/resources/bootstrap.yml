@@ -5,9 +5,11 @@ spring:
     allow-bean-definition-overriding: true
     allow-circular-references: true
   nacos:
-    group: YUE-CHIP-GROUP
-    host: 192.168.177.129:8848
-    namespace: cbce5ffe-31d2-4826-99ab-384241f16917
+    group: IOT-GROUP
+    host: 192.168.31.202:8848
+    namespace: a7f0f6a1-d994-4cdf-b550-550b6b06711e
+    password: nacos
+    username: nacos
   application:
     name: oauth2-authorization
   cloud:
@@ -17,6 +19,8 @@ spring:
         file-extension: yaml
         namespace: ${spring.nacos.namespace}
         group: ${spring.nacos.group}
+        username: ${spring.nacos.username}
+        password: ${spring.nacos.password}
         extension-configs:
           - data-id: common.${spring.cloud.nacos.config.file-extension}
             refresh: true

@@ -3,16 +3,16 @@ package com.yue.chip.authorization.password;
 import cn.hutool.core.util.ReflectUtil;
 import com.yue.chip.core.common.enums.ResultDataState;
 import com.yue.chip.security.YueChipUserDetails;
+import com.yue.chip.utils.YueChipRedisTokenStoreUtil;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -37,9 +37,7 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
 
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
-
     private final UserDetailsService userDetailsService;
-
     private final PasswordEncoder passwordEncoder;
 
 
@@ -74,26 +72,25 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
                 .registeredClient(registeredClient)
                 .principal(authenticationToken)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                .authorizedScopes(AuthorityUtils.authorityListToSet(yueChipUserDetails.getAuthorities()))
+//                .authorizedScopes(AuthorityUtils.authorityListToSet(yueChipUserDetails.getAuthorities()))
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .authorizationGrant(authenticationToken)
                 .tokenType(OAuth2TokenType.ACCESS_TOKEN);
-
         // ----- Access token -----
         OAuth2TokenContext tokenContext = tokenContextBuilder.build();
-//        OAuth2AccessToken accessTokenGenerator = new OAuth2AccessTokenGenerator().generate(tokenContext);
+//        OAuth2AccessToken generatedAccessToken = new OAuth2AccessTokenGenerator().generate(tokenContext);
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
         if (generatedAccessToken == null) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR);
             throw new OAuth2AuthenticationException(error);
         }
-
-
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient);
+//        OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+//                generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
+//                generatedAccessToken.getExpiresAt(), AuthorityUtils.authorityListToSet(yueChipUserDetails.getAuthorities()));
         OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
-                generatedAccessToken.getExpiresAt(), AuthorityUtils.authorityListToSet(yueChipUserDetails.getAuthorities()));
-
+                generatedAccessToken.getExpiresAt(), Collections.emptySet());
         // ----- Refresh token -----
         OAuth2RefreshToken refreshToken = null;
         if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
@@ -143,8 +140,9 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
 //                .refreshToken(refreshToken)
 //                .build();
 //        this.authorizationService.save(authorization);
-
-        return new OAuth2AccessTokenAuthenticationToken(registeredClient,clientPrincipal,accessToken,refreshToken,Collections.EMPTY_MAP);
+        Map<String, Object> claims = ((Jwt)generatedAccessToken).getClaims();
+        YueChipRedisTokenStoreUtil.store(yueChipUserDetails,String.valueOf(claims.get("jti")));
+        return new OAuth2AccessTokenAuthenticationToken(registeredClient,clientPrincipal,accessToken,refreshToken, Collections.emptyMap());
 
     }
 
