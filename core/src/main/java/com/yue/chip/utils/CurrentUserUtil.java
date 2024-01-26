@@ -17,8 +17,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 
@@ -180,15 +178,8 @@ public class CurrentUserUtil {
         if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
             Jwt principal = (Jwt) authentication.getPrincipal();
             if (Objects.nonNull(principal)) {
-                Object obj = principal.getClaims().get(TOKEN);
-                if (Objects.nonNull(obj)) {
-                    try {
-                        String token = new String(Base64.getDecoder().decode((String) obj), "utf-8");
-                        return token;
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                String jti = String.valueOf(principal.getClaims().get("jti"));
+                return jti;
             }
         }
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
