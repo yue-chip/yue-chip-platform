@@ -39,8 +39,7 @@ import java.util.Set;
 @Log4j2
 public class DDDEntityScan implements CommandLineRunner {
 
-
-    private String[] packageNames = {"com.yue.chip"};
+    private String[] packageNames = {"com.yue.chip","com.xiao.wei"};
     @Override
     public void run(String... args) throws Exception {
         try {
