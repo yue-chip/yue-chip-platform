@@ -39,7 +39,7 @@ public class CurrentUserUtil {
         return getCurrentUser(true);
     }
 
-    public static ThreadLocal<Long> currentTenantNumber = new ThreadLocal<>();
+    public static ThreadLocal<String> currentTenantNumber = new ThreadLocal<>();
     /**
      * 获取当前登陆用户
      * @return
@@ -134,7 +134,7 @@ public class CurrentUserUtil {
             if (!StringUtils.hasText(username)) {
                 AuthorizationException.throwException("登陆异常，请重新登陆");
             }
-        }else if (Objects.nonNull(authentication) && authentication instanceof UsernamePasswordAuthenticationToken) {
+        }else if (Objects.nonNull(authentication) && ( authentication instanceof AbstractAuthenticationToken || authentication instanceof UsernamePasswordAuthenticationToken)) {
             username = (String) authentication.getPrincipal();
             if (!StringUtils.hasText(username)) {
                 AuthorizationException.throwException("登陆异常，请重新登陆");
@@ -173,7 +173,7 @@ public class CurrentUserUtil {
     private static boolean isHttpWebRequest(){
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
-            HttpServletRequest request = (HttpServletRequest) ((ServletRequestAttributes) requestAttributes).getRequest();
+            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
             if (Objects.nonNull(request)) {
                 return true;
             }
@@ -194,8 +194,6 @@ public class CurrentUserUtil {
         }
         return "";
     }
-
-
 
     /**
      * @return
@@ -223,10 +221,19 @@ public class CurrentUserUtil {
     }
 
     private static Long getCurrentTenantNumber() {
-        return CurrentUserUtil.currentTenantNumber.get();
+        String tenantNumber = CurrentUserUtil.currentTenantNumber.get();
+        Boolean b = NumberUtils.isCreatable(tenantNumber);
+        if (b) {
+            return Long.valueOf(tenantNumber);
+        }
+        return null;
     }
 
     public static void setCurrentTenantNumber(Long currentTenantNumber) {
+        CurrentUserUtil.currentTenantNumber.set(String.valueOf(currentTenantNumber));
+    }
+
+    public static void setCurrentTenantNumber(String currentTenantNumber) {
         CurrentUserUtil.currentTenantNumber.set(currentTenantNumber);
     }
 

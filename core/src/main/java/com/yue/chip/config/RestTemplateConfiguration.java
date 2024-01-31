@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,7 +28,7 @@ public class RestTemplateConfiguration {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(getHttpComponentsClientHttpRequestFactory());
 //        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
         return restTemplate;
     }
@@ -36,9 +37,16 @@ public class RestTemplateConfiguration {
     @ConditionalOnClass({LoadBalanced.class})
     @LoadBalanced
     public RestTemplate restTemplateLoadBalanced() {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(getHttpComponentsClientHttpRequestFactory());
 //        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
         return restTemplate;
+    }
+
+    private HttpComponentsClientHttpRequestFactory getHttpComponentsClientHttpRequestFactory(){
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectionRequestTimeout(3000);
+        httpRequestFactory.setConnectTimeout(3000);
+        return httpRequestFactory;
     }
 
     class RestTemplateErrorHandler extends DefaultResponseErrorHandler {
