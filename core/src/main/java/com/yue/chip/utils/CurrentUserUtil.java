@@ -4,6 +4,7 @@ package com.yue.chip.utils;
 import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.exception.AuthorizationException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -41,7 +42,7 @@ public class CurrentUserUtil {
         return getCurrentUser(true);
     }
 
-    public static ThreadLocal<Long> currentTenantNumber = new ThreadLocal<>();
+    public static ThreadLocal<String> currentTenantNumber = new ThreadLocal<>();
     /**
      * 获取当前登陆用户
      * @return
@@ -195,8 +196,6 @@ public class CurrentUserUtil {
         return "";
     }
 
-
-
     /**
      * @return
      */
@@ -223,10 +222,19 @@ public class CurrentUserUtil {
     }
 
     private static Long getCurrentTenantNumber() {
-        return CurrentUserUtil.currentTenantNumber.get();
+        String tenantNumber = CurrentUserUtil.currentTenantNumber.get();
+        Boolean b = NumberUtils.isCreatable(tenantNumber);
+        if (b) {
+            return Long.valueOf(tenantNumber);
+        }
+        return null;
     }
 
     public static void setCurrentTenantNumber(Long currentTenantNumber) {
+        CurrentUserUtil.currentTenantNumber.set(String.valueOf(currentTenantNumber));
+    }
+
+    public static void setCurrentTenantNumber(String currentTenantNumber) {
         CurrentUserUtil.currentTenantNumber.set(currentTenantNumber);
     }
 

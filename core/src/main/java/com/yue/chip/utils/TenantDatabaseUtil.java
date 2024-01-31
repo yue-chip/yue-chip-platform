@@ -67,18 +67,18 @@ public class TenantDatabaseUtil {
         return databasePlatform;
     }
 
-    public static String getDatabaseScript(){
+    public static String getDatabaseScript(String tenantDataBaseName){
         getDatabasePlatform();
-        String databaseScript = "USE ";
+        String databaseScript = "USE `".concat(tenantDataBaseName).concat("`");
         switch (databasePlatform) {
             case "org.hibernate.dialect.MySQL8Dialect" :
-                databaseScript = "USE ";
+                databaseScript = "USE `".concat(tenantDataBaseName).concat("`");
                 break;
             case "org.hibernate.dialect.DmDialect" :
                 databaseScript = "SET SCHEMA ";
                 break;
             default :
-                databaseScript = "USE ";
+                databaseScript = "USE `".concat(tenantDataBaseName).concat("`");
                 break;
         }
         return databaseScript;
