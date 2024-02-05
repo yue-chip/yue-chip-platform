@@ -83,4 +83,8 @@ public class TenantDatabaseUtil {
         }
         return databaseScript;
     }
+
+    public static String getDatabaseScript(){
+        return getDatabaseScript(tenantDatabaseName(CurrentUserUtil.getCurrentUserTenantNumber()));
+    }
 }

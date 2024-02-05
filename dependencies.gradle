@@ -24,7 +24,7 @@ ext {
     okhttpVersion = '4.12.0'
     commonsIoVersion = '2.15.1'
     jsqlparserVersion = '4.7'
-    oauth2AuthorizationServerVersion = '1.2.1'
+//    oauth2AuthorizationServerVersion = '1.2.1'
     jakartaeeVersion = '10.0.0'
     mysqlConnectorJVersion = '8.2.0'
     mariadbVersion = '3.3.2'
@@ -124,7 +124,7 @@ dependencies {
         api "com.squareup.okhttp3:okhttp:${okhttpVersion}"
         api "commons-io:commons-io:${commonsIoVersion}"
         api "com.github.jsqlparser:jsqlparser:${jsqlparserVersion}"
-        api "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
+//        api "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
         api "jakarta.platform:jakarta.jakartaee-api:${jakartaeeVersion}"
         api "com.mysql:mysql-connector-j:${mysqlConnectorJVersion}"
         api "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"

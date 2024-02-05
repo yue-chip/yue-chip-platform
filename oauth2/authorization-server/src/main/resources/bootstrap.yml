@@ -34,3 +34,6 @@ spring:
           - data-id: dubbo.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
+          - data-id: oauth2-resource.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+            group: GLOBAL_GROUP

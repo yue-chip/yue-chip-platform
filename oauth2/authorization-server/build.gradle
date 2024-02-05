@@ -28,6 +28,7 @@ graalvmNative {
 }
 dependencies {
     api(project(':core'))
+    api(project(':oauth2:resource-server'))
     api(project(':starter:interface-expose-starter')) {
         exclude group: "io.seata", module: "seata-spring-boot-starter"
     }
@@ -38,7 +39,8 @@ dependencies {
     api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.springframework.boot:spring-boot-starter-actuator'
-    api 'org.springframework.security:spring-security-oauth2-authorization-server'
+//    api 'org.springframework.security:spring-security-oauth2-authorization-server'
+    api 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
     api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
         exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-netflix-ribbon'

@@ -28,7 +28,7 @@ public class RestTemplateConfiguration {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate(getHttpComponentsClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate();
 //        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
         return restTemplate;
     }
@@ -37,7 +37,7 @@ public class RestTemplateConfiguration {
     @ConditionalOnClass({LoadBalanced.class})
     @LoadBalanced
     public RestTemplate restTemplateLoadBalanced() {
-        RestTemplate restTemplate = new RestTemplate(getHttpComponentsClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate();
 //        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
         return restTemplate;
     }

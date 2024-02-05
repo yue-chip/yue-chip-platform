@@ -1,7 +1,5 @@
-package com.yue.chip.core.tenant.jpa;
+package com.yue.chip.utils;
 
-import com.yue.chip.utils.CurrentUserUtil;
-import com.yue.chip.utils.SpringContextUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -10,23 +8,29 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Mr.Liu
  * @description: TODO
  * @date 2023/9/23 下午5:04
  */
-public class TenantUtil {
+public class TenantNumberUtil {
 
     public static final String TENANT_REMOTE_HOST = "tenant-remote-host-";
+
+    private static final List<String> uris = Stream.of(new String[]{"/login1","/weixin/login","/weixin/login1","/oauth2/token"}).collect(Collectors.toList());
 
     public static Long getTenantNumber() {
         Long tenantNumber = null;
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/weixin/login"))|| Objects.equals(request.getRequestURI(),"/weixin/login1")) {
+            String uri = request.getRequestURI();
+            if (Objects.nonNull(request) && uris.contains(uri)) {
                 if (Objects.nonNull(request)) {
                     Object obj = request.getParameter("tenantId");
                     if (Objects.isNull(obj)) {
