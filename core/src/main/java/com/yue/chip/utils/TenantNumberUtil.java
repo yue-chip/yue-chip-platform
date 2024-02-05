@@ -10,7 +10,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Mr.Liu
@@ -21,12 +24,15 @@ public class TenantUtil {
 
     public static final String TENANT_REMOTE_HOST = "tenant-remote-host-";
 
+    private static final List<String> uris = Stream.of(new String[]{"/login1","/weixin/login","/weixin/login1","/oauth2/token"}).collect(Collectors.toList());
+
     public static Long getTenantNumber() {
         Long tenantNumber = null;
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
-            HttpServletRequest request = (HttpServletRequest) ((ServletRequestAttributes) requestAttributes).getRequest();
-            if (Objects.nonNull(request) && (Objects.equals(request.getRequestURI(),"/login1") || Objects.equals(request.getRequestURI(),"/weixin/login"))|| Objects.equals(request.getRequestURI(),"/weixin/login1")) {
+            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            String uri = request.getRequestURI();
+            if (Objects.nonNull(request) && uris.contains(uri)) {
                 if (Objects.nonNull(request)) {
                     Object obj = request.getParameter("tenantId");
                     if (Objects.isNull(obj)) {

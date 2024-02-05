@@ -80,6 +80,10 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
     }
 
     private String getTenantDatabaseName() {
-        return TenantDatabaseUtil.tenantDatabaseName(TenantUtil.getTenantNumber());
+        try {
+            return TenantDatabaseUtil.tenantDatabaseName(TenantNumberUtil.getTenantNumber());
+        } catch (Exception e) {
+        }
+        return "";
     }
 }

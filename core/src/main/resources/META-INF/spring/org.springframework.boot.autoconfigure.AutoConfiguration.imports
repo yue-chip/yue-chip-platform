@@ -14,3 +14,4 @@ com.yue.chip.config.WebConfig
 com.yue.chip.config.EnumConverter
 com.yue.chip.config.AliyunSmsClient
 com.yue.chip.config.TencentSmsClient
+#com.yue.chip.config.MultiTenantJdbcTemplateConfiguration
