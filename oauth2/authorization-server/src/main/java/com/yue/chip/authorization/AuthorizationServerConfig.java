@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -68,11 +68,12 @@ import java.util.UUID;
 @ConditionalOnClass(value = {EnableWebSecurity.class, Servlet.class})
 public class AuthorizationServerConfig {
 
-    @Autowired
-    private JdbcTemplate  jdbcTemplate;
+    @Resource
+    private JdbcOperations jdbcTemplate;
+
     @DubboReference
     private UserDetailsService userDetailsService;
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
     private final HttpMessageConverter<Object> responseConverter = new MappingJackson2HttpMessageConverter();
 

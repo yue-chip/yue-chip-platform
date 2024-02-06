@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
@@ -19,8 +19,8 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 @ConditionalOnWebApplication
 public class OAuth2Configuration {
 
-    @Resource
-    private JdbcTemplate jdbcTemplate;
+    @Resource()
+    private JdbcOperations jdbcTemplate;
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {

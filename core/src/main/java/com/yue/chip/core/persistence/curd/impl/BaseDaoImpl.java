@@ -16,7 +16,7 @@ import java.sql.SQLException;
  *
  */
 @NoRepositoryBean
-public class BaseDaoImpl<T extends BaseEntity> extends YueChipSimpleJpaRepository<T> {
+public class BaseDaoImpl<T extends IBaseEntity> extends YueChipSimpleJpaRepository<T> {
 	
 	public BaseDaoImpl(JpaEntityInformation<T, Serializable> entityInformation, EntityManager entityManager) {
 		super(entityInformation, entityManager);

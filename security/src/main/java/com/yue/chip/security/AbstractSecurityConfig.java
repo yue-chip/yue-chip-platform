@@ -39,6 +39,7 @@ public abstract class AbstractSecurityConfig {
     private YueChipAuthenticationEntryPoint authenticationEntryPoint = new YueChipAuthenticationEntryPoint();
 
     protected HttpSecurity security(HttpSecurity httpSecurity) throws Exception {
+        authorizationIgnoreProperties.getIgnoreUrl().add("/oauth2/token");
         authorizationIgnoreProperties.getIgnoreUrl().add("/actuator/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/webjars/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/v3/**");
