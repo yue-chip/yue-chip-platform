@@ -1,8 +1,8 @@
-package com.yue.chip.authorization.service.impl;
+package com.yue.chip.service.impl;
 
-import com.yue.chip.authorization.dao.RegisteredClientDao;
-import com.yue.chip.authorization.dto.RegisteredClientAddDTO;
-import com.yue.chip.authorization.service.RegisteredClientService;
+import com.yue.chip.dao.RegisteredClientDao;
+import com.yue.chip.dto.RegisteredClientAddDTO;
+import com.yue.chip.service.RegisteredClientService;
 import jakarta.annotation.Resource;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -35,12 +35,12 @@ public class RegisteredClientServiceImpl implements RegisteredClientService {
                 .clientName(registeredClientAddDTO.getClientName())
                 .clientSecretExpiresAt(registeredClientAddDTO.getClientSecretExpiresAt().toInstant(ZoneOffset.UTC))
                 .clientSecret("{noop}".concat(registeredClientAddDTO.getClientSecret()))
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .scope("deviceDataProperty")
                 .scope("deviceCommand")
                 .tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofHours(24)).build())
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
                 .build();
         registeredClientDao.save(client);
     }

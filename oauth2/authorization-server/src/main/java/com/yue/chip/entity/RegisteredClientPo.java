@@ -1,4 +1,4 @@
-package com.yue.chip.authorization.entity;
+package com.yue.chip.entity;
 
 import com.yue.chip.core.persistence.JpaInterceptor;
 import com.yue.chip.core.persistence.entity.IBaseEntity;

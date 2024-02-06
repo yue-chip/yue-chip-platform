@@ -6,7 +6,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.yue.chip.authorization.client.YueChipOAuth2ClientCredentialsAuthenticationConverter;
-import com.yue.chip.authorization.password.AccessToken;
+import com.yue.chip.authorization.client.YueChipOAuth2ClientCredentialsAuthenticationProvider;
 import com.yue.chip.authorization.password.OAuth2PasswordCredentialsAuthenticationConverter;
 import com.yue.chip.authorization.password.OAuth2PasswordCredentialsAuthenticationProvider;
 import com.yue.chip.core.ResultData;
@@ -23,6 +23,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,17 +51,21 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.util.ReflectionUtils;
 
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.text.ParseException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
@@ -94,7 +99,7 @@ public class AuthorizationServerConfig {
                 new OAuth2AuthorizationCodeAuthenticationConverter(), // 授权码模式
                 new OAuth2RefreshTokenAuthenticationConverter(),  // 刷新token
 //                new OAuth2ClientCredentialsAuthenticationConverter(),  // 客户端模式
-                new YueChipOAuth2ClientCredentialsAuthenticationConverter(), // 自定义客户端模式 多租户模式
+                new YueChipOAuth2ClientCredentialsAuthenticationConverter(), // 自定义客户端模式
                 new OAuth2PasswordCredentialsAuthenticationConverter() //自定义密码模式
             )));
             tokenEndpoint.errorResponseHandler((request, response, exception) -> {
@@ -104,9 +109,9 @@ public class AuthorizationServerConfig {
             tokenEndpoint.accessTokenResponseHandler((request, response, authentication) -> {
                 OAuth2AccessTokenAuthenticationToken token = (OAuth2AccessTokenAuthenticationToken)authentication;
                 AccessToken accessToken = AccessToken.builder()
-                        .access_token(token.getAccessToken().getTokenValue())
-                        .refresh_token(token.getRefreshToken().getTokenValue())
-                        .toke_type(token.getAccessToken().getTokenType().getValue())
+                        .access_token(Objects.nonNull(token.getAccessToken())?token.getAccessToken().getTokenValue():null)
+                        .refresh_token(Objects.nonNull(token.getRefreshToken())?token.getRefreshToken().getTokenValue():null)
+                        .toke_type(Objects.nonNull(token.getAccessToken())?token.getAccessToken().getTokenType().getValue():null)
                         .expires_in(ChronoUnit.SECONDS.between(token.getAccessToken().getIssuedAt(), token.getAccessToken().getExpiresAt()))
                         .build();
                 ResultData resultData = ResultData.builder().data(accessToken).build();
@@ -148,7 +153,15 @@ public class AuthorizationServerConfig {
         SecurityFilterChain securityFilterChain = http.build();
 
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(new OAuth2PasswordCredentialsAuthenticationProvider(http.getSharedObject(OAuth2AuthorizationService.class),http.getSharedObject(OAuth2TokenGenerator.class), userDetailsService, passwordEncoder));
+        Field field = ReflectionUtils.findField(authenticationManagerBuilder.getClass(),"authenticationProviders");
+        if (field != null) {
+            ReflectionUtils.makeAccessible(field);
+            List<AuthenticationProvider> list = (List<AuthenticationProvider>) ReflectionUtils.getField(field,authenticationManagerBuilder);
+            list.add(0,new OAuth2PasswordCredentialsAuthenticationProvider(http.getSharedObject(OAuth2AuthorizationService.class),http.getSharedObject(OAuth2TokenGenerator.class), userDetailsService, passwordEncoder));
+            list.add(0,new YueChipOAuth2ClientCredentialsAuthenticationProvider(http.getSharedObject(OAuth2TokenGenerator.class)));
+        }
+//        authenticationManagerBuilder.authenticationProvider(new OAuth2PasswordCredentialsAuthenticationProvider(http.getSharedObject(OAuth2AuthorizationService.class),http.getSharedObject(OAuth2TokenGenerator.class), userDetailsService, passwordEncoder));
+//        authenticationManagerBuilder.authenticationProvider(new YueChipOAuth2ClientCredentialsAuthenticationProvider(http.getSharedObject(OAuth2TokenGenerator.class)));
         return securityFilterChain;
     }
 

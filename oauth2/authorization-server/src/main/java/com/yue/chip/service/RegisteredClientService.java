@@ -1,6 +1,6 @@
-package com.yue.chip.authorization.service;
+package com.yue.chip.service;
 
-import com.yue.chip.authorization.dto.RegisteredClientAddDTO;
+import com.yue.chip.dto.RegisteredClientAddDTO;
 import jakarta.validation.constraints.NotNull;
 
 /**

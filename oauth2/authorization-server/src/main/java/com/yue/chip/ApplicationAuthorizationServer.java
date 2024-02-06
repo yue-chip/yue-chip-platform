@@ -14,8 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableDiscoveryClient
 @EnableDubbo
 @DubboComponentScan(basePackages = {"com.yue.chip.**"})
-@EnableJpaRepositories(basePackages = {"com.yue.chip.authorization.dao.**"}, repositoryFactoryBeanClass = BaseDaoFactoryBean.class)
-@EntityScan({"com.yue.chip.authorization.entity.**"})
+@EnableJpaRepositories(basePackages = {"com.yue.chip.dao.**"}, repositoryFactoryBeanClass = BaseDaoFactoryBean.class)
+@EntityScan({"com.yue.chip.entity.**"})
 @EnableJpaAuditing
 public class ApplicationAuthorizationServer {
 

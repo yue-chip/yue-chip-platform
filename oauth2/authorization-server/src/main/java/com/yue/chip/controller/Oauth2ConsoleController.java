@@ -1,7 +1,7 @@
-package com.yue.chip.authorization.controller;
+package com.yue.chip.controller;
 
-import com.yue.chip.authorization.dto.RegisteredClientAddDTO;
-import com.yue.chip.authorization.service.RegisteredClientService;
+import com.yue.chip.dto.RegisteredClientAddDTO;
+import com.yue.chip.service.RegisteredClientService;
 import com.yue.chip.core.IResultData;
 import com.yue.chip.core.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
