@@ -1,7 +1,5 @@
 package com.yue.chip.authorization.client;
 
-import com.yue.chip.utils.CurrentUserUtil;
-import com.yue.chip.utils.TenantNumberUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -28,7 +26,6 @@ public class YueChipOAuth2ClientCredentialsAuthenticationConverter implements Au
     @Nullable
     @Override
     public Authentication convert(HttpServletRequest request) {
-        CurrentUserUtil.setCurrentTenantNumber(String.valueOf(TenantNumberUtil.getTenantNumber()));
         MultiValueMap<String, String> parameters = getFormParameters(request);
 
         // grant_type (REQUIRED)
@@ -59,7 +56,6 @@ public class YueChipOAuth2ClientCredentialsAuthenticationConverter implements Au
                 additionalParameters.put(key, (value.size() == 1) ? value.get(0) : value.toArray(new String[0]));
             }
         });
-        CurrentUserUtil.cleanCurrentTenantNumber();
         return new OAuth2ClientCredentialsAuthenticationToken(
                 clientPrincipal, requestedScopes, additionalParameters);
     }

@@ -1,25 +1,21 @@
 package com.yue.chip.security;
 
 import com.yue.chip.security.filter.YueChipAuthenticationFilter;
+import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
 import com.yue.chip.security.properties.OauthClientScopeProperties;
 import jakarta.annotation.Resource;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import lombok.Setter;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.StringUtils;
-import com.yue.chip.security.properties.AuthorizationIgnoreProperties;
 
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -43,6 +39,7 @@ public abstract class AbstractSecurityConfig {
     private YueChipAuthenticationEntryPoint authenticationEntryPoint = new YueChipAuthenticationEntryPoint();
 
     protected HttpSecurity security(HttpSecurity httpSecurity) throws Exception {
+        authorizationIgnoreProperties.getIgnoreUrl().add("/oauth2/token");
         authorizationIgnoreProperties.getIgnoreUrl().add("/actuator/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/webjars/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/v3/**");

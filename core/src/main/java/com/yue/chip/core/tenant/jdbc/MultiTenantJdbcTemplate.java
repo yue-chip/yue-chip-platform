@@ -655,6 +655,7 @@ public class MultiTenantJdbcTemplate extends JdbcAccessor implements JdbcOperati
                 ResultSet rs = null;
                 Statement stmt = null;
                 try {
+                    stmt = connection.createStatement();
                     stmt.execute(TenantDatabaseUtil.getDatabaseScript());
                     if (pss != null) {
                         pss.setValues(ps);
@@ -904,7 +905,6 @@ public class MultiTenantJdbcTemplate extends JdbcAccessor implements JdbcOperati
         return updateCount(execute(psc, ps -> {
             Connection connection = ps.getConnection();
             Statement stmt = null;
-            stmt.execute(TenantDatabaseUtil.getDatabaseScript());
             try {
                 stmt = connection.createStatement();
                 stmt.execute(TenantDatabaseUtil.getDatabaseScript());

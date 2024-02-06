@@ -3,7 +3,7 @@ package com.yue.chip.authorization.service.impl;
 import com.yue.chip.authorization.dao.RegisteredClientDao;
 import com.yue.chip.authorization.dto.RegisteredClientAddDTO;
 import com.yue.chip.authorization.service.RegisteredClientService;
-import org.springframework.data.annotation.Reference;
+import jakarta.annotation.Resource;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @Service
 public class RegisteredClientServiceImpl implements RegisteredClientService {
 
-    @Reference
+    @Resource
     private RegisteredClientDao registeredClientDao;
 
     @Override

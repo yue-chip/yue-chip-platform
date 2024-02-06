@@ -1,7 +1,7 @@
 package com.yue.chip.authorization.dao.impl;
 
 import com.yue.chip.authorization.dao.RegisteredClientDaoEx;
-import org.springframework.data.annotation.Reference;
+import jakarta.annotation.Resource;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
  */
 public class RegisteredClientDaoImpl implements RegisteredClientDaoEx {
 
-    @Reference
+    @Resource
     private RegisteredClientRepository registeredClientRepository;
 
     @Override

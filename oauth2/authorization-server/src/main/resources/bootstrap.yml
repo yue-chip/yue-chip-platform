@@ -37,3 +37,6 @@ spring:
           - data-id: oauth2-resource.${spring.cloud.nacos.config.file-extension}
             refresh: true
             group: GLOBAL_GROUP
+          - data-id: jpa.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+            group: GLOBAL_GROUP

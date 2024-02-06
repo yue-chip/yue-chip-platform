@@ -1,6 +1,6 @@
 package com.yue.chip.core.persistence.curd;
 
-import com.yue.chip.core.persistence.entity.BaseEntity;
+import com.yue.chip.core.persistence.entity.IBaseEntity;
 import org.hibernate.Session;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @param <T>
  */
 @NoRepositoryBean
-public interface BaseDao<T extends BaseEntity> extends UpdateRepository<T>, SelectRepository<T>, SaveRepository<T>, DeleteRepository<T>, JpaRepositoryImplementation<T, Serializable> {
+public interface BaseDao<T extends IBaseEntity> extends UpdateRepository<T>, SelectRepository<T>, SaveRepository<T>, DeleteRepository<T>, JpaRepositoryImplementation<T, Serializable> {
 
     /**
      *

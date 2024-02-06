@@ -39,6 +39,7 @@ dependencies {
     api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.springframework.boot:spring-boot-starter-actuator'
+    api 'org.hibernate.validator:hibernate-validator'
 //    api 'org.springframework.security:spring-security-oauth2-authorization-server'
     api 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
     api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'

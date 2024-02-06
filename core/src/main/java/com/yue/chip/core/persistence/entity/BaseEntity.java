@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @EntityListeners({AuditingEntityListener.class, JpaInterceptor.class})
 @JsonIgnoreProperties(ignoreUnknown = true,value = {"createDateTime","updateDateTime","createUserId","updateUserId"})
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable,IBaseEntity {
 
     private static final long serialVersionUID = -90000050L;
 

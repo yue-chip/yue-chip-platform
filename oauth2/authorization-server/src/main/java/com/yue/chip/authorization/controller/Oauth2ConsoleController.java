@@ -32,6 +32,7 @@ public class Oauth2ConsoleController {
     @Operation(description = "新建oauth2鉴权信息",summary = "新建oauth2鉴权信息")
     @PostMapping("/add")
     public IResultData add(@RequestBody @Validated RegisteredClientAddDTO registeredClientAddDTO){
+        registeredClientService.add(registeredClientAddDTO);
         return ResultData.builder().build();
     }
 }
