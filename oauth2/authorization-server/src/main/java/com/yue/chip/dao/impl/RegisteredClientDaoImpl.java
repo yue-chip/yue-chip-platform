@@ -1,6 +1,6 @@
-package com.yue.chip.authorization.dao.impl;
+package com.yue.chip.dao.impl;
 
-import com.yue.chip.authorization.dao.RegisteredClientDaoEx;
+import com.yue.chip.dao.RegisteredClientDaoEx;
 import jakarta.annotation.Resource;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;

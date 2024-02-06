@@ -51,6 +51,14 @@ public class OAuth2PasswordCredentialsAuthenticationProvider implements Authenti
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         OAuth2PasswordCredentialsAuthenticationToken authenticationToken = (OAuth2PasswordCredentialsAuthenticationToken)authentication;
+        String grant_type = "";
+        Map<String,String> additionalParameters = authenticationToken.getAdditionalParameters();
+        if (additionalParameters.containsKey("grant_type")) {
+            grant_type = additionalParameters.get("grant_type");
+        }
+        if (!AuthorizationGrantType.PASSWORD.getValue().equals(grant_type)) {
+            return null;
+        }
         OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authenticationToken);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
         Map<String,String> parameters = authenticationToken.getAdditionalParameters();

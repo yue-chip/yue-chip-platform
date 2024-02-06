@@ -21,6 +21,5 @@ public class YueChipOAuth2ClientCredentialsAuthenticationToken extends OAuth2Cli
      */
     public YueChipOAuth2ClientCredentialsAuthenticationToken(Authentication clientPrincipal, Set<String> scopes, Map<String, Object> additionalParameters) {
         super(clientPrincipal, scopes, additionalParameters);
-
     }
 }

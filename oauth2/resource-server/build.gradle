@@ -4,8 +4,8 @@ apply from: this.rootProject.file('javaLibraryMvnPublish.gradle')
 dependencies {
     api(project(':core'))
     api(project(':security'))
-    api 'org.springframework.security:spring-security-oauth2-resource-server'
-    api 'org.springframework.security:spring-security-oauth2-jose'
+    api 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    api 'org.springframework.boot:spring-boot-starter-oauth2-client'
     compileOnly "org.mapstruct:mapstruct"
     compileOnly "org.mapstruct:mapstruct-processor"
     compileOnly "org.mapstruct:mapstruct-jdk8"

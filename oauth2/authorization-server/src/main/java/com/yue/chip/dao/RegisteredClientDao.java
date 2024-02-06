@@ -1,6 +1,6 @@
-package com.yue.chip.authorization.dao;
+package com.yue.chip.dao;
 
-import com.yue.chip.authorization.entity.RegisteredClientPo;
+import com.yue.chip.entity.RegisteredClientPo;
 import com.yue.chip.core.persistence.curd.BaseDao;
 
 /**

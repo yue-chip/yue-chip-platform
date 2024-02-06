@@ -1,4 +1,4 @@
-package com.yue.chip.authorization.dao;
+package com.yue.chip.dao;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;

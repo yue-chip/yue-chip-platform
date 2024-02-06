@@ -1,9 +1,7 @@
-package com.yue.chip.authorization.password;
+package com.yue.chip.authorization;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.temporal.ChronoUnit;
 
 /**
  * @author Mr.Liu

@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationConverter;
@@ -56,8 +53,10 @@ public class YueChipOAuth2ClientCredentialsAuthenticationConverter implements Au
                 additionalParameters.put(key, (value.size() == 1) ? value.get(0) : value.toArray(new String[0]));
             }
         });
-        return new OAuth2ClientCredentialsAuthenticationToken(
+        additionalParameters.put("grant_type","client_credentials");
+        OAuth2ClientCredentialsAuthenticationToken authenticationToken = new YueChipOAuth2ClientCredentialsAuthenticationToken(
                 clientPrincipal, requestedScopes, additionalParameters);
+        return authenticationToken;
     }
 
     private MultiValueMap<String, String> getFormParameters(HttpServletRequest request) {

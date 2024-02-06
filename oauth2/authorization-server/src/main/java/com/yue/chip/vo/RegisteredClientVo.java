@@ -1,4 +1,4 @@
-package com.yue.chip.authorization.vo;
+package com.yue.chip.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
