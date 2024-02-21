@@ -4,6 +4,7 @@ package com.yue.chip.utils;
 import com.yue.chip.constant.DubboConstant;
 import com.yue.chip.exception.AuthorizationException;
 import org.apache.dubbo.rpc.RpcContext;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -230,14 +231,23 @@ public class CurrentUserUtil {
     }
 
     public static void setCurrentTenantNumber(Long currentTenantNumber) {
-        CurrentUserUtil.currentTenantNumber.set(String.valueOf(currentTenantNumber));
+        if (isEnabledMultiTenant()) {
+            CurrentUserUtil.currentTenantNumber.set(String.valueOf(currentTenantNumber));
+        }
     }
 
     public static void setCurrentTenantNumber(String currentTenantNumber) {
-        CurrentUserUtil.currentTenantNumber.set(currentTenantNumber);
+        if (isEnabledMultiTenant()) {
+            CurrentUserUtil.currentTenantNumber.set(currentTenantNumber);
+        }
     }
 
     public static void cleanCurrentTenantNumber() {
         CurrentUserUtil.currentTenantNumber.remove();
+    }
+
+    private static Boolean isEnabledMultiTenant() {
+        String enabledMultiTenant = ((Environment) SpringContextUtil.getBean(Environment.class)).getProperty("spring.jpa.hibernate.multiTenant");
+        return Objects.equals(enabledMultiTenant,"enabled");
     }
 }

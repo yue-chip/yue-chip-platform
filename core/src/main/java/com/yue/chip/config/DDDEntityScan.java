@@ -86,7 +86,7 @@ public class DDDEntityScan implements CommandLineRunner {
                 });
             }
         }catch (Exception exception){
-            exception.printStackTrace();
+//            exception.printStackTrace();
         }
     }
 
