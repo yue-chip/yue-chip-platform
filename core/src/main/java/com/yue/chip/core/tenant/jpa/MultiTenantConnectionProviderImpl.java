@@ -1,6 +1,7 @@
 package com.yue.chip.core.tenant.jpa;
 
 import com.yue.chip.exception.BusinessException;
+import com.yue.chip.utils.HibernateSessionJdbcUtil;
 import com.yue.chip.utils.TenantDatabaseUtil;
 import com.yue.chip.utils.TenantNumberUtil;
 import jakarta.annotation.Resource;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 
 /**
@@ -51,12 +53,16 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
     @Override
     public Connection getAnyConnection() throws SQLException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
+        Statement statement = null;
         String tenantDataBaseName = getTenantDatabaseName();
         if (StringUtils.hasText(tenantDataBaseName)) {
             try {
-                connection.createStatement().execute(TenantDatabaseUtil.getDatabaseScript(tenantDataBaseName));
+                statement = connection.createStatement();
+                statement.execute(TenantDatabaseUtil.getDatabaseScript(tenantDataBaseName));
             }catch (Exception exception){
                 BusinessException.throwException("切换数据库失败");
+            }finally {
+                HibernateSessionJdbcUtil.close(statement);
             }
         }
         return connection;

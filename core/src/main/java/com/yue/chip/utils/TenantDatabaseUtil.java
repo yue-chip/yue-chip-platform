@@ -75,7 +75,7 @@ public class TenantDatabaseUtil {
                 databaseScript = "USE `".concat(tenantDataBaseName).concat("`");
                 break;
             case "org.hibernate.dialect.DmDialect" :
-                databaseScript = "SET SCHEMA ";
+                databaseScript = "SET SCHEMA ".concat(tenantDataBaseName);
                 break;
             default :
                 databaseScript = "USE `".concat(tenantDataBaseName).concat("`");
