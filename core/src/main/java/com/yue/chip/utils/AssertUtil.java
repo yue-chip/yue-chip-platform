@@ -20,7 +20,7 @@ public class AssertUtil {
      * @param message
      */
     public static void isTrue(@NotNull Boolean isTrue, @NotBlank String message){
-        if (Objects.equals(isTrue,true)){
+        if (!Objects.equals(isTrue,true)){
             BusinessException.throwException(message);
         }
     }
@@ -37,7 +37,7 @@ public class AssertUtil {
      * @param message
      */
     public static void isFalse(@NotNull Boolean isFalse,@NotBlank String message) {
-        if (Objects.equals(isFalse,false)){
+        if (!Objects.equals(isFalse,false)){
             BusinessException.throwException(message);
         }
     }
