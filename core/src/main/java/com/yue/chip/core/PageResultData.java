@@ -43,6 +43,8 @@ public class PageResultData extends PageImpl implements IPageResultData, Seriali
 
     public PageResultData(List content, Pageable pageable, long total) {
         super(content, pageable, total);
+        this.status = ResultDataState.SUCCESS.getKey();
+        this.message = ResultDataConstant.SUCCEED_MESSAGE;
     }
 
     @Deprecated
