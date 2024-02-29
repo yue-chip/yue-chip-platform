@@ -16,7 +16,7 @@ public enum UserType implements IEnum {
 
     private final String desc;
 
-    public static  final String code = "state";
+    public static  final String code = "userType";
 
     public static final String version = "1";
 
