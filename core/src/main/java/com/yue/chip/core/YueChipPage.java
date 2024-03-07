@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
  * @author: Mr.Liu
  * @create: 2020-01-13 16:18
  */
-public class YueChipPage extends PageRequest  {
+public class YueChipPage extends PageRequest {
 
     private static final long serialVersionUID = -4541509938956089563L;
 

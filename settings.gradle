@@ -8,6 +8,6 @@ include ':core',
         ':starter:interface-expose-impl-starter',
         ':starter:interface-expose-starter',
         ':starter:serve-starter',
-        'dependencies','security',
-        'api-doc'
+        ':dependencies',':security',
+        ':api-doc'
 

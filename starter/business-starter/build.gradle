@@ -23,7 +23,7 @@ dependencies {
     api "org.mapstruct:mapstruct-jdk8"
     api "org.modelmapper:modelmapper"
     api 'commons-dbutils:commons-dbutils'
-    api 'org.springdoc:springdoc-openapi-starter-webmvc-api:'
+    api 'org.springdoc:springdoc-openapi-starter-webmvc-api'
     api 'com.github.jsqlparser:jsqlparser'
 //    api 'com.querydsl:querydsl-jpa'
 //    api 'com.querydsl:querydsl-apt'
