@@ -7,6 +7,7 @@ package com.yue.chip.core;
  * @author: Mr.Liu
  * @create: 2020-02-16 15:10
  */
+@Schema
 public interface IResultData<T> {
 
 //    //@Schema(description = "提示信息")
