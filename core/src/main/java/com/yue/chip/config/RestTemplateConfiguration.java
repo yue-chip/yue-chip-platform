@@ -8,10 +8,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,6 +33,7 @@ public class RestTemplateConfiguration {
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
+        messageConverter(restTemplate);
 //        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
         return restTemplate;
     }
@@ -38,8 +43,19 @@ public class RestTemplateConfiguration {
     @LoadBalanced
     public RestTemplate restTemplateLoadBalanced() {
         RestTemplate restTemplate = new RestTemplate();
+        messageConverter(restTemplate);
 //        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
         return restTemplate;
+    }
+
+    private void messageConverter(RestTemplate restTemplate) {
+        List<HttpMessageConverter<?>> list = restTemplate.getMessageConverters();
+        for (HttpMessageConverter converter : list) {
+            if (converter instanceof StringHttpMessageConverter) {
+                ((StringHttpMessageConverter) converter).setDefaultCharset(Charset.forName("UTF-8"));
+                break;
+            }
+        }
     }
 
     private HttpComponentsClientHttpRequestFactory getHttpComponentsClientHttpRequestFactory(){
