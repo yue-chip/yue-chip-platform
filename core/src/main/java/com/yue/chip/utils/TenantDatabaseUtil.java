@@ -36,6 +36,10 @@ public class TenantDatabaseUtil {
         return tenantDatabaseName(databaseName,tenantNumber);
     }
 
+    public static String tenantDatabaseName() {
+        return tenantDatabaseName(CurrentUserUtil.getCurrentUserTenantNumber());
+    }
+
     public static String getPrefixDataBase(){
         if (!StringUtils.hasText(prefixDatabase)) {
             synchronized (TenantDatabaseUtil.class) {

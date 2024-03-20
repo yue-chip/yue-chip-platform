@@ -65,6 +65,7 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
                 HibernateSessionJdbcUtil.close(statement);
             }
         }
+//        connection.setCatalog(TenantDatabaseUtil.getDatabaseScript());
         return connection;
     }
 
