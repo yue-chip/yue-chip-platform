@@ -18,6 +18,9 @@ public abstract class EnumConverter<T extends IEnum,K extends Serializable> impl
 
     @Override
     public K convertToDatabaseColumn(T t) {
+        if (Objects.equals( getKClass(), String.class)) {
+            return Objects.isNull(t)?null: (K) ((IEnum)t).getName();
+        }
         return Objects.isNull(t)?null: (K) ((IEnum)t).getKey();
     }
 
@@ -25,6 +28,11 @@ public abstract class EnumConverter<T extends IEnum,K extends Serializable> impl
     public T convertToEntityAttribute(K k) {
         List<IEnum> list = initialEnum(getTClass());
         for (IEnum ienum : list){
+            if (Objects.equals( getKClass(), String.class)) {
+                if(Objects.equals(ienum.getName(),((String) k))){
+                    return (T) ienum;
+                }
+            }
             if(ienum.getKey()== ((Integer) k)){
                 return (T) ienum;
             }
@@ -36,6 +44,12 @@ public abstract class EnumConverter<T extends IEnum,K extends Serializable> impl
     {
         Class<T> tClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         return tClass;
+    }
+
+    private Class<K> getKClass()
+    {
+        Class<K> kClass = (Class<K>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        return kClass;
     }
 
     private List<IEnum> initialEnum(Class<?> cls) {
