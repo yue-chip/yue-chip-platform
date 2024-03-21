@@ -1,10 +1,10 @@
 package com.yue.chip.config;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.yue.chip.core.tenant.mybatis.MultiTenantInterceptor;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -17,13 +17,12 @@ import org.springframework.context.annotation.Configuration;
 public class MybatisMultiTenantConfig {
 
     @Resource
-    private SqlSessionFactory sqlSessionFactory;
-
-    @Resource
     private MultiTenantInterceptor multiTenantInterceptor;
 
-    @PostConstruct
-    public void addInterceptor(){
-        sqlSessionFactory.getConfiguration().addInterceptor(multiTenantInterceptor);
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(multiTenantInterceptor);
+        return interceptor;
     }
 }
