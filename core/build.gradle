@@ -40,7 +40,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok-mapstruct-binding"
     compileOnly "org.springframework.kafka:spring-kafka"
     compileOnly "com.alibaba:druid-spring-boot-starter"
-    compileOnly "org.mybatis.spring.boot:mybatis-spring-boot-starter"
+    compileOnly "com.baomidou:mybatis-plus-boot-starter"
     api 'cn.hutool:hutool-all'
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"

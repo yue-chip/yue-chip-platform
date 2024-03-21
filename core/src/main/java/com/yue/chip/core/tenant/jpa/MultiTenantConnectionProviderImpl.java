@@ -1,9 +1,6 @@
 package com.yue.chip.core.tenant.jpa;
 
-import com.yue.chip.exception.BusinessException;
-import com.yue.chip.utils.HibernateSessionJdbcUtil;
-import com.yue.chip.utils.TenantDatabaseUtil;
-import com.yue.chip.utils.TenantNumberUtil;
+import com.yue.chip.utils.ConnectionSwitchoverUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
@@ -11,14 +8,13 @@ import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionPr
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 
 /**
@@ -29,6 +25,7 @@ import java.util.Map;
 @Component
 @ConditionalOnProperty(prefix = "spring",name = "jpa.hibernate.multiTenant",havingValue = "enabled")
 @Slf4j
+@Order()
 public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnectionProvider implements HibernatePropertiesCustomizer {
 
     @Resource
@@ -47,25 +44,13 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
     @Override
     public void customize(Map<String, Object> hibernateProperties) {
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
-        hibernateProperties.put("hibernate.multiTenancy", "schema");
+        hibernateProperties.put("hibernate.multi_tenancy", "schema");
     }
 
     @Override
     public Connection getAnyConnection() throws SQLException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        Statement statement = null;
-        String tenantDataBaseName = getTenantDatabaseName();
-        if (StringUtils.hasText(tenantDataBaseName)) {
-            try {
-                statement = connection.createStatement();
-                statement.execute(TenantDatabaseUtil.getDatabaseScript(tenantDataBaseName));
-            }catch (Exception exception){
-                BusinessException.throwException("切换数据库失败");
-            }finally {
-                HibernateSessionJdbcUtil.close(statement);
-            }
-        }
-//        connection.setCatalog(TenantDatabaseUtil.getDatabaseScript());
+        ConnectionSwitchoverUtil.switchoverDatabase(connection);
         return connection;
     }
 
@@ -82,13 +67,5 @@ public class MultiTenantConnectionProviderImpl extends AbstractMultiTenantConnec
     @Override
     public void releaseConnection(Object tenantIdentifier, Connection connection) throws SQLException {
         releaseAnyConnection( connection);
-    }
-
-    private String getTenantDatabaseName() {
-        try {
-            return TenantDatabaseUtil.tenantDatabaseName(TenantNumberUtil.getTenantNumber());
-        } catch (Exception e) {
-        }
-        return "";
     }
 }

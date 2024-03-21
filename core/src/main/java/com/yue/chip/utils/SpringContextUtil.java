@@ -6,9 +6,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 public class SpringContextUtil implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
@@ -35,14 +35,17 @@ public class SpringContextUtil implements ApplicationContextAware, ApplicationLi
 	 * @throws BeansException
 	 */
 	public static Object getBean(String name) throws BeansException {
-		if(!containsBean(name)){
+		if(Objects.isNull(applicationContext) || !containsBean(name) ){
 			return null;
 		}
 		return applicationContext.getBean(name);
 	}
 
 	public static Object getBean(Class classz) throws BeansException {
-		return applicationContext.getBean(classz);
+		if (Objects.nonNull(applicationContext)) {
+			return applicationContext.getBean(classz);
+		}
+		return null;
 	}
 
 	/**
@@ -58,7 +61,7 @@ public class SpringContextUtil implements ApplicationContextAware, ApplicationLi
 	 */
 	@SuppressWarnings("unchecked")
 	public static Object getBean(String name, @SuppressWarnings("rawtypes") Class requiredType) throws BeansException {
-		if(!containsBean(name)){
+		if(Objects.isNull(applicationContext) || !containsBean(name) ){
 			return null;
 		}
 		return applicationContext.getBean(name, requiredType);
@@ -71,7 +74,10 @@ public class SpringContextUtil implements ApplicationContextAware, ApplicationLi
 	 * @return boolean
 	 */
 	public static boolean containsBean(String name) {
-		return applicationContext.containsBean(name);
+		if(Objects.nonNull(applicationContext)){
+			return applicationContext.containsBean(name);
+		}
+		return false;
 	}
 
 	/**
@@ -83,7 +89,10 @@ public class SpringContextUtil implements ApplicationContextAware, ApplicationLi
 	 * @throws NoSuchBeanDefinitionException
 	 */
 	public static boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
-		return applicationContext.isSingleton(name);
+		if(Objects.nonNull(applicationContext)) {
+			return applicationContext.isSingleton(name);
+		}
+		return false;
 	}
 
 	/**
@@ -93,7 +102,10 @@ public class SpringContextUtil implements ApplicationContextAware, ApplicationLi
 	 */
 	@SuppressWarnings("rawtypes")
 	public static Class getType(String name) throws NoSuchBeanDefinitionException {
-		return applicationContext.getType(name);
+		if(Objects.nonNull(applicationContext)) {
+			return applicationContext.getType(name);
+		}
+		return Void.class;
 	}
 
 	/**
@@ -104,7 +116,10 @@ public class SpringContextUtil implements ApplicationContextAware, ApplicationLi
 	 * @throws NoSuchBeanDefinitionException
 	 */
 	public static String[] getAliases(String name) throws NoSuchBeanDefinitionException {
-		return applicationContext.getAliases(name);
+		if(Objects.nonNull(applicationContext)) {
+			return applicationContext.getAliases(name);
+		}
+		return null;
 	}
 
 	@Override

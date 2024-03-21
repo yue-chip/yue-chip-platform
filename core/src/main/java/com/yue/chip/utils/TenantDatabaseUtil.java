@@ -43,7 +43,11 @@ public class TenantDatabaseUtil {
     public static String getPrefixDataBase(){
         if (!StringUtils.hasText(prefixDatabase)) {
             synchronized (TenantDatabaseUtil.class) {
-                String jdbcUrl = ((Environment)SpringContextUtil.getBean(Environment.class)).getProperty("spring.datasource.url");
+                Environment environment = ((Environment)SpringContextUtil.getBean(Environment.class));
+                if (Objects.isNull(environment)) {
+                    return "";
+                }
+                String jdbcUrl = environment.getProperty("spring.datasource.url");
                 if (StringUtils.hasText(jdbcUrl)) {
                     if (jdbcUrl.indexOf("?")>-1) {
                         prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1, jdbcUrl.indexOf("?"));
