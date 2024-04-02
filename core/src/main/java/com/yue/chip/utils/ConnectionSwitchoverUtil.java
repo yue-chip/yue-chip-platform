@@ -1,6 +1,7 @@
 package com.yue.chip.utils;
 
 import jakarta.validation.constraints.NotNull;
+import org.springframework.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,7 +31,10 @@ public class ConnectionSwitchoverUtil {
 //            }
 //        }
         try {
-            conn.setCatalog(TenantDatabaseUtil.tenantDatabaseName());
+            String databaseName = TenantDatabaseUtil.tenantDatabaseName(TenantNumberUtil.getTenantNumber());
+            if (StringUtils.hasText(databaseName)) {
+                conn.setCatalog(databaseName);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
