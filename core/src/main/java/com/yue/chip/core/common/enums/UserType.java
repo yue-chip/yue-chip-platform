@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public enum UserType implements IEnum {
 
-    WEIXIN(0, "微信"), SYSTEM(1, "系统(平台)"),ORDINARY(2, "普通");
+    WEIXIN(0, "微信"), SYSTEM(1, "系统(平台)"),ORDINARY(2, "普通/APP");
 
     private final int key;
 
