@@ -30,7 +30,6 @@ dependencies {
     api "org.redisson:redisson-spring-boot-starter"
 //    api "com.pig4cloud.plugin:multilevel-cache-spring-boot-starter"
     api "com.kingbase:kingbase-driver"
-    api "com.kingbase:kingbase-hibernate"
     compileOnly "org.mapstruct:mapstruct"
     compileOnly "org.mapstruct:mapstruct-processor"
     compileOnly "org.mapstruct:mapstruct-jdk8"

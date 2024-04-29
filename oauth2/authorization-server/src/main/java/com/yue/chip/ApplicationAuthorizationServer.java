@@ -26,6 +26,7 @@ public class ApplicationAuthorizationServer {
          * new SpringApplicationBuilder(Application.class)
          * .web(WebApplicationType.NONE) .run(args);
          */
+
         SpringApplication.run(ApplicationAuthorizationServer.class, args);
     }
 }
