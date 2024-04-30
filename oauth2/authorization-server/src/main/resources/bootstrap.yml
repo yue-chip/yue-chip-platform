@@ -5,9 +5,9 @@ spring:
     allow-bean-definition-overriding: true
     allow-circular-references: true
   nacos:
-    group: IOT-GROUP
+    group: ENERGY_GROUP
     host: 192.168.31.202:8848
-    namespace: a7f0f6a1-d994-4cdf-b550-550b6b06711e
+    namespace: c8f3040f-b7d7-423a-b09e-89a5ea32884e
     password: nacos
     username: nacos
   application:
