@@ -15,3 +15,6 @@ com.yue.chip.config.EnumConverter
 com.yue.chip.config.AliyunSmsClient
 com.yue.chip.config.TencentSmsClient
 com.yue.chip.config.MultiTenantJdbcTemplateConfiguration
+com.yue.chip.config.MultiTenantJpaConfiguration
+com.yue.chip.config.MultiTenantMybatisConfiguration
+com.yue.chip.config.MultiTenantMongoConfiguration
