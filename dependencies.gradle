@@ -27,7 +27,7 @@ ext {
 //    oauth2AuthorizationServerVersion = '1.2.1'
     jakartaeeVersion = '10.0.0'
     mysqlConnectorJVersion = '8.2.0'
-    mariadbVersion = '3.3.2'
+    mariadbVersion = '3.3.3'
     redissonVersion = '3.25.2'
     guavaVersion = '31.1-jre'
     skywalkingApmToolkitVersion = '9.1.0'
