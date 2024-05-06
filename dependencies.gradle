@@ -1,7 +1,7 @@
 ext {
     aliyunSpringBootVersion = '1.0.0'
-    springCloudAlibabaVersion = '2022.0.0.0'
-    springCloudVersion = '2023.0.0'
+    springCloudAlibabaVersion = '2023.0.1.0'
+    springCloudVersion = '2023.0.1'
     nacosVersion = '2.2.3'
     springdocVserion= '2.3.0'
     seataVersion = '2.0.0'
@@ -49,6 +49,7 @@ ext {
     mybatisPlusVerion = '3.5.5'
     liquibaseVersion = '4.26.0'
     kingbaseVersion = 'v8'
+    postgresqlVersion = '42.7.3'
 }
 
 dependencies {
@@ -148,6 +149,7 @@ dependencies {
         api "com.dameng:DmDialect-for-hibernate5.6:${DmDialectForHibernateVersion}"
         api "org.liquibase:liquibase-core:${liquibaseVersion}"
         api "com.kingbase:kingbase-driver:${kingbaseVersion}"
+        api "org.postgresql:postgresql:${postgresqlVersion}"
     }
 }
 //configurations.all {
