@@ -48,7 +48,6 @@ ext {
     mybatisPagehelperVersion = '2.1.0'
     mybatisPlusVerion = '3.5.5'
     liquibaseVersion = '4.26.0'
-    kingbaseVersion = 'v8'
     postgresqlVersion = '42.7.3'
 }
 
@@ -148,7 +147,6 @@ dependencies {
         api "com.dameng:Dm8JdbcDriver18:${Dm8JdbcDriver18Version}"
         api "com.dameng:DmDialect-for-hibernate5.6:${DmDialectForHibernateVersion}"
         api "org.liquibase:liquibase-core:${liquibaseVersion}"
-        api "com.kingbase:kingbase-driver:${kingbaseVersion}"
         api "org.postgresql:postgresql:${postgresqlVersion}"
     }
 }
