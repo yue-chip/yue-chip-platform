@@ -3,7 +3,6 @@ package com.yue.chip.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,17 +10,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
-import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.web.client.RestTemplate;
-
-import java.time.Duration;
 
 /**
  * @author Mr.Liu
@@ -30,15 +23,10 @@ import java.time.Duration;
 @Configuration
 @ConditionalOnClass( {RedisTemplate.class, RedisConnectionFactory.class} )
 public class RedisConfigurer {
-
-    @Value("${spring.data.redis.database:0}")
-    private String database;
-
     @Bean
     @Primary
     @SuppressWarnings("all")
-    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory factory) {
-        factory.setDatabase(Integer.valueOf(database));
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(factory);
         ObjectMapper om = new ObjectMapper();
