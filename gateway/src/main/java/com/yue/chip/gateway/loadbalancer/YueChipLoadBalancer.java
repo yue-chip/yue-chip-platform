@@ -4,11 +4,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.loadbalancer.DefaultResponse;
-import org.springframework.cloud.client.loadbalancer.EmptyResponse;
-import org.springframework.cloud.client.loadbalancer.Request;
-import org.springframework.cloud.client.loadbalancer.Response;
-import org.springframework.cloud.loadbalancer.core.*;
+import org.springframework.cloud.client.loadbalancer.*;
+import org.springframework.cloud.loadbalancer.core.NoopServiceInstanceListSupplier;
+import org.springframework.cloud.loadbalancer.core.ReactorServiceInstanceLoadBalancer;
+import org.springframework.cloud.loadbalancer.core.SelectedInstanceCallback;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Mono;
 
@@ -24,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class YueChipLoadBalancer implements ReactorServiceInstanceLoadBalancer{
 
-    private static final Log log = LogFactory.getLog(RandomLoadBalancer.class);
+    private static final Log log = LogFactory.getLog(YueChipLoadBalancer.class);
     private final String serviceId;
     private ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
     private final String IS_SHOW_SWAGGER = "isShowSwagger";
@@ -35,18 +36,26 @@ public class YueChipLoadBalancer implements ReactorServiceInstanceLoadBalancer{
         this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
     }
 
+    @SuppressWarnings("rawtypes")
     public Mono<Response<ServiceInstance>> choose(Request request) {
-        ServiceInstanceListSupplier supplier = (ServiceInstanceListSupplier)this.serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
-        return supplier.get(request).next().map((serviceInstances) -> {
-            return this.processInstanceResponse(supplier, serviceInstances);
-        });
-    }
-
-    public Mono<Response<ServiceInstance>> choose(Request request, String ip,String path) {
-        ServiceInstanceListSupplier supplier = (ServiceInstanceListSupplier)this.serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
-        return supplier.get(request).next().map((serviceInstances) -> {
-            return this.processInstanceResponse(supplier, serviceInstances, ip, path);
-        });
+        ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider
+                .getIfAvailable(NoopServiceInstanceListSupplier::new);
+        return supplier.get(request).next()
+                .map(serviceInstances -> {
+                            Request<RequestDataContext> requestDataContext = request;
+                            HttpHeaders headers = requestDataContext.getContext().getClientRequest().getHeaders();
+                            String ip = headers.getFirst("requestHost");
+                            if (!StringUtils.hasText(ip)) {
+                                ip = headers.getFirst("X-Real-IP");
+                            }else if (!StringUtils.hasText(ip)) {
+                                ip = headers.getFirst("REMOTE-HOST");
+                            }else if (!StringUtils.hasText(ip)) {
+                                ip = headers.getFirst("X-Forwarded-For");
+                            }
+                            String path = requestDataContext.getContext().getClientRequest().getUrl().getPath();
+                            return processInstanceResponse(supplier, serviceInstances, ip, path);
+                        }
+                );
     }
 
     private Response<ServiceInstance> processInstanceResponse(ServiceInstanceListSupplier supplier, List<ServiceInstance> serviceInstances, String ip, String path) {
@@ -75,15 +84,7 @@ public class YueChipLoadBalancer implements ReactorServiceInstanceLoadBalancer{
                 }
             }
         }
-        
-        Response<ServiceInstance> serviceInstanceResponse = this.getInstanceResponse(serviceInstances);
-        if (supplier instanceof SelectedInstanceCallback && serviceInstanceResponse.hasServer()) {
-            ((SelectedInstanceCallback)supplier).selectedServiceInstance((ServiceInstance)serviceInstanceResponse.getServer());
-        }
-        return serviceInstanceResponse;
-    }
 
-    private Response<ServiceInstance> processInstanceResponse(ServiceInstanceListSupplier supplier, List<ServiceInstance> serviceInstances) {
         Response<ServiceInstance> serviceInstanceResponse = this.getInstanceResponse(serviceInstances);
         if (supplier instanceof SelectedInstanceCallback && serviceInstanceResponse.hasServer()) {
             ((SelectedInstanceCallback)supplier).selectedServiceInstance((ServiceInstance)serviceInstanceResponse.getServer());
@@ -94,15 +95,14 @@ public class YueChipLoadBalancer implements ReactorServiceInstanceLoadBalancer{
     private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances) {
         if (instances.isEmpty()) {
             if (log.isWarnEnabled()) {
-                log.warn("No servers available for service: " + this.serviceId);
+                log.warn("No servers available for service: " + serviceId);
             }
-
             return new EmptyResponse();
-        } else {
-            int index = ThreadLocalRandom.current().nextInt(instances.size());
-            ServiceInstance instance = (ServiceInstance)instances.get(index);
-            return new DefaultResponse(instance);
         }
-    }
+        int index = ThreadLocalRandom.current().nextInt(instances.size());
 
+        ServiceInstance instance = instances.get(index);
+
+        return new DefaultResponse(instance);
+    }
 }

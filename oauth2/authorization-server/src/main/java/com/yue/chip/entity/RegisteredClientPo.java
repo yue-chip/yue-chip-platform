@@ -59,6 +59,4 @@ public class RegisteredClientPo implements IBaseEntity {
 
     @Column(length = 2000)
     private String postLogoutRedirectUris;
-
-    private Long tenantNumber;
 }

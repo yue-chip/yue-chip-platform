@@ -1,1 +1,2 @@
 com.yue.chip.gateway.config.CorsConfiguration
+#com.yue.chip.gateway.loadbalancer.YueChipLoadBalancerClientConfiguration

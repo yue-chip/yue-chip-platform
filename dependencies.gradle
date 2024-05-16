@@ -2,46 +2,45 @@ ext {
     aliyunSpringBootVersion = '1.0.0'
     springCloudAlibabaVersion = '2023.0.1.0'
     springCloudVersion = '2023.0.1'
-    nacosVersion = '2.2.3'
+    nacosVersion = '2.3.2'
     springdocVserion= '2.3.0'
     seataVersion = '2.0.0'
-    dubboVersion = '3.2.10'
-    druidVersion = '1.2.21'
-    rocketmqVersion = '2.2.3'
-    knife4jVersion = '4.4.0'
+    dubboVersion = '3.2.12'
+    druidVersion = '1.2.22'
+    rocketmqVersion = '2.3.0'
+    knife4jVersion = '4.5.0'
     lombokMapstructBinding = '0.2.0'
-    hutoolVserion = '5.8.23'
+    hutoolVserion = '5.8.27'
     commonsBeanutils = '1.9.4'
-    sentinelVersion = '1.8.6'
+    sentinelVersion = '1.8.7'
     modelmapperVersion = '3.2.0'
     commonsDbutilsVersion = '1.7'
     easyCaptchaVersion = '1.6.2'
-    fastjsonVersion = '2.0.41'
+    fastjsonVersion = '2.0.50'
 //    reflectionsVersion = '0.10.2' 无法扫描springboot打包的 jar文件
     reflectionsVersion = '0.9.12'
-    minioVersion = '8.5.7'
-    guavaVersion = '31.1-jre'
+    minioVersion = '8.5.10'
+    guavaVersion = '33.2.0-jre'
     okhttpVersion = '4.12.0'
-    commonsIoVersion = '2.15.1'
-    jsqlparserVersion = '4.7'
+    commonsIoVersion = '2.11.1'
+    jsqlparserVersion = '4.9'
 //    oauth2AuthorizationServerVersion = '1.2.1'
     jakartaeeVersion = '10.0.0'
-    mysqlConnectorJVersion = '8.2.0'
-    mariadbVersion = '3.3.2'
-    redissonVersion = '3.25.2'
-    guavaVersion = '31.1-jre'
-    skywalkingApmToolkitVersion = '9.1.0'
-    querydslVersion = '5.0.0'
+    mysqlConnectorJVersion = '8.4.0'
+    mariadbVersion = '3.3.3'
+    redissonVersion = '3.30.0'
+    skywalkingApmToolkitVersion = '9.2.0'
+    querydslVersion = '5.1.0'
     multilevelCacheVersion = '3.0.0'
     jmockdataVersion = '4.3.0'
-    mockitoVserion = '5.2.0'
+    mockitoVserion = '5.12.0'
     javafakerVserion = '1.0.2'
-    podamVersion = '7.2.11.RELEASE'
-    springStatemachineVersion = '3.2.1'
+    podamVersion = '8.0.1.RELEASE'
+    springStatemachineVersion = '4.0.0'
     dysmsapiVervion = '2.0.24'
     dyvmsapiVervion = '2.1.4'
     tencentcloudSmsVersion = '3.1.893'
-    kafkaVersion = '3.0.12'
+    kafkaVersion = '3.1.4'
     Dm8JdbcDriver18Version = '8.1.1.49'
     DmDialectForHibernateVersion = '8.1.3.62'
     mybatisVersion = '3.0.3'
@@ -49,6 +48,7 @@ ext {
     mybatisPlusVerion = '3.5.5'
     liquibaseVersion = '4.26.0'
     postgresqlVersion = '42.7.3'
+    jackeyVersion = '5.2.0'
 }
 
 dependencies {
@@ -84,9 +84,7 @@ dependencies {
         api "org.mockito:mockito-inline:${mockitoVserion}"
         api "org.mockito:mockito-core:${mockitoVserion}"
         api "com.github.jsonzou:jmockdata:${jmockdataVersion}"
-        api "com.alibaba.nacos:nacos-api:${nacosVersion}"
-        api "com.alibaba.nacos:nacos-client:${nacosVersion}"
-        api "com.alibaba.nacos:nacos-common:${nacosVersion}"
+        api "com.alibaba.nacos:nacos-all:${nacosVersion}"
         api "org.projectlombok:lombok:${lombokVersion}"
         api "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBinding}"
         api "cn.hutool:hutool-all:${hutoolVserion}"
@@ -148,6 +146,7 @@ dependencies {
         api "com.dameng:DmDialect-for-hibernate5.6:${DmDialectForHibernateVersion}"
         api "org.liquibase:liquibase-core:${liquibaseVersion}"
         api "org.postgresql:postgresql:${postgresqlVersion}"
+        api "io.jackey:jackey:${jackeyVersion}"
     }
 }
 //configurations.all {

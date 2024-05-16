@@ -39,6 +39,7 @@ dependencies{
     api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
     api 'org.aspectj:aspectjrt'
     api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    api 'org.springframework.retry:spring-retry:2.0.5'
     api ('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery') {
         exclude group: "org.springframework.cloud", module: "spring-cloud-starter-netflix-ribbon"
     }
