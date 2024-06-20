@@ -20,7 +20,7 @@ public class ConnectionSwitchoverUtil {
             return;
         }
         Statement statement = null;
-        String tenantDataBaseName = TenantDatabaseUtil.tenantDatabaseName(CurrentUserUtil.getCurrentUserTenantNumber());
+        String tenantDataBaseName = TenantDatabaseUtil.tenantDatabaseName(TenantNumberUtil.getTenantNumber());
         if (StringUtils.hasText(tenantDataBaseName)) {
             try {
                 statement = conn.createStatement();
