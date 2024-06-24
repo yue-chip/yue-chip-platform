@@ -2,7 +2,7 @@ package com.yue.chip.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
         value = {"content", "pageable", "sort", "numberOfElements", "empty", "number", "size"}
 )
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema
+//@Schema
 public interface IPageResultData<T extends List> extends IResultData<T> , Page {
 
     int getTotalPages();

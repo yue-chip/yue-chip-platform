@@ -15,10 +15,10 @@ import org.springframework.context.annotation.Primary;
 @ConditionalOnProperty(prefix = "spring",name = "jpa.hibernate.multiTenant",havingValue = "enabled")
 public class MultiTenantJpaConfiguration {
 
-    @Bean
-    @Primary
-    public MultiTenantConnectionProviderImpl multiTenantConnectionProvider () {
-       return new MultiTenantConnectionProviderImpl();
-    }
+//    @Bean
+//    @Primary
+//    public MultiTenantConnectionProviderImpl multiTenantConnectionProvider () {
+//       return new MultiTenantConnectionProviderImpl();
+//    }
 
 }

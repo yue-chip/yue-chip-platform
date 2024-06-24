@@ -6,8 +6,6 @@ import com.yue.chip.core.persistence.curd.impl.SelectRepositoryImpl;
 import com.yue.chip.core.persistence.curd.impl.UpdateRepositoryImpl;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import com.yue.chip.core.persistence.entity.IBaseEntity;
-import com.yue.chip.utils.id.SnowflakeUtil;
-import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +26,7 @@ import java.util.Map;
  *
  */
 @NoRepositoryBean
-public abstract class YueChipSimpleJpaRepository<T extends BaseEntity> extends SimpleJpaRepository<T, Serializable> implements BaseDao<T> {
+public abstract class YueChipSimpleJpaRepository<T extends IBaseEntity> extends SimpleJpaRepository<T, Serializable> implements BaseDao<T> {
 
 	private SelectRepository<T> selectRepository;
 

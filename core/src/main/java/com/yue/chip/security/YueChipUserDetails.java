@@ -1,7 +1,5 @@
 package com.yue.chip.security;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.util.StringUtils;
@@ -18,12 +16,8 @@ public class YueChipUserDetails extends User implements Serializable {
 
     private static final long serialVersionUID = -883666601L;
 
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     private Long tenantNumber;
 
     public YueChipUserDetails() {
@@ -47,5 +41,21 @@ public class YueChipUserDetails extends User implements Serializable {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
         list.add(grantedAuthority);
         return list;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getTenantNumber() {
+        return tenantNumber;
+    }
+
+    public void setTenantNumber(Long tenantNumber) {
+        this.tenantNumber = tenantNumber;
     }
 }

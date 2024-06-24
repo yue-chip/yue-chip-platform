@@ -16,9 +16,9 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 @ConditionalOnProperty(prefix = "spring",name = "data.mongodb.multiTenant",havingValue = "enabled")
 public class MultiTenantMongoConfiguration {
 
-    @Bean
-    @Primary
-    public SimpleMongoClientDatabaseFactory mongoDatabaseFactory() {
-        return new MultiTenantMongoDbFactory();
-    }
+//    @Bean
+//    @Primary
+//    public SimpleMongoClientDatabaseFactory mongoDatabaseFactory() {
+//        return new MultiTenantMongoDbFactory();
+//    }
 }

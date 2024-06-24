@@ -1,7 +1,5 @@
-package com.yue.chip.core.tenant.jpa;
+package com.yue.chip.utils;
 
-import com.yue.chip.utils.CurrentUserUtil;
-import com.yue.chip.utils.SpringContextUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.util.StringUtils;
@@ -20,7 +18,7 @@ import java.util.stream.Stream;
  * @description: TODO
  * @date 2023/9/23 下午5:04
  */
-public class TenantUtil {
+public class TenantNumberUtil {
 
     public static final String TENANT_REMOTE_HOST = "tenant-remote-host-";
 
