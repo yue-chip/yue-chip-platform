@@ -1,8 +1,8 @@
 package com.yue.chip.utils;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;

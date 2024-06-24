@@ -2,10 +2,10 @@ package com.yue.chip.config;
 
 //import com.yue.chip.core.tenant.jdbc.MultiTenantJdbcTemplate;
 
-import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
