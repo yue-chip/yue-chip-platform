@@ -42,7 +42,7 @@ ext {
     dyvmsapiVervion = '2.1.4'
     tencentcloudSmsVersion = '3.1.893'
     kafkaVersion = '3.0.12'
-    tongwebVersion = '7.0.E.6_P2'
+    tongwebVersion = '7.0.E.6_P8'
     Dm8JdbcDriver18Version = '8.1.1.49'
     DmDialectForHibernateVersion = '8.1.3.62'
     mybatisVersion = '3.0.3'
