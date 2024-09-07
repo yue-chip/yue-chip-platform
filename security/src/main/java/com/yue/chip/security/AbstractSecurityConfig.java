@@ -43,6 +43,7 @@ public abstract class AbstractSecurityConfig {
         authorizationIgnoreProperties.getIgnoreUrl().add("/actuator/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/webjars/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/v3/**");
+        authorizationIgnoreProperties.getIgnoreUrl().add("/test");
         authorizationIgnoreProperties.getIgnoreUrl().add("/swagger-ui*/**");
         authorizationIgnoreProperties.getIgnoreUrl().add("/swagger-ui.html");
         authorizationIgnoreProperties.getIgnoreUrl().add("/doc.html");
