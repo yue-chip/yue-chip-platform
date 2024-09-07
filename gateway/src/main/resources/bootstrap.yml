@@ -17,7 +17,7 @@ spring:
     allow-bean-definition-overriding: true
   nacos:
     group: XIAO-WEI-GROUP
-    host: 192.168.31.202:8848
+    host: 192.168.11.184:8848
     namespace: 26a7e481-33dd-4e26-ace0-6bf8f7605d70
 #    group: YUE-CHIP-GROUP
 #    host: 192.168.177.129:8848
