@@ -29,7 +29,7 @@ public class Sm4Util {
     public static void main(String[] args) throws Exception {
         String str = Sm4Util.encryptEcb("D6ADB51C107FEA5D265B87F80E56C510","test");
         System.out.println(str);
-        System.out.println(Sm4Util.decryptEcb("D6ADB51C107FEA5D265B87F80E56C510",str));
+        System.out.println(Sm4Util.decryptEcb("D6ADB51C107FEA5D265B87F80E56C510","99504781b9fdfb9cf50005bf13eb23a1"));
     }
 
     /**
@@ -137,9 +137,8 @@ public class Sm4Util {
             return decryptStr;
         }catch (Exception e) {
             e.printStackTrace();
-            BusinessException.throwException("解密失败");
         }
-        return null;
+        return cipherText;
     }
 
     /**

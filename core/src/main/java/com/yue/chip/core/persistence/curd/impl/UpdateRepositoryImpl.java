@@ -6,8 +6,10 @@ import com.yue.chip.core.persistence.curd.RepositoryParameter;
 import com.yue.chip.core.persistence.curd.UpdateRepository;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import org.hibernate.Session;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -55,17 +57,33 @@ public class UpdateRepositoryImpl<T>  implements UpdateRepository<T> {
 	@Override
 	public void update(T entity) {
 		BaseEntity newEntity = (BaseEntity)entity;
+
 //		if (Objects.isNull(newEntity.getVersion())){
 //			BusinessException.throwException("该数据版本号不能为空");
 //		}
-		Serializable id = entityInformation.getId(entity);
-		Optional<T> optional = simpleJpaRepository.findById(id);
-		if (optional.isPresent()) {
-			BaseEntity oldEntity = (BaseEntity) optional.get();
-			BeanUtil.copyProperties(newEntity, oldEntity, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
-			simpleJpaRepository.save((T) oldEntity);
-		}
-
+//		Serializable id = entityInformation.getId(entity);
+//		Optional<T> optional = find(id);
+//		if (optional.isPresent()) {
+//			BaseEntity oldEntity = (BaseEntity) optional.get();
+//			BeanUtil.copyProperties(newEntity, oldEntity, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
+////			entityManager.remove(entity);
+//			up((T)oldEntity);
+//		}else {
+//			simpleJpaRepository.save(entity);
+//		}
+		simpleJpaRepository.save(entity);
 	}
 
+	private Optional<T> find(Serializable id) {
+		return simpleJpaRepository.findById(id);
+	}
+
+	public void del(Serializable id) {
+		simpleJpaRepository.deleteById(id);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW,rollbackFor = Exception.class)
+	public void up(T entity) {
+		simpleJpaRepository.save((T)entity);
+	}
 }

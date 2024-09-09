@@ -4,7 +4,6 @@ import com.yue.chip.core.Optional;
 import com.yue.chip.core.persistence.curd.BaseDao;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import com.yue.chip.core.service.BaseService;
-import com.yue.chip.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -100,14 +100,16 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     @Override
     @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
     public <S extends T> S save(S entity) {
-        if (Objects.nonNull(entity)){
-            if (Objects.nonNull( ((BaseEntity)entity).getId())){
-                this.update(entity);
-                return entity;
-            }
-            return baseDao.save(entity);
-        }
-        return entity;
+//        if (Objects.nonNull(entity)){
+//            if (Objects.nonNull( ((BaseEntity)entity).getId())){
+//                this.update(entity);
+//                return entity;
+//            }
+//            return baseDao.save(entity);
+//        }
+
+        return baseDao.save(entity);
+//        return entity;
     }
 
     @Override

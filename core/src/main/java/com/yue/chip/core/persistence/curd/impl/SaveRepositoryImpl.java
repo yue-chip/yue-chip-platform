@@ -37,4 +37,6 @@ public class SaveRepositoryImpl<T>  implements SaveRepository<T> {
 		return save(jpql, null);
 	}
 
+
+
 }

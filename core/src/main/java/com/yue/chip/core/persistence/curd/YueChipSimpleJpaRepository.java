@@ -6,6 +6,7 @@ import com.yue.chip.core.persistence.curd.impl.SelectRepositoryImpl;
 import com.yue.chip.core.persistence.curd.impl.UpdateRepositoryImpl;
 import com.yue.chip.core.persistence.entity.BaseEntity;
 import com.yue.chip.core.persistence.entity.IBaseEntity;
+import com.yue.chip.utils.id.SnowflakeUtil;
 import org.hibernate.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 
@@ -137,7 +139,6 @@ public abstract class YueChipSimpleJpaRepository<T extends IBaseEntity> extends 
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public void update(T entity) {
 		updateRepository.update(entity);
 	}
@@ -170,12 +171,13 @@ public abstract class YueChipSimpleJpaRepository<T extends IBaseEntity> extends 
 	@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Throwable.class)
 	public <S extends T> S save(S entity) {
 		BaseEntity baseEntity = (BaseEntity)entity;
-//		if (Objects.isNull(baseEntity.getId())){
-//			baseEntity.setId(SnowflakeUtil.getId());
-//		}
+		if (Objects.isNull(baseEntity.getId())){
+			baseEntity.setId(SnowflakeUtil.getId());
+		}
 //		if (this.entityInformation.isNew(entity)) {
 //			baseEntity.setVersion(0L);
 //		}
 		return super.save(entity);
 	}
+
 }

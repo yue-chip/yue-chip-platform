@@ -30,7 +30,6 @@ public interface UpdateRepository<T> {
 	 * 根据model对象更新数据
 	 * @param entity		model对象<T>
 	 */
-	@Transactional(rollbackFor = Throwable.class)
 	void update(T entity);
 
 }
