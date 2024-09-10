@@ -16,6 +16,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.util.TimeZone;
+
 /**
  * @author Mr.Liu
  * @date 2023/5/4 上午11:17
@@ -30,6 +32,7 @@ public class RedisConfigurer {
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(factory);
         ObjectMapper om = new ObjectMapper();
+        om.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
