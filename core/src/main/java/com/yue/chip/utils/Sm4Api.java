@@ -6,6 +6,7 @@ import cn.tass.hsm.GHSMAPI;
 import cn.tass.hsm.TACryptConst;
 import cn.tass.hsm.Utils;
 import cn.tass.kits.Forms;
+import org.springframework.util.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.IOException;
@@ -281,10 +282,10 @@ public class Sm4Api {
     public void generalDataEnc() {
         try {
             //sm4加解密
-            byte[] bytes = api.symmKeyDataEnc(sm4Key,TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
+            byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Padding.PKCS5Padding( "test".getBytes(),16), b);
             System.out.println("SM4加密结果：" + Forms.byteToHexString(bytes));
-            byte[] bytes1 = api.generalDataDec(sm4Key,TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
+            byte[] bytes1 = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     bytes, b);
             System.out.println("SM4解密结果:" + new String(Padding.PKCS5UnPadding(bytes1,16)));
             //sm7加解密--依赖硬件
@@ -295,21 +296,24 @@ public class Sm4Api {
 //                bytes, new byte[8]);
 //        System.out.println("SM7解密结果:" + new String(bytes22));
             //aes加解密
-            byte[] paddingData = Padding.PKCS5Padding(Forms.hexStringToByte("30820122300D06092A864886F70D01010105000382010F003082010A0282010100A636C484374F9F039EB4318952B6BA5ABBE096F2B37B12DBC71A09F3B7BEEB83EB4A4BBBBDBBCC9332168E336981C919EF8BB734B3671DFEDCB79459401F95DDAA4EACECB36599451F9F77F5B01BF6B6AA1F94DE8BE5ED8B7BD52CA94929F7B0D3E8F5FDAFA322538AE32F89D7E3C1E4203120EDE6F213A3848F8ECF9E6836BE369A4658B6EB14D2FD3681488A3207CE0A5A9088011B2DA893C7F2C674843BB5254C30CB67D9C8182FEF284BB5CD8A239D6411EA199AD8B93EBE3442716FDAB44FB3932248C076C8794725CEEB5B76674B2B6DC605DC0F9835C6CCBBE4807A4F925065E02C65CAFE2D80A275BF5D096D2E07BA9ED5A75A10D425B03B84BB57990203010001"), 16);
-            byte[] bytes3 = api.symmKeyDataEnc(26,TACryptConst.ENC_MODE_CBC,TACryptConst.KEY_TYPE_RULE, TACryptConst.KEY_ALG_AES128,
-                    paddingData, b);
-            System.out.println("AES加密结果：" + Forms.byteToHexString(bytes3));
-            byte[] bytes33 = api.generalDataDec(Forms.hexStringToByte("12E0927021F5AB498152FB544B067031"),TACryptConst.ENC_MODE_CBC, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_AES128, bytes3, b);
-            System.out.println("AES解密结果:" + Forms.byteToHexString(bytes33));
+//            byte[] paddingData = Padding.PKCS5Padding(Forms.hexStringToByte("30820122300D06092A864886F70D01010105000382010F003082010A0282010100A636C484374F9F039EB4318952B6BA5ABBE096F2B37B12DBC71A09F3B7BEEB83EB4A4BBBBDBBCC9332168E336981C919EF8BB734B3671DFEDCB79459401F95DDAA4EACECB36599451F9F77F5B01BF6B6AA1F94DE8BE5ED8B7BD52CA94929F7B0D3E8F5FDAFA322538AE32F89D7E3C1E4203120EDE6F213A3848F8ECF9E6836BE369A4658B6EB14D2FD3681488A3207CE0A5A9088011B2DA893C7F2C674843BB5254C30CB67D9C8182FEF284BB5CD8A239D6411EA199AD8B93EBE3442716FDAB44FB3932248C076C8794725CEEB5B76674B2B6DC605DC0F9835C6CCBBE4807A4F925065E02C65CAFE2D80A275BF5D096D2E07BA9ED5A75A10D425B03B84BB57990203010001"), 16);
+//            byte[] bytes3 = api.symmKeyDataEnc(26,TACryptConst.ENC_MODE_CBC,TACryptConst.KEY_TYPE_RULE, TACryptConst.KEY_ALG_AES128,
+//                    paddingData, b);
+//            System.out.println("AES加密结果：" + Forms.byteToHexString(bytes3));
+//            byte[] bytes33 = api.generalDataDec(Forms.hexStringToByte("12E0927021F5AB498152FB544B067031"),TACryptConst.ENC_MODE_CBC, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_AES128, bytes3, b);
+//            System.out.println("AES解密结果:" + Forms.byteToHexString(bytes33));
         } catch (TAException e) {
             System.out.println("需阻断处理");
         }
     }
 
     public String symmKeyDataEnc(String str) {
+        if (!StringUtils.hasText(str)) {
+            return str;
+        }
         try {
-            byte[] bytes = api.symmKeyDataEnc(sm4Key,TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
-                    Padding.PKCS5Padding( "test".getBytes(),16), b);
+            byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
+                    Padding.PKCS5Padding( str.getBytes(),16), b);
             return Forms.byteToHexString(bytes);
         }catch (Exception exception) {
             exception.printStackTrace();
@@ -318,10 +322,13 @@ public class Sm4Api {
     }
 
     public String generalDataDec(String str) {
+        if (!StringUtils.hasText(str)) {
+            return str;
+        }
         try {
-            byte[] bytes = api.generalDataDec(Forms.hexStringToByte("12E0927021F5AB498152FB544B067031"),TACryptConst.ENC_MODE_CBC, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_AES128,
-                    str.getBytes(StandardCharsets.UTF_8), b);
-            return Forms.byteToHexString(bytes);
+            byte[] bytes = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
+                    Forms.hexStringToByte(str), b);
+            return new String(Padding.PKCS5UnPadding(bytes,16));
         }catch (Exception exception) {
             exception.printStackTrace();
         }

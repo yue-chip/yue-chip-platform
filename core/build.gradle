@@ -47,13 +47,14 @@ dependencies {
     compileOnly 'javax.persistence:javax.persistence-api:2.2'
     compileOnly 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
     compileOnly 'org.springframework.boot:spring-boot-starter-security'
-
+    compileOnly 'xiao.wei:GHSMAPI:v1.0.0'
+    compileOnly 'xiao.wei:TassHsmBaseLib:1.0.0'
+    compileOnly 'xiao.wei:KMPlainAPIv:1.1'
     api 'cn.hutool:hutool-all'
     api "org.apache.skywalking:apm-toolkit-trace"
     api "org.apache.skywalking:apm-toolkit-logback-1.x"
     api 'org.apache.skywalking:apm-toolkit-micrometer-1.10'
-    api 'xiao.wei:GHSMAPI:v1.0.0'
-    api 'xiao.wei:TassHsmBaseLib:1.0.0'
+
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
