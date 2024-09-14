@@ -6,6 +6,7 @@ import cn.tass.hsm.GHSMAPI;
 import cn.tass.hsm.TACryptConst;
 import cn.tass.hsm.Utils;
 import cn.tass.kits.Forms;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import javax.naming.ConfigurationException;
@@ -14,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Sm4Api {
 //    Host host1 = new Host("GHSM", -3, "192.168.19.72", 8019, 5);
@@ -38,12 +40,20 @@ public class Sm4Api {
                     + "timeout=5;"
                     + "}";
 
-    GHSMAPI api;
+    private static volatile GHSMAPI api;
 
-    {
+    public Sm4Api() {
         try {
+            if (Objects.equals(true, isJiaMi())) {
+                if (Objects.isNull(api)) {
+                    synchronized (GHSMAPI.class) {
+                        if (Objects.isNull(api)) {
+                            api = GHSMAPI.getInstance(config);
+                        }
+                    }
+                }
+            }
 //            api = GHSMAPI.getInstance(hosts, logConfig);
-            api = GHSMAPI.getInstance(config);
 //            api = GHSMAPI.getInstance("./cacipher.ini","12345678");
 //            api = GHSMAPI.getInstance("./cacipher.ini");
 //            GHSMAPI.updateConfigure(config);
@@ -283,7 +293,7 @@ public class Sm4Api {
         try {
             //sm4加解密
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
-                    Padding.PKCS5Padding( "test".getBytes(),16), b);
+                    Padding.PKCS5Padding( "测试重点单位".getBytes(),16), b);
             System.out.println("SM4加密结果：" + Forms.byteToHexString(bytes));
             byte[] bytes1 = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     bytes, b);
@@ -307,10 +317,31 @@ public class Sm4Api {
         }
     }
 
+    private static volatile String jiami;
+
+    private Boolean isJiaMi() {
+        if (StringUtils.hasText(jiami)) {
+            return Boolean.valueOf(jiami);
+        }
+        synchronized (TenantDatabaseUtil.class) {
+            if (!StringUtils.hasText(jiami)) {
+                jiami = ((Environment) SpringContextUtil.getBean(Environment.class)).getProperty("jiami");
+                if (!StringUtils.hasText(jiami)) {
+                    jiami = "true";
+                }
+            }
+        }
+        return Boolean.valueOf(jiami);
+    }
+
     public String symmKeyDataEnc(String str) {
+        if (Objects.equals(false,isJiaMi())){
+            return str;
+        }
         if (!StringUtils.hasText(str)) {
             return str;
         }
+        System.out.println(str);
         try {
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Padding.PKCS5Padding( str.getBytes(),16), b);
@@ -322,9 +353,13 @@ public class Sm4Api {
     }
 
     public String generalDataDec(String str) {
+        if (Objects.equals(false,isJiaMi())){
+            return str;
+        }
         if (!StringUtils.hasText(str)) {
             return str;
         }
+        System.out.println(str);
         try {
             byte[] bytes = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Forms.hexStringToByte(str), b);
