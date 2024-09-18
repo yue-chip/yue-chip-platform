@@ -292,6 +292,7 @@ public class Sm4Api {
     public void generalDataEnc() {
         try {
             //sm4加解密
+
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Padding.PKCS5Padding( "测试重点单位".getBytes(),16), b);
             System.out.println("SM4加密结果：" + Forms.byteToHexString(bytes));
@@ -341,7 +342,7 @@ public class Sm4Api {
         if (!StringUtils.hasText(str)) {
             return str;
         }
-        System.out.println(str);
+        System.out.println("调用密码机加密："+this.config);
         try {
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Padding.PKCS5Padding( str.getBytes(),16), b);
@@ -359,7 +360,7 @@ public class Sm4Api {
         if (!StringUtils.hasText(str)) {
             return str;
         }
-        System.out.println(str);
+        System.out.println("调用密码机解密："+this.config);
         try {
             byte[] bytes = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Forms.hexStringToByte(str), b);
@@ -369,7 +370,6 @@ public class Sm4Api {
         }
         return str;
     }
-
 
     //1473541D72C551B455FB57126A2B04FC
     //136628209768ED8E

@@ -44,11 +44,12 @@ public class MGUtil {
 //            e.printStackTrace();
 //        }
         String key = "";
+        psbc_csp_api csp_api = new psbc_csp_api("/opt/java/psbc.ini");
         for (int i = 0;i<10;i++) {
             try {
-                psbc_csp_api csp_api = new psbc_csp_api("/opt/java/psbc.ini");
                 psbc_csp_handle pCspHandle = new psbc_csp_handle();
                 int ret = csp_api.PSBC_Connect(pCspHandle);
+                System.out.println("获取密钥："+csp_api.toString());
                 if (ret == 0) {
                     byte[] sm4KeyByVersion = csp_api.KMPDB_QuerySM4KeyByVersion(pCspHandle, psbc_csp_api.TenantId, "10000012", psbc_csp_api.AppId, 1000);
 
