@@ -368,7 +368,7 @@ public class Sm4Api {
         }catch (Exception exception) {
             exception.printStackTrace();
         }
-        return str;
+        return "数据被篡改！";
     }
 
     //1473541D72C551B455FB57126A2B04FC
