@@ -6,6 +6,7 @@ import cn.tass.hsm.GHSMAPI;
 import cn.tass.hsm.TACryptConst;
 import cn.tass.hsm.Utils;
 import cn.tass.kits.Forms;
+import com.yue.chip.exception.BusinessException;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
@@ -342,14 +343,18 @@ public class Sm4Api {
         if (!StringUtils.hasText(str)) {
             return str;
         }
+        System.out.println("加密数据："+str);
         System.out.println("调用密码机加密："+this.config);
         try {
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Padding.PKCS5Padding( str.getBytes(),16), b);
-            return Forms.byteToHexString(bytes);
+            String s = Forms.byteToHexString(bytes);
+            System.out.println("加密后的数据："+s);
+            return s;
         }catch (Exception exception) {
             exception.printStackTrace();
         }
+
         return str;
     }
 
@@ -360,11 +365,14 @@ public class Sm4Api {
         if (!StringUtils.hasText(str)) {
             return str;
         }
+        System.out.println("解密数据："+str);
         System.out.println("调用密码机解密："+this.config);
         try {
             byte[] bytes = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Forms.hexStringToByte(str), b);
-            return new String(Padding.PKCS5UnPadding(bytes,16));
+            String s = new String(Padding.PKCS5UnPadding(bytes,16));
+            System.out.println("解密后的数据："+s);
+            return s;
         }catch (Exception exception) {
             exception.printStackTrace();
         }
