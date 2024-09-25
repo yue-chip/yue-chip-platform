@@ -293,7 +293,6 @@ public class Sm4Api {
     public void generalDataEnc() {
         try {
             //sm4加解密
-
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
                     Padding.PKCS5Padding( "测试重点单位".getBytes(),16), b);
             System.out.println("SM4加密结果：" + Forms.byteToHexString(bytes));
@@ -358,7 +357,7 @@ public class Sm4Api {
         return str;
     }
 
-    public String generalDataDec(String str) {
+    public String generalDataDec(String str,String str1) {
         if (Objects.equals(false,isJiaMi())){
             return str;
         }
@@ -372,6 +371,12 @@ public class Sm4Api {
                     Forms.hexStringToByte(str), b);
             String s = new String(Padding.PKCS5UnPadding(bytes,16));
             System.out.println("解密后的数据："+s);
+            String s1 = hmac(s);
+            System.out.println("原hmac："+str1);
+            System.out.println("现hmac："+s1);
+            if (StringUtils.hasText(str1) && !Objects.equals(str1,s1)){
+                return "数据加密过程中被篡改";
+            }
             return s;
         }catch (Exception exception) {
             exception.printStackTrace();
@@ -492,7 +497,7 @@ public class Sm4Api {
     
     public void hmac() {
         try {
-            ArrayList<byte[]> hmac = api.hmac(20, 0, 2, sm4Key, new byte[0], "shuyaojisuandeshuju".getBytes());
+            ArrayList<byte[]> hmac = api.hmac(20, 0, 2, MGUtil.GetSM4Key().getBytes(), new byte[0], "shuyaojisuandeshuju".getBytes());
             for (int i = 0; i < hmac.size(); i++) {
                 System.out.println(Forms.byteToHexString(hmac.get(i)));
             }
@@ -504,6 +509,27 @@ public class Sm4Api {
             e.printStackTrace();
             System.out.println("需阻断处理");
         }
+    }
+
+    public String hmac(String str) {
+        if (!StringUtils.hasText(str)){
+            return "";
+        }
+        try {
+            ArrayList<byte[]> hmac = api.hmac(20, 0, 2, MGUtil.GetSM4Key().getBytes(), new byte[0], str.getBytes());
+            for (int i = 0; i < hmac.size(); i++) {
+                String str1 = Forms.byteToHexString(hmac.get(i));
+                return str1;
+            }
+//            ArrayList<byte[]> hmac1 = api.hmac(20, 0, 1, Forms.hexStringToByte("00000000000000000000000000000000"), new byte[0], Forms.hexStringToByte("D5127D0F4F34F13EBC806BCB54726F76"));
+//            for (int i = 0; i < hmac1.size(); i++) {
+//                System.out.println(Forms.byteToHexString(hmac1.get(i)));
+//            }
+        } catch (TAException e) {
+            e.printStackTrace();
+            System.out.println("需阻断处理");
+        }
+        return "";
     }
 
     /**
