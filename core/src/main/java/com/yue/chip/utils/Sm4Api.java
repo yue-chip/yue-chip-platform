@@ -335,18 +335,18 @@ public class Sm4Api {
         return Boolean.valueOf(jiami);
     }
 
-    public String symmKeyDataEnc(String str) {
+    public String symmKeyDataEnc(String plaintext) {
         if (Objects.equals(false,isJiaMi())){
-            return str;
+            return plaintext;
         }
-        if (!StringUtils.hasText(str)) {
-            return str;
+        if (!StringUtils.hasText(plaintext)) {
+            return plaintext;
         }
-        System.out.println("加密数据："+str);
+        System.out.println("加密数据："+plaintext);
         System.out.println("调用密码机加密："+this.config);
         try {
             byte[] bytes = api.symmKeyDataEnc(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB,TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
-                    Padding.PKCS5Padding( str.getBytes(),16), b);
+                    Padding.PKCS5Padding( plaintext.getBytes(),16), b);
             String s = Forms.byteToHexString(bytes);
             System.out.println("加密后的数据："+s);
             return s;
@@ -354,27 +354,27 @@ public class Sm4Api {
             exception.printStackTrace();
         }
 
-        return str;
+        return plaintext;
     }
 
-    public String generalDataDec(String str,String str1) {
+    public String generalDataDec(String ciphertext,String hmac) {
         if (Objects.equals(false,isJiaMi())){
-            return str;
+            return ciphertext;
         }
-        if (!StringUtils.hasText(str)) {
-            return str;
+        if (!StringUtils.hasText(ciphertext)) {
+            return ciphertext;
         }
-        System.out.println("解密数据："+str);
+        System.out.println("解密数据："+ciphertext);
         System.out.println("调用密码机解密："+this.config);
         try {
             byte[] bytes = api.generalDataDec(Forms.hexStringToByte(MGUtil.GetSM4Key()),TACryptConst.ENC_MODE_ECB, TACryptConst.KEY_TYPE_CIPHER, TACryptConst.KEY_ALG_SM4,
-                    Forms.hexStringToByte(str), b);
+                    Forms.hexStringToByte(ciphertext), b);
             String s = new String(Padding.PKCS5UnPadding(bytes,16));
             System.out.println("解密后的数据："+s);
-            String s1 = hmac(s);
-            System.out.println("原hmac："+str1);
-            System.out.println("现hmac："+s1);
-            if (StringUtils.hasText(str1) && !Objects.equals(str1,s1)){
+            String newHmac = hmac(s);
+            System.out.println("原hmac："+hmac);
+            System.out.println("现hmac："+newHmac);
+            if (StringUtils.hasText(hmac) && !Objects.equals(hmac,newHmac)){
                 return "数据加密过程中被篡改";
             }
             return s;

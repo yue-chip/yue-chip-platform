@@ -45,7 +45,7 @@ public class MGUtil {
 //        }
         String key = "";
         psbc_csp_api csp_api = new psbc_csp_api("/opt/java/psbc.ini");
-        for (int i = 0;i<10;i++) {
+        for (int i = 0;i<100;i++) {
             try {
                 psbc_csp_handle pCspHandle = new psbc_csp_handle();
                 int ret = csp_api.PSBC_Connect(pCspHandle);
@@ -67,6 +67,7 @@ public class MGUtil {
                 } else {
                     System.out.println("=========================连接密管服务失败：" + csp_api.PSBC_GetErrCode());
                 }
+                Thread.sleep(500);
             } catch (Exception e) {
                 e.printStackTrace();
             }
