@@ -375,7 +375,7 @@ public class Sm4Api {
             System.out.println("原hmac："+hmac);
             System.out.println("现hmac："+newHmac);
             if (StringUtils.hasText(hmac) && !Objects.equals(hmac,newHmac)){
-                return "数据加密过程中被篡改";
+                return "数据加密过程中被篡改(HMAC校验失败)";
             }
             return s;
         }catch (Exception exception) {
