@@ -6,6 +6,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.yue.chip.core.tenant.jpa.TenantConstant.PREFIX_TENANT;
 
@@ -49,10 +51,11 @@ public class TenantDatabaseUtil {
                 }
                 String jdbcUrl = environment.getProperty("spring.datasource.url");
                 if (StringUtils.hasText(jdbcUrl)) {
-                    if (jdbcUrl.indexOf("?")>-1) {
-                        prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1, jdbcUrl.indexOf("?"));
-                    }else {
-                        prefixDatabase = jdbcUrl.substring(jdbcUrl.lastIndexOf("/") + 1);
+                    String pattern="jdbc:(?<type>[a-z]+)://(?<host>[a-zA-Z0-9-//.]+):(?<port>[0-9]+)/(?<database>[\\s\\S]*)([?])";
+                    Pattern namePattern = Pattern.compile(pattern);
+                    Matcher dateMatcher = namePattern.matcher(jdbcUrl);
+                    while (dateMatcher.find()) {
+                        prefixDatabase = dateMatcher.group("database");
                     }
                 }
             }

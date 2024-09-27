@@ -1,6 +1,6 @@
 package com.yue.chip.config;
 
-import com.yue.chip.utils.MessageI18nUtil;
+import com.yue.chip.utils.I18nUtils;
 import jakarta.validation.Validator;
 import jakarta.validation.executable.ExecutableValidator;
 import org.springframework.beans.factory.ObjectProvider;
@@ -52,8 +52,8 @@ public class ValidationConfig {
     }
     @Bean
     @ConditionalOnBean(MessageSource.class)
-    public MessageI18nUtil messageI18nUtil(MessageSource messageSource){
-        MessageI18nUtil util = new MessageI18nUtil(messageSource);
+    public I18nUtils messageI18nUtil(MessageSource messageSource){
+        I18nUtils util = new I18nUtils(messageSource);
         return util;
     }
 
