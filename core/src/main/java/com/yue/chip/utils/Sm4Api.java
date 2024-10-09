@@ -371,12 +371,12 @@ public class Sm4Api {
                     Forms.hexStringToByte(ciphertext), b);
             String s = new String(Padding.PKCS5UnPadding(bytes,16));
             System.out.println("解密后的数据："+s);
-            String newHmac = hmac(s);
-            System.out.println("原hmac："+hmac);
-            System.out.println("现hmac："+newHmac);
-            if (StringUtils.hasText(hmac) && !Objects.equals(hmac,newHmac)){
-                return "数据加密过程中被篡改(HMAC校验失败)";
-            }
+//            String newHmac = hmac(s);
+//            System.out.println("原hmac："+hmac);
+//            System.out.println("现hmac："+newHmac);
+//            if (StringUtils.hasText(hmac) && !Objects.equals(hmac,newHmac)){
+//                return "数据加密过程中被篡改(HMAC校验失败)";
+//            }
             return s;
         }catch (Exception exception) {
             exception.printStackTrace();
