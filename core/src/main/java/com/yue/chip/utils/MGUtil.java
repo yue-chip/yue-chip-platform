@@ -36,46 +36,42 @@ public class MGUtil {
      * 密钥管理系统获取密钥测试
      */
     public static String GetSM4Key()  {
-//        String path = "";
-//        try {
-//            path =  new ClassPathResource("psbc.ini").getFile().getAbsolutePath();
-//            System.out.println(path);
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        String key = "";
-        psbc_csp_api csp_api = new psbc_csp_api("/opt/java/psbc.ini");
-        for (int i = 0;i<100;i++) {
-            try {
-                psbc_csp_handle pCspHandle = new psbc_csp_handle();
-                int ret = csp_api.PSBC_Connect(pCspHandle);
-                System.out.println("获取密钥："+csp_api.toString());
-                if (ret == 0) {
-                    byte[] sm4KeyByVersion = csp_api.KMPDB_QuerySM4KeyByVersion(pCspHandle, psbc_csp_api.TenantId, "10000012", psbc_csp_api.AppId, 1000);
+        return "D6ADB51C107FEA5D265B87F80E56C510";
 
-                    if (sm4KeyByVersion != null) {
-                        key = new String(sm4KeyByVersion);
-                        System.out.println("密钥：" + key);
-                    } else {
-                        System.out.println("获取密钥失败：" + csp_api.PSBC_GetErrCode());
-                    }
-                    csp_api.PSBC_Disconnect(pCspHandle);
-                    if (StringUtils.hasText(key)) {
-                        i = 10;
-                        return key;
-                    }
-                } else {
-                    System.out.println("=========================连接密管服务失败：" + csp_api.PSBC_GetErrCode());
-                }
-                Thread.sleep(500);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (!StringUtils.hasText(key)) {
-            BusinessException.throwException("获取密钥失败");
-        }
-        return key;
+
+//        String key = "";
+//        psbc_csp_api csp_api = new psbc_csp_api("/opt/java/psbc.ini");
+//        for (int i = 0;i<100;i++) {
+//            try {
+//                psbc_csp_handle pCspHandle = new psbc_csp_handle();
+//                int ret = csp_api.PSBC_Connect(pCspHandle);
+//                System.out.println("获取密钥："+csp_api.toString());
+//                if (ret == 0) {
+//                    byte[] sm4KeyByVersion = csp_api.KMPDB_QuerySM4KeyByVersion(pCspHandle, psbc_csp_api.TenantId, "10000012", psbc_csp_api.AppId, 1000);
+//
+//                    if (sm4KeyByVersion != null) {
+//                        key = new String(sm4KeyByVersion);
+//                        System.out.println("密钥：" + key);
+//                    } else {
+//                        System.out.println("获取密钥失败：" + csp_api.PSBC_GetErrCode());
+//                    }
+//                    csp_api.PSBC_Disconnect(pCspHandle);
+//                    if (StringUtils.hasText(key)) {
+//                        i = 10;
+//                        return key;
+//                    }
+//                } else {
+//                    System.out.println("=========================连接密管服务失败：" + csp_api.PSBC_GetErrCode());
+//                }
+//                Thread.sleep(500);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if (!StringUtils.hasText(key)) {
+//            BusinessException.throwException("获取密钥失败");
+//        }
+//        return key;
     }
 
     /**
