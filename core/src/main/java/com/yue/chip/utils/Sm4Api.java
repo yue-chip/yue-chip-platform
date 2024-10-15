@@ -512,15 +512,22 @@ public class Sm4Api {
     }
 
     public String hmac(String str) {
+        System.out.println("HMAC 原始数据:"+str);
         if (!StringUtils.hasText(str)){
             return "";
         }
         try {
             ArrayList<byte[]> hmac = api.hmac(20, 0, 2, MGUtil.GetSM4Key().getBytes(), new byte[0], str.getBytes());
-            for (int i = 0; i < hmac.size(); i++) {
-                String str1 = Forms.byteToHexString(hmac.get(i));
+            if (hmac.size()==2) {
+                String str1 = Forms.byteToHexString(hmac.get(1));
+                System.out.println("HMAC 数据:"+str1);
                 return str1;
             }
+            //            for (int i = 0; i < hmac.size(); i++) {
+//                String str1 = Forms.byteToHexString(hmac.get(i));
+//                System.out.println("HMAC 数据:"+str1);
+//                return str1;
+//            }
 //            ArrayList<byte[]> hmac1 = api.hmac(20, 0, 1, Forms.hexStringToByte("00000000000000000000000000000000"), new byte[0], Forms.hexStringToByte("D5127D0F4F34F13EBC806BCB54726F76"));
 //            for (int i = 0; i < hmac1.size(); i++) {
 //                System.out.println(Forms.byteToHexString(hmac1.get(i)));
