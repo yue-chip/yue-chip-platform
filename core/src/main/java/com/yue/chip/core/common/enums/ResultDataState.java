@@ -19,7 +19,8 @@ public enum ResultDataState implements IEnum {
     ERROR(-200, "错误"),
     BLOCK_REQUEST(-300, "请求拒绝"),
     SUCCESS(200, "成功"),
-    NO_PERMISSION(401, "无权限");
+    NO_PERMISSION(401, "无权限"),
+    PASSWORD_EXPIRATION(402, "密码过期");
 
     private final int key;
 

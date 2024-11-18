@@ -10,7 +10,7 @@ server:
     #授权
     license:
       type: file
-      path: classpath:license-hw.dat
+      path: classpath:license.dat
 spring:
   main:
     web-application-type: reactive
