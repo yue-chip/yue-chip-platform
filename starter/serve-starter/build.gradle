@@ -15,6 +15,7 @@ dependencies {
     }
 //    api "com.github.jsonzou:jmockdata"
     api "uk.co.jemos.podam:podam"
+    api "org.apache.commons:commons-text"
 //    api "org.mockito:mockito-inline"
 //    api "org.mockito:mockito-core"
 //    api ('com.github.javafaker:javafaker') { exclude group: 'org.yaml'}
