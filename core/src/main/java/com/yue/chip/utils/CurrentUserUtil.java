@@ -98,9 +98,9 @@ public class CurrentUserUtil {
      * 获取当前登陆用户登陆账号
      * @return
      */
-    public static String getCurrentUserUsername(){
+    public static String getCurrentUserUsername(Boolean isMustLogin){
         if(isHttpWebRequest()){
-            return getUsername();
+            return getUsername(isMustLogin);
         }else{
             Object obj = RpcContext.getServiceContext().getObjectAttachments().get(DubboConstant.USERNAME);
             if (Objects.nonNull(obj)) {
@@ -112,10 +112,19 @@ public class CurrentUserUtil {
     }
 
     /**
+     * 获取当前登陆用户登陆账号
+     * @return
+     */
+    public static String getCurrentUserUsername(){
+        return getCurrentUserUsername(true);
+    }
+
+
+    /**
      * 获取token username
      * @return
      */
-    private static String getUsername(){
+    private static String getUsername(Boolean isMustLogin){
         String username = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        if(Objects.nonNull(authentication) && authentication instanceof JwtAuthenticationToken){
@@ -131,18 +140,21 @@ public class CurrentUserUtil {
 //                }
 //            }
 //        }else
-        if (Objects.nonNull(authentication) && authentication instanceof AbstractAuthenticationToken) {
+        if (Objects.nonNull(authentication) && ( authentication instanceof AbstractAuthenticationToken || authentication instanceof UsernamePasswordAuthenticationToken)) {
             username = (String) authentication.getPrincipal();
-            if (!StringUtils.hasText(username)) {
-                AuthorizationException.throwException("登陆异常，请重新登陆");
-            }
-        }else if (Objects.nonNull(authentication) && ( authentication instanceof AbstractAuthenticationToken || authentication instanceof UsernamePasswordAuthenticationToken)) {
-            username = (String) authentication.getPrincipal();
-            if (!StringUtils.hasText(username)) {
+            if (Objects.equals(isMustLogin,true) && !StringUtils.hasText(username)) {
                 AuthorizationException.throwException("登陆异常，请重新登陆");
             }
         }
         return username;
+    }
+
+    /**
+     * 获取token username
+     * @return
+     */
+    private static String getUsername(){
+        return getUsername(true);
     }
 
     /**

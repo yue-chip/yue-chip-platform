@@ -13,7 +13,7 @@ public class CurrentUsernameUtil {
     private static String getCurrentUser(){
         String username = null;
         if (Objects.isNull(threadLocal.get())) {
-            username = com.yue.chip.utils.CurrentUserUtil.getCurrentUserUsername();
+            username = com.yue.chip.utils.CurrentUserUtil.getCurrentUserUsername(false);
             if (StringUtils.hasText(username)){
                 threadLocal.set(username);
             }

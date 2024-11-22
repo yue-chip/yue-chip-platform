@@ -14,5 +14,7 @@ public interface SystemLogService {
 
     public void save(String actionName);
 
+    public void save(String actionName,String username,Long userId);
+
     public Page<? extends Object > list(LocalDateTime startDateTime, LocalDateTime endDateTime, Pageable pageable);
 }
