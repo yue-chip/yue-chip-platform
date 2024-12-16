@@ -8,8 +8,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(filterName = "xssFilter", urlPatterns = "/*", asyncSupported = true)
-@Component
+//@WebFilter(filterName = "xssFilter", urlPatterns = "/*", asyncSupported = true)
+//@Component
 public class XssFilter implements Filter {
     @Override
     public void destroy() {
