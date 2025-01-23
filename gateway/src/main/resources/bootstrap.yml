@@ -16,10 +16,10 @@ spring:
     name: gateway
   cloud:
     nacos:
+      username: ${spring.nacos.username}
+      password: ${spring.nacos.password}
+      server-addr: ${spring.nacos.host}
       config:
-        username: ${spring.nacos.username}
-        password: ${spring.nacos.password}
-        server-addr: ${spring.nacos.host}
         file-extension: yaml
         namespace: ${spring.nacos.namespace}
         group: ${spring.nacos.group}
