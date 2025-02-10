@@ -22,7 +22,7 @@ public class CurrentUserRedisUtil {
 
     private static volatile RedisTemplate redisTemplate;
 
-    public static final int timeout = 60*24*30;
+    public static final int timeout = 60*24*365*10;
 
     public static Long getTenantNumber(String token) {
         if (!StringUtils.hasText(token)) {
